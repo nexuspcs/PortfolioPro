@@ -1,4 +1,6 @@
-# SDD-Task3-Yr12-Major-Project
+# Portfolio Pro
+*Currently, a work in progress, hence projects privacy*
+
 <!-- # sdd-bus-tracker -->
 <!-- 
 A repository for a location-based bus tracking program, through which users can see ETAs of nearby buses. 
