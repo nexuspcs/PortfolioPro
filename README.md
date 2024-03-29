@@ -1,6 +1,12 @@
 # Portfolio Pro
 *Currently, a work in progress, hence projects privacy*
 
+![PortfolioPro Banner](resources/images/banner-highestres.png)
+
+
+
+
+
 <!-- # sdd-bus-tracker -->
 <!-- 
 A repository for a location-based bus tracking program, through which users can see ETAs of nearby buses. 
