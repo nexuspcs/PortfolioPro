@@ -2,9 +2,9 @@
 *Currently, a work in progress, hence projects privacy*
 
 ### Legal
-Terms and conditions:
+Terms and conditions are avaliable to view [here](/terms/terms.md).
 <br>
-Privacy agreement and declaration is avaliable [here](/privacy/privacy.md).
+Privacy agreement and declaration to view [here](/privacy/privacy.md).
 
 
 
