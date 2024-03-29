@@ -1,7 +1,23 @@
-# Portfolio Pro
+# PortfolioPro
 *Currently, a work in progress, hence projects privacy*
 
+### Legal
+Terms and conditions:
+<br>
+Privacy agreement and declaration is avaliable [here](/privacy/privacy.md).
+
+
+
+
+
+
+
+
+
+
+
 ![PortfolioPro Banner](resources/images/banner-highestres.png)
+
 
 
 
