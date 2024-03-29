@@ -5,13 +5,13 @@
 At PortfolioPro, we allow you to empower your finances, through a centralised financial management platform. Track your stocks, and inform your trades through our tailored news aggregator. Track industry and sector performance, while simultaneously viewing your portfolio's balance and change over time.
 
 
---
+---
 ### Contacts
 
 You can contact our Founder & CEO, James Coates, through reaching out to his LinkedIn [here](https://www.linkedin.com/in/jamescoatesaus/). Want to reach out personally and say hi, without using Linkedin? Email James at [jamescoates06@gmail.com](mailto:jamescoates06@gmail.com).
 
 
---
+---
 ### Legal
 
 Terms and conditions are avaliable to view [here](/terms/terms.md).
