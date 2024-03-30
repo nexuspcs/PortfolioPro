@@ -9,9 +9,6 @@ const Navbar = (props: Props) => {
     const { palette } = useTheme();
     return (
         <FlexBetween 
-            display="flex" 
-            justifyContent="space-between" 
-            alignItems="center"
         ></FlexBetween>
     );
 };
