@@ -5,10 +5,13 @@ import { themeSettings } from "./theme";
 
 function App() { 
   const theme = useMemo(() => createTheme(themeSettings), [])
-  return <div className="App"></div>;
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-    </ThemeProvider>
+  return (
+    <div className="App">
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+      </ThemeProvider>
+    </div>;
+  );
 }
 
 export default App;
