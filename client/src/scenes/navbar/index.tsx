@@ -7,6 +7,7 @@ type Props = {}
 
 const Navbar = (props: Props) => {
     const { palette } = useTheme();
+    const [selected, setSelected] = useState("Dashboard");
     return (
         <FlexBetween 
             mb="0.25rem" 
