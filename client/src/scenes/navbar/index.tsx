@@ -9,6 +9,9 @@ const Navbar = (props: Props) => {
     const { palette } = useTheme();
     return (
         <FlexBetween 
+            mb="0.25rem" 
+            p="0.5rem 0 rem" 
+            color={palette.grey[300]}
         ></FlexBetween>
     );
 };
