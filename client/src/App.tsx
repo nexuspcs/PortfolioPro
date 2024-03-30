@@ -9,8 +9,9 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <CssBaseline />
+        hello world
       </ThemeProvider>
-    </div>;
+    </div>
   );
 }
 
