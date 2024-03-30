@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { CssBaseline, ThemeProvider } from "@mui/material/";
 import { createTheme } from "@mui/material/styles";
 import { useMemo } from "react";
@@ -12,7 +13,9 @@ function App() {
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          hello world
+          <Box width="100%" height="100%">
+
+          </Box>
         </ThemeProvider>
       </BrowserRouter>
     </div>
