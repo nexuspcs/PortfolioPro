@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Typography, useTheme } from '@mui/material';
 
-type Props = {}
+type Props = {};
 
 const Navbar = (props: Props) => {
     const { palette } = useTheme();
+    const [selected, setSelected] = useState("Dashboard");
     return (
         <Box 
             display="flex" 
