@@ -8,7 +8,7 @@ At PortfolioPro, we allow you to empower your finances, through a centralised fi
 ---
 ### Contacts
 
-You can contact our Founder & CEO, James Coates, through reaching out to his LinkedIn [here](https://www.linkedin.com/in/jamescoatesaus/). Want to reach out personally and say hi, without using Linkedin? Email James at [james@coatesy.au](mailto:james@coatesy.au).
+You can contact our Founder & CEO, James Coates, through reaching out to his LinkedIn [here](https://www.linkedin.com/in/jamescoatesaus/). Want to reach out personally and say hi, without using Linkedin? Email James at [james@portfoliopro.au](mailto:james@portfoliopro.au).
 
 
 ---
