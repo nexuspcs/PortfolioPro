@@ -2,10 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
-import dotenv from "dotenv";
 import helmet from "helmet";
 import morgan from "morgan";
-
+import dotenv from "dotenv";
 /* Configurations (mainly used as a boiler plate to config these packages in the long run m*/
 dotenv.config();
 const app = express();
@@ -25,8 +24,6 @@ mongoose
         useUnifiedTopology: true,
     })
     .then(async () => {
-        app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
-
-
+        app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
     })
     .catch((error) => console.log(`${error} did not connect`));
