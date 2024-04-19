@@ -35,7 +35,7 @@ const Navbar = (props: Props) => {
         </Box>
         <Box>
           <Link
-            to="/"
+            to="/predictions"
             onClick={() => setSelected("predictions")}
             style={{
               color: selected === "predictions" ? "inherit" : palette.grey[700],
