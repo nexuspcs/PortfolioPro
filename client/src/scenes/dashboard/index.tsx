@@ -1,5 +1,5 @@
 import DashboardBox from "@/components/DashboardBox";
-import { Box, useMediaQuery, useTheme } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 
 // Defining Props type as an empty object for Dashboard component
 type Props = {};
@@ -52,9 +52,6 @@ const gridTemplateSmallScreens = `
 // Dashboard functional component definition
 const Dashboard = (props: Props) => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
-  // Using the useTheme hook to access the theme object and destructuring to get the palette
-  const { palette } = useTheme();
-  // Returning a Box component styled as a grid to represent the dashboard layout
   return (
     <Box
       width="100%"
