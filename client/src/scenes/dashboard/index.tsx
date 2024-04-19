@@ -1,10 +1,9 @@
-import DashboardBox from "@/components/DashboardBox";
 import { Box, useMediaQuery } from "@mui/material";
+import Row1 from "./Row1";
+import Row2 from "./Row2";
+import Row3 from "./Row3";
 
-// Defining Props type as an empty object for Dashboard component
-type Props = {};
 
-// Defining a grid template as a string for the layout of the dashboard
 const gridTemplateLargeScreens = `
     "a b c"
     "a b c"
@@ -49,8 +48,7 @@ const gridTemplateSmallScreens = `
     "j"
 `;
 
-// Dashboard functional component definition
-const Dashboard = (props: Props) => {
+const Dashboard = () => {
   const isAboveMediumScreens = useMediaQuery("(min-width: 1200px)");
   return (
     <Box
@@ -72,16 +70,11 @@ const Dashboard = (props: Props) => {
             }
       }
     >
-      <DashboardBox gridArea="a"></DashboardBox>
-      <DashboardBox gridArea="b"></DashboardBox>
-      <DashboardBox gridArea="c"></DashboardBox>
-      <DashboardBox gridArea="d"></DashboardBox>
-      <DashboardBox gridArea="e"></DashboardBox>
-      <DashboardBox gridArea="f"></DashboardBox>
-      <DashboardBox gridArea="g"></DashboardBox>
-      <DashboardBox gridArea="h"></DashboardBox>
-      <DashboardBox gridArea="i"></DashboardBox>
-      <DashboardBox gridArea="j"></DashboardBox>
+        <Row1/>
+        <Row2/>
+        <Row3/>
+      
+      
     </Box>
   );
 };
