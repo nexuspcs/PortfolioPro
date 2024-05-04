@@ -39,7 +39,10 @@ fetch(url)
 
       // Append title, author, and publish time to the article div
       articleDiv.appendChild(titleLink);
+      
       articleDiv.appendChild(authorSpan);
+      const publishTimeBreak = document.createElement('br');
+      articleDiv.appendChild(publishTimeBreak);
       articleDiv.appendChild(publishTimeSpan);
 
       // Append the article div to the articles container
