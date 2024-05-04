@@ -29,11 +29,12 @@ fetch(url)
       authorSpan.classList.add('author');
 
       // Format the publish time
+      
       const publishedAtDate = new Date(article.publishedAt);
       const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
       const formattedPublishedAt = publishedAtDate.toLocaleDateString('en-US', options);
       const publishTimeSpan = document.createElement('span');
-      publishTimeSpan.textContent = `Published at: ${formattedPublishedAt}`;
+      publishTimeSpan.textContent = `${formattedPublishedAt}`;
       publishTimeSpan.classList.add('publish-time');
 
       // Append title, author, and publish time to the article div
