@@ -30,7 +30,14 @@ html, body {
     font-size: 20px;
     background-color: #007bff;
 }
-
+#previous-btn {
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+    font-size: 20px;
+    background-color: #007bff;
+}
 
 /* Styles for the links */
 .title {
