@@ -12,39 +12,35 @@ fetch(url)
     return response.json();
   })
   .then(data => {
-    // Work with the data here, for example:
-    console.log(data); // Log the data to the console
-    
-    // Example: Display the titles, authors, and descriptions of the top noOfArticles articles
     const articles = data.articles.slice(0, noOfArticles); // Get only the first noOfArticles articles
     const articlesContainer = document.getElementById('articles-container');
     articles.forEach(article => {
-      // Create a div element to contain each article
       const articleDiv = document.createElement('div');
       articleDiv.classList.add('article');
-      
-      // Create an anchor element for the title
+
       const titleLink = document.createElement('a');
       titleLink.textContent = article.title;
       titleLink.href = article.url;
       titleLink.target = '_blank'; // Open link in a new tab
       titleLink.classList.add('title');
-      
-      // Create a span element for the author
+
       const authorSpan = document.createElement('span');
       authorSpan.textContent = `Author: ${article.author}`;
       authorSpan.classList.add('author');
-      
-      // // Create a p element for the description
-      // const descriptionParagraph = document.createElement('p');
-      // descriptionParagraph.textContent = article.description || 'No description available';
-      // descriptionParagraph.classList.add('description');
-      
-      // Append title, author, and description to the article div
+
+      // Format the publish time
+      const publishedAtDate = new Date(article.publishedAt);
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
+      const formattedPublishedAt = publishedAtDate.toLocaleDateString('en-US', options);
+      const publishTimeSpan = document.createElement('span');
+      publishTimeSpan.textContent = `Published at: ${formattedPublishedAt}`;
+      publishTimeSpan.classList.add('publish-time');
+
+      // Append title, author, and publish time to the article div
       articleDiv.appendChild(titleLink);
       articleDiv.appendChild(authorSpan);
-      // articleDiv.appendChild(descriptionParagraph);
-      
+      articleDiv.appendChild(publishTimeSpan);
+
       // Append the article div to the articles container
       articlesContainer.appendChild(articleDiv);
     });
