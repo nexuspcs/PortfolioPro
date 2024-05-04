@@ -1,0 +1,50 @@
+html, body {
+    text-align: center;
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.articles-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+/* Styles for the links */
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff; /* Blue color for links */
+    text-decoration: none; /* Remove default underline */
+    margin-bottom: 5px; /* Add some spacing between links */
+    display: block; /* Make links block elements to occupy full width */
+}
+
+/* Hover effect for links */
+.title:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Styles for the author */
+.author {
+    font-size: 14px;
+    color: #555; /* Dark gray color for author */
+}
+
+/* Styles for the description */
+.description {
+    font-size: 16px;
+    color: #333; /* Dark color for description */
+    margin-bottom: 15px; /* Add some spacing between description and next article */
+}
+
+/* Container for articles */
+.articles-container {
+    max-width: 600px; /* Limit the width of the articles container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Add some padding */
+}
