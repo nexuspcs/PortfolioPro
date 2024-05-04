@@ -64,3 +64,11 @@ loadMoreButton.addEventListener('click', () => {
   currentPage++;
   fetchArticles(currentPage);
 });
+
+const previousButton = document.getElementById('previous-btn');
+previousButton.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchArticles(currentPage);
+  }
+});
