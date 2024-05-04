@@ -29,14 +29,14 @@ function fetchArticles(page) {
         titleLink.classList.add('title');
 
         const authorSpan = document.createElement('span');
-        authorSpan.textContent = `Author: ${article.author}`;
+        authorSpan.textContent = `${article.author}`;
         authorSpan.classList.add('author');
 
         const publishTimeSpan = document.createElement('span');
         const publishedAtDate = new Date(article.publishedAt);
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true };
         const formattedPublishedAt = publishedAtDate.toLocaleDateString('en-US', options);
-        publishTimeSpan.textContent = `Published At: ${formattedPublishedAt}`;
+        publishTimeSpan.textContent = `${formattedPublishedAt}`;
         publishTimeSpan.classList.add('publish-time');
 
         articleDiv.appendChild(titleLink);
