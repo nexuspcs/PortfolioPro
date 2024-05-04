@@ -2,7 +2,7 @@ const apiKey = 'a04f0ec5e8764532a2619296244e10f6';
 const country = 'au';
 const category = 'business'; // Set the category to 'business' for finance-related news
 const articlesContainer = document.getElementById('articles-container');
-let currentPage = 1;
+let currentPage = localStorage.getItem('currentPage') || 1; // Retrieve the current page from local storage, default to 1
 const pageSize = 5;
 
 function fetchArticles(page) {
@@ -50,6 +50,9 @@ function fetchArticles(page) {
     .catch(error => {
       console.error('There was a problem with the fetch operation:', error);
     });
+  
+  // Store the current page in local storage
+  localStorage.setItem('currentPage', page);
 }
 
 // Initial fetch
