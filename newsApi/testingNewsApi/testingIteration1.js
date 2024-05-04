@@ -25,7 +25,7 @@ fetch(url)
       titleLink.classList.add('title');
 
       const authorSpan = document.createElement('span');
-      authorSpan.textContent = `Author: ${article.author}`;
+      authorSpan.textContent = `${article.author}`;
       authorSpan.classList.add('author');
 
       // Format the publish time
