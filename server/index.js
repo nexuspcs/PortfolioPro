@@ -5,6 +5,9 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import kpiRoutes from "./routes/kpi.js";
+import KPI from "./models/KPI.js";
+import { kpis } from "./data/data.js";
 /* Configurations (mainly used as a boiler plate to config these packages in the long run m*/
 dotenv.config();
 const app = express();
@@ -15,6 +18,9 @@ app.use(morgan("common"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
+
+/* Routes */
+app.use("/kpi", kpiRoutes);
 
 
 console.log("Helloss World");
@@ -30,5 +36,7 @@ mongoose
     })
     .then(async () => {
         app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+
+        await mongoose.connection.db.dropDatabase(); // seed data base with info, but remove initial data.
     })
     .catch((error) => console.log(`${error} did not connect`));
