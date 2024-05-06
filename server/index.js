@@ -22,11 +22,12 @@ app.use(cors());
 /* Routes */
 app.use("/kpi", kpiRoutes);
 
-
+console.log(" "); // using for whitespace
 console.log("Helloss World");
 /* Mongoose SETUP */
 const PORT = process.env.PORT || 9000;
-console.log("Port from ENV", PORT);
+console.log("Port from as specified from .env file: ", PORT);
+console.log(" "); // using for whitespace
 
 
 mongoose
