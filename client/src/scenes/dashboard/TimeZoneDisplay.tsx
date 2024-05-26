@@ -21,12 +21,12 @@ const TimeZoneDisplay = ({ timeZone }: TimeZoneDisplayProps) => {
     const cityUrl = getCityUrl(city);
 
     return (
-        <div style={{ textAlign: "center", color: "#D1D3D9" }}>
-            <h3>{city}</h3>
-            <a href={cityUrl} style={styles.link}>
+        <a href={cityUrl} style={styles.link}>
+            <div style={{ textAlign: "center", color: "#D1D3D9", paddingTop: "10px"}}>
+                <h3 style={styles.city}>{city}</h3>
                 <p>{dateTime}</p>
-            </a>
-        </div>
+            </div>
+        </a>
     );
 };
 
@@ -57,10 +57,10 @@ const formatTimeZone = (timeZone) => {
 
 const getCityUrl = (city) => {
     const urls = {
-        "New York": "https://example.com/newyork",
-        "London": "https://example.com/london",
-        "Tokyo": "https://example.com/tokyo",
-        "Sydney": "https://example.com/sydney"
+        "New York": "https://www.nyse.com",
+        "London": "https://www.londonstockexchange.com",
+        "Tokyo": "https://www.jpx.co.jp/english/",
+        "Sydney": "https://www.asx.com.au"
     };
     return urls[city] || "#";
 };
@@ -69,6 +69,11 @@ const styles = {
   link: {
     color: "#D1D3D9",
     textDecoration: "none",
+    display: "block",
+    textAlign: "center"
+  },
+  city: {
+    margin: 0, // To ensure there is no extra space around the city name
   }
 };
 
