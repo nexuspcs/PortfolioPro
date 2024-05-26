@@ -119,33 +119,61 @@ const styles = {
         alignItems: "center",
         zIndex: 1000,
         color: "#000000",
+        fontFamily: "'Inter', sans-serif",
     },
     modal: {
         background: "#fff",
-        padding: "20px",
-        borderRadius: "8px",
+        padding: "30px",
+        borderRadius: "12px",
         textAlign: "center",
+        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        maxWidth: "500px",
+        width: "100%",
+        fontFamily: "'Inter', sans-serif",
     },
     input: {
         display: "block",
-        margin: "10px 0",
-        padding: "10px",
+        margin: "15px 0",
+        padding: "15px",
         width: "100%",
         boxSizing: "border-box",
+        borderRadius: "8px",
+        border: "1px solid #ddd",
+        fontFamily: "'Inter', sans-serif",
+        fontSize: "16px",
     },
     button: {
-        margin: "10px",
-        padding: "10px 20px",
+        margin: "15px",
+        padding: "15px 30px",
         cursor: "pointer",
+        backgroundColor: "#4CAF50",
+        color: "#fff",
+        border: "none",
+        borderRadius: "8px",
+        fontSize: "16px",
+        fontWeight: "500",
+        transition: "background-color 0.3s ease",
+        fontFamily: "'Inter', sans-serif",
     },
     addButton: {
-        padding: "10px 20px",
+        padding: "15px 30px",
         cursor: "pointer",
-        backgroundColor: "#92C8A0",
-        color: "#000",
+        backgroundColor: "#4CAF50",
+        color: "#fff",
         border: "none",
-        borderRadius: "4px",
+        borderRadius: "8px",
+        fontSize: "16px",
+        fontWeight: "500",
+        transition: "background-color 0.3s ease",
+        fontFamily: "'Inter', sans-serif",
     },
 };
 
+// Adding hover effect for buttons
+styles.button[':hover'] = {
+    backgroundColor: "#45A049"
+};
+styles.addButton[':hover'] = {
+    backgroundColor: "#45A049"
+};
 export default PortfolioAllocation;
