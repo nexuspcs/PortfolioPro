@@ -86,7 +86,7 @@ const PortfolioAllocation = () => {
                             type="text"
                             placeholder="Ticker"
                             value={ticker}
-                            onChange={(e) => setTicker(e.target.value)}
+                            onChange={(e) => setTicker(e.target.value.toUpperCase())}
                             style={styles.input}
                         />
                         <input
