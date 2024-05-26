@@ -51,19 +51,38 @@ const PortfolioAllocation = () => {
         setStocks(updatedStocks);
     };
 
-    const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
+    const totalQuantity = stocks.reduce(
+        (sum, stock) => sum + stock.quantity,
+        0
+    );
 
-    const data = stocks.map(stock => ({
+    const data = stocks.map((stock) => ({
         name: stock.ticker,
         value: parseFloat(((stock.quantity / totalQuantity) * 100).toFixed(1)),
         quantity: stock.quantity,
     }));
 
     const COLORS = [
-        "#8884d8", "#8dd1e1", "#82ca9d", "#a4de6c", "#d0ed57", "#ffc658",
-        "#6c8ead", "#d88487", "#d8a284", "#d8bd84", "#b1d884", "#84d89d",
-        "#84d8c2", "#84c2d8", "#849dd8", "#8487d8", "#a284d8", "#bd84d8",
-        "#d884a2", "#d884bd"
+        "#8884d8",
+        "#8dd1e1",
+        "#82ca9d",
+        "#a4de6c",
+        "#d0ed57",
+        "#ffc658",
+        "#6c8ead",
+        "#d88487",
+        "#d8a284",
+        "#d8bd84",
+        "#b1d884",
+        "#84d89d",
+        "#84d8c2",
+        "#84c2d8",
+        "#849dd8",
+        "#8487d8",
+        "#a284d8",
+        "#bd84d8",
+        "#d884a2",
+        "#d884bd",
     ];
 
     console.log("Data for PieChart:", data);
@@ -94,7 +113,7 @@ const PortfolioAllocation = () => {
                                     key={`cell-${index}`}
                                     fill={COLORS[index % COLORS.length]}
                                     style={{
-                                        cursor: 'grab',
+                                        cursor: "grab",
                                     }}
                                 />
                             ))}
@@ -111,31 +130,54 @@ const PortfolioAllocation = () => {
                             type="text"
                             placeholder="Ticker"
                             value={ticker}
-                            onChange={(e) => setTicker(e.target.value.toUpperCase())}
+                            onChange={(e) =>
+                                setTicker(e.target.value.toUpperCase())
+                            }
                             style={styles.input}
                         />
                         <input
                             type="number"
                             placeholder="Quantity"
                             value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            onChange={(e) =>
+                                setQuantity(Number(e.target.value))
+                            }
                             style={styles.input}
                         />
-                        <button onClick={handleAddStock} style={styles.button}>Add</button>
-                        <button onClick={() => setStocks([])} style={styles.button}>Clear Stocks</button>
+                        <button onClick={handleAddStock} style={styles.button}>
+                            Add
+                        </button>
+                        <button
+                            onClick={() => setStocks([])}
+                            style={styles.button}
+                        >
+                            Clear Stocks
+                        </button>
                         <h3>Edit Stock Quantities</h3>
                         {stocks.map((stock, index) => (
                             <div key={stock.ticker} style={styles.stockItem}>
-                                <span style={styles.stockTicker}>{stock.ticker}</span>
+                                <span style={styles.stockTicker}>
+                                    {stock.ticker}
+                                </span>
                                 <input
                                     type="number"
                                     value={stock.quantity}
-                                    onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
-                                    style={{ ...styles.input, ...styles.stockInput }}
+                                    onChange={(e) =>
+                                        handleUpdateStock(
+                                            index,
+                                            Number(e.target.value)
+                                        )
+                                    }
+                                    style={{
+                                        ...styles.input,
+                                        ...styles.stockInput,
+                                    }}
                                 />
                             </div>
                         ))}
-                        <button onClick={closeModal} style={styles.button}>Close</button>
+                        <button onClick={closeModal} style={styles.button}>
+                            Close
+                        </button>
                     </div>
                 </div>
             )}
