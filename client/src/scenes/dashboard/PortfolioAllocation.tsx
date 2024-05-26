@@ -1,9 +1,22 @@
+import { colors } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 type Stock = {
     ticker: string;
     quantity: number;
+};
+
+const CustomTooltip = ({ active, payload }: any) => {
+    if (active && payload && payload.length) {
+        return (
+            <div style={styles.tooltip}>
+                <p>{`${payload[0].name} : ${payload[0].value}%`}</p>
+                <p>{`Quantity: ${payload[0].payload.quantity}`}</p>
+            </div>
+        );
+    }
+    return null;
 };
 
 const PortfolioAllocation = () => {
@@ -44,6 +57,7 @@ const PortfolioAllocation = () => {
     const data = stocks.map(stock => ({
         name: stock.ticker,
         value: parseFloat(((stock.quantity / totalQuantity) * 100).toFixed(1)), // Round to 1 decimal place
+        quantity: stock.quantity,
     }));
 
     const COLORS = [
@@ -80,13 +94,13 @@ const PortfolioAllocation = () => {
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                             ))}
                         </Pie>
-                        <Tooltip />
+                        <Tooltip content={<CustomTooltip />} />
                     </PieChart>
                 </ResponsiveContainer>
             )}
             {isModalOpen && (
                 <div style={styles.modalOverlay}>
-                    <div style={styles.modal}>
+                    <div style={{ ...styles.modal, marginRight: "20px" }}>
                         <h3>Add Stock</h3>
                         <input
                             type="text"
@@ -193,6 +207,14 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         margin: "10px 0",
+    },
+    tooltip: {
+        backgroundColor: "#fff",
+        padding: "10px",
+        color: "#000",
+        border: "1px solid #ddd",
+        borderRadius: "4px",
+        textAlign: "left",
     },
 };
 
