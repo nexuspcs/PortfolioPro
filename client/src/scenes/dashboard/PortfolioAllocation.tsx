@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 
 type Stock = {
@@ -7,15 +7,17 @@ type Stock = {
 };
 
 const PortfolioAllocation = () => {
-    const [stocks, setStocks] = useState<Stock[]>([
-        // Initial data for testing
-        { ticker: "AAPL", quantity: 50 },
-        { ticker: "GOOGL", quantity: 30 },
-        { ticker: "AMZN", quantity: 20 }
-    ]);
+    const [stocks, setStocks] = useState<Stock[]>(() => {
+        const savedStocks = localStorage.getItem("stocks");
+        return savedStocks ? JSON.parse(savedStocks) : [];
+    });
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [ticker, setTicker] = useState("");
     const [quantity, setQuantity] = useState<number>(0);
+
+    useEffect(() => {
+        localStorage.setItem("stocks", JSON.stringify(stocks));
+    }, [stocks]);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => setIsModalOpen(false);
@@ -45,25 +47,31 @@ const PortfolioAllocation = () => {
     return (
         <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
             <h2>Portfolio Allocation</h2>
-            <ResponsiveContainer width="100%" height={400}>
-                <PieChart>
-                    <Pie
-                        data={data}
-                        cx="50%"
-                        cy="50%"
-                        labelLine={false}
-                        outerRadius={150}
-                        fill="#8884d8"
-                        dataKey="value"
-                        onClick={openModal}
-                    >
-                        {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                        ))}
-                    </Pie>
-                    <Tooltip />
-                </PieChart>
-            </ResponsiveContainer>
+            {stocks.length === 0 ? (
+                <button onClick={openModal} style={styles.addButton}>
+                    Add Initial Stocks
+                </button>
+            ) : (
+                <ResponsiveContainer width="100%" height={400}>
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            cx="50%"
+                            cy="50%"
+                            labelLine={false}
+                            outerRadius={150}
+                            fill="#8884d8"
+                            dataKey="value"
+                            onClick={openModal}
+                        >
+                            {data.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                            ))}
+                        </Pie>
+                        <Tooltip />
+                    </PieChart>
+                </ResponsiveContainer>
+            )}
             {isModalOpen && (
                 <div style={styles.modalOverlay}>
                     <div style={styles.modal}>
@@ -98,10 +106,12 @@ const styles = {
         left: 0,
         right: 0,
         bottom: 0,
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
+        backgroundColor: "rgba(0, 0, 0, 0.7)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 1000,
+        color: "#000000",
     },
     modal: {
         background: "#fff",
@@ -120,6 +130,14 @@ const styles = {
         margin: "10px",
         padding: "10px 20px",
         cursor: "pointer",
+    },
+    addButton: {
+        padding: "10px 20px",
+        cursor: "pointer",
+        backgroundColor: "#8884d8",
+        color: "#fff",
+        border: "none",
+        borderRadius: "4px",
     },
 };
 
