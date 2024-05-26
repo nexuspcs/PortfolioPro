@@ -18,11 +18,14 @@ const TimeZoneDisplay = ({ timeZone }: TimeZoneDisplayProps) => {
     }, [timeZone]);
 
     const city = formatTimeZone(timeZone);
+    const cityUrl = getCityUrl(city);
 
     return (
         <div style={{ textAlign: "center", color: "#D1D3D9" }}>
             <h3>{city}</h3>
-            <p>{dateTime}</p>
+            <a href={cityUrl} style={styles.link}>
+                <p>{dateTime}</p>
+            </a>
         </div>
     );
 };
@@ -50,6 +53,23 @@ const getOrdinalSuffix = (date) => {
 const formatTimeZone = (timeZone) => {
     const city = timeZone.split("/")[1].replace("_", " ");
     return city;
+};
+
+const getCityUrl = (city) => {
+    const urls = {
+        "New York": "https://example.com/newyork",
+        "London": "https://example.com/london",
+        "Tokyo": "https://example.com/tokyo",
+        "Sydney": "https://example.com/sydney"
+    };
+    return urls[city] || "#";
+};
+
+const styles = {
+  link: {
+    color: "#D1D3D9",
+    textDecoration: "none",
+  }
 };
 
 export default TimeZoneDisplay;
