@@ -21,7 +21,7 @@ const TimeZoneDisplay = ({ timeZone }: TimeZoneDisplayProps) => {
     const cityUrl = getCityUrl(city);
 
     return (
-        <a href={cityUrl} style={styles.link}>
+        <a href={cityUrl} style={styles.link} target="_blank" rel="noopener noreferrer">
             <div style={{ textAlign: "center", color: "#D1D3D9", paddingTop: "10px"}}>
                 <h3 style={styles.city}>{city}</h3>
                 <p>{dateTime}</p>
