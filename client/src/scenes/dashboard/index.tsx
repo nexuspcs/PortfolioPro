@@ -76,7 +76,6 @@ const Dashboard = () => {
         <Row2/>
         <Row3/>
       
-      
     </Box>
   );
 };
