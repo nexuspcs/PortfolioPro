@@ -178,6 +178,8 @@ const styles = {
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         maxWidth: "500px",
         width: "100%",
+        maxHeight: "80vh",
+        overflowY: "auto",
         fontFamily: "'Inter', sans-serif",
     },
     input: {
