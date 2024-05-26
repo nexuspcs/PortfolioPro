@@ -7,7 +7,12 @@ type Stock = {
 };
 
 const PortfolioAllocation = () => {
-    const [stocks, setStocks] = useState<Stock[]>([]);
+    const [stocks, setStocks] = useState<Stock[]>([
+        // Initial data for testing
+        { ticker: "AAPL", quantity: 50 },
+        { ticker: "GOOGL", quantity: 30 },
+        { ticker: "AMZN", quantity: 20 }
+    ]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [ticker, setTicker] = useState("");
     const [quantity, setQuantity] = useState<number>(0);
@@ -16,10 +21,14 @@ const PortfolioAllocation = () => {
     const closeModal = () => setIsModalOpen(false);
 
     const handleAddStock = () => {
-        setStocks([...stocks, { ticker, quantity }]);
-        setTicker("");
-        setQuantity(0);
-        closeModal();
+        if (ticker && quantity > 0) {
+            setStocks([...stocks, { ticker, quantity }]);
+            setTicker("");
+            setQuantity(0);
+            closeModal();
+        } else {
+            alert("Please enter a valid ticker and quantity");
+        }
     };
 
     const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
@@ -31,8 +40,10 @@ const PortfolioAllocation = () => {
 
     const COLORS = ["#8884d8", "#8dd1e1", "#82ca9d", "#a4de6c", "#d0ed57", "#ffc658"];
 
+    console.log("Data for PieChart:", data); // Debugging log
+
     return (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
             <h2>Portfolio Allocation</h2>
             <ResponsiveContainer width="100%" height={400}>
                 <PieChart>
