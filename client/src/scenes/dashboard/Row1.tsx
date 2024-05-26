@@ -6,12 +6,20 @@ import ForexDisplay from "./ForexDisplay";
 type Props = {};
 
 function Row1({}: Props) {
-
-  const { data } = useGetKpisQuery();
+    const fromCurrency = "AUD";
+    const toCurrency = "USD";
+    const apiKey = "5XJL31KJWERXJARF";
+    const { data } = useGetKpisQuery();
     return (
         <>
             <DashboardBox gridArea="a"></DashboardBox>
-            <DashboardBox gridArea="b">Chuck FX here??</DashboardBox>
+            <DashboardBox gridArea="b">
+                <ForexDisplay
+                    fromCurrency={fromCurrency}
+                    toCurrency={toCurrency}
+                    apiKey={apiKey}
+                />
+            </DashboardBox>
             <DashboardBox gridArea="c"></DashboardBox>
         </>
     );
