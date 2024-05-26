@@ -9,7 +9,7 @@ const Row2 = (props: Props) => {
     <>
       <DashboardBox gridArea="d"></DashboardBox>
       <DashboardBox gridArea="e">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0px' }}>
           <TimeZoneDisplay timeZone="America/New_York" />
           <TimeZoneDisplay timeZone="Europe/London" />
           <TimeZoneDisplay timeZone="Asia/Tokyo" />
