@@ -20,7 +20,7 @@ const TimeZoneDisplay = ({ timeZone }: TimeZoneDisplayProps) => {
     const city = formatTimeZone(timeZone);
 
     return (
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", color: "#D1D3D9" }}>
             <h3>{city}</h3>
             <p>{time}</p>
         </div>
