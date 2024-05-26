@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 interface ForexDisplayProps {
   fromCurrency: string;
@@ -12,6 +22,11 @@ interface ExchangeRateData {
   lastRefreshed: string;
   bidPrice: string;
   askPrice: string;
+}
+
+interface HistoricalDataPoint {
+  time: string;
+  exchangeRate: number;
 }
 
 const getLatestFXRate = async (fromCurrency: string, toCurrency: string, apiKey: string): Promise<ExchangeRateData> => {
@@ -40,7 +55,7 @@ const getLatestFXRate = async (fromCurrency: string, toCurrency: string, apiKey:
 };
 
 const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiKey }) => {
-  const [forexData, setForexData] = useState<ExchangeRateData | null>(null);
+  const [historicalData, setHistoricalData] = useState<HistoricalDataPoint[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -49,18 +64,27 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
         const lastFetch = localStorage.getItem('forex_last_fetch');
         const currentTime = new Date().getTime();
 
+        let historicalData: HistoricalDataPoint[] = [];
+        const cachedHistoricalData = localStorage.getItem('forex_historical_data');
+        if (cachedHistoricalData) {
+          historicalData = JSON.parse(cachedHistoricalData);
+        }
+
         if (lastFetch && currentTime - parseInt(lastFetch) < 3600000) {
-          const cachedData = localStorage.getItem('forex_data');
-          if (cachedData) {
-            setForexData(JSON.parse(cachedData));
-            return;
-          }
+          setHistoricalData(historicalData);
+          return;
         }
 
         const data = await getLatestFXRate(fromCurrency, toCurrency, apiKey);
-        localStorage.setItem('forex_data', JSON.stringify(data));
+        const newHistoricalDataPoint = {
+          time: data.lastRefreshed,
+          exchangeRate: parseFloat(data.exchangeRate),
+        };
+
+        historicalData = [...historicalData, newHistoricalDataPoint];
+        localStorage.setItem('forex_historical_data', JSON.stringify(historicalData));
         localStorage.setItem('forex_last_fetch', currentTime.toString());
-        setForexData(data);
+        setHistoricalData(historicalData);
       } catch (err) {
         setError(err.message);
       }
@@ -73,13 +97,31 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
     return <div>Error: {error}</div>;
   }
 
-  if (!forexData) {
+  if (historicalData.length === 0) {
     return <div>Loading...</div>;
   }
 
   return (
     <div>
-      Exchange Rate: {forexData.exchangeRate}, Last Refreshed: {forexData.lastRefreshed}, Bid Price: {forexData.bidPrice}, Ask Price: {forexData.askPrice}
+      <h1>Forex Pair Data</h1>
+      <ResponsiveContainer width="100%" height={400}>
+        <LineChart
+          data={historicalData}
+          margin={{
+            top: 5,
+            right: 15,
+            left: 15,
+            bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="4 4" />
+          <XAxis dataKey="time" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="exchangeRate" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }} />
+        </LineChart>
+      </ResponsiveContainer>
     </div>
   );
 };
