@@ -37,10 +37,15 @@ const PortfolioAllocation = () => {
 
     const data = stocks.map(stock => ({
         name: stock.ticker,
-        value: (stock.quantity / totalQuantity) * 100,
+        value: parseFloat(((stock.quantity / totalQuantity) * 100).toFixed(1)), // Round to 1 decimal place
     }));
 
-    const COLORS = ["#8884d8", "#8dd1e1", "#82ca9d", "#a4de6c", "#d0ed57", "#ffc658"];
+    const COLORS = [
+        "#8884d8", "#8dd1e1", "#82ca9d", "#a4de6c", "#d0ed57", "#ffc658",
+        "#6c8ead", "#d88487", "#d8a284", "#d8bd84", "#b1d884", "#84d89d",
+        "#84d8c2", "#84c2d8", "#849dd8", "#8487d8", "#a284d8", "#bd84d8",
+        "#d884a2", "#d884bd"
+      ];
 
     console.log("Data for PieChart:", data); // Debugging log
 
@@ -63,6 +68,7 @@ const PortfolioAllocation = () => {
                             fill="#8884d8"
                             dataKey="value"
                             onClick={openModal}
+                            label={({ name, value }) => `${name}: ${value}%`}
                         >
                             {data.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
@@ -134,8 +140,8 @@ const styles = {
     addButton: {
         padding: "10px 20px",
         cursor: "pointer",
-        backgroundColor: "#8884d8",
-        color: "#fff",
+        backgroundColor: "#92C8A0",
+        color: "#000",
         border: "none",
         borderRadius: "4px",
     },
