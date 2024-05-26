@@ -91,7 +91,13 @@ const PortfolioAllocation = () => {
                             label={({ name, value }) => `${name}: ${value}%`}
                         >
                             {data.map((entry, index) => (
-                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                <Cell
+                                key={`cell-${index}`}
+                                fill={COLORS[index % COLORS.length]}
+                                style={{
+                                    cursor: 'grab',
+                                }}
+                            />
                             ))}
                         </Pie>
                         <Tooltip content={<CustomTooltip />} />
