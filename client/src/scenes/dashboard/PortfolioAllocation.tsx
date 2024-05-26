@@ -98,6 +98,7 @@ const PortfolioAllocation = () => {
                         />
                         <button onClick={handleAddStock} style={styles.button}>Add</button>
                         <button onClick={closeModal} style={styles.button}>Close</button>
+                        <button onClick={() => setStocks([])} style={styles.button}>Clear Stocks</button>
                     </div>
                 </div>
             )}
