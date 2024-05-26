@@ -111,10 +111,12 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
   if (historicalData.length === 0) {
     return <div>Loading...</div>;
   }
-
+  const containerStyle: React.CSSProperties = {
+     
+  };
   return (
-    <div>
-      <h1>Forex Pair Data</h1>
+    <div style={containerStyle}>
+      
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={historicalData}
@@ -130,7 +132,7 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
           <YAxis />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="exchangeRate" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="exchangeRate" name="Exchange Rate" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     </div>
