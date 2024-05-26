@@ -1,7 +1,7 @@
 import DashboardBox from "@/components/DashboardBox";
 import { useGetKpisQuery } from "@/state/api";
 import React from "react";
-import getLatestFXRate from "./curr1tocurr2compar";
+import ForexDisplay from "./ForexDisplay";
 
 type Props = {};
 
