@@ -93,6 +93,17 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
     fetchData();
   }, [fromCurrency, toCurrency, apiKey]);
 
+  const formatDate = (dateString: string) => {
+    const options: Intl.DateTimeFormatOptions = {
+      year: '2-digit',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -115,7 +126,7 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
           }}
         >
           <CartesianGrid strokeDasharray="4 4" />
-          <XAxis dataKey="time" />
+          <XAxis dataKey="time" tickFormatter={formatDate} />
           <YAxis />
           <Tooltip />
           <Legend />
