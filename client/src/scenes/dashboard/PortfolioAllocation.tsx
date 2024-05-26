@@ -168,12 +168,6 @@ const styles = {
         fontFamily: "'Inter', sans-serif",
     },
 };
+ 
 
-// Adding hover effect for buttons
-styles.button[':hover'] = {
-    backgroundColor: "#45A049"
-};
-styles.addButton[':hover'] = {
-    backgroundColor: "#45A049"
-};
 export default PortfolioAllocation;
