@@ -33,6 +33,12 @@ const PortfolioAllocation = () => {
         }
     };
 
+    const handleUpdateStock = (index: number, newQuantity: number) => {
+        const updatedStocks = [...stocks];
+        updatedStocks[index].quantity = newQuantity;
+        setStocks(updatedStocks);
+    };
+
     const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
 
     const data = stocks.map(stock => ({
@@ -99,6 +105,21 @@ const PortfolioAllocation = () => {
                         <button onClick={handleAddStock} style={styles.button}>Add</button>
                         <button onClick={closeModal} style={styles.button}>Close</button>
                         <button onClick={() => setStocks([])} style={styles.button}>Clear Stocks</button>
+                    </div>
+                    <div style={styles.modal}>
+                        <h3>Edit Stock Quantities</h3>
+                        {stocks.map((stock, index) => (
+                            <div key={stock.ticker} style={styles.stockItem}>
+                                <span>{stock.ticker}</span>
+                                <input
+                                    type="number"
+                                    value={stock.quantity}
+                                    onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
+                                    style={styles.input}
+                                />
+                            </div>
+                        ))}
+                        <button onClick={closeModal} style={styles.button}>Close</button>
                     </div>
                 </div>
             )}
@@ -167,7 +188,12 @@ const styles = {
         transition: "background-color 0.3s ease",
         fontFamily: "'Inter', sans-serif",
     },
+    stockItem: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        margin: "10px 0",
+    },
 };
- 
 
 export default PortfolioAllocation;
