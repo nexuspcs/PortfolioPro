@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
             <div style={styles.tooltip}>
-                <p>{`${payload[0].name} : ${payload[0].value}%`}</p>
+                <p>{`${payload[0].name}: ${payload[0].value}%`}</p>
                 <p>{`Quantity: ${payload[0].payload.quantity}`}</p>
             </div>
         );
