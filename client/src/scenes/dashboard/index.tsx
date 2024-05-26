@@ -1,8 +1,9 @@
 import { Box, useMediaQuery } from "@mui/material";
+import React, { useEffect, useState } from 'react'; // pull data FX
 import Row1 from "./Row1";
 import Row2 from "./Row2";
 import Row3 from "./Row3";
-import getLatestFXRate from "./curr1tocurr2compar";
+import getLatestFXRate from "./curr1tocurr2compar"; // pull data FX 
 
 
 
