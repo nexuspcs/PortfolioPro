@@ -109,8 +109,8 @@ const PortfolioAllocation = () => {
                 </ResponsiveContainer>
             )}
             {isModalOpen && (
-                <div style={styles.modalOverlay}>
-                    <div style={styles.modal}>
+                <div style={styles.modalOverlay} onClick={closeModal}>
+                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
                         <h3>Add Stock</h3>
                         <input
                             type="text"
