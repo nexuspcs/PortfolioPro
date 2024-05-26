@@ -1,7 +1,6 @@
 import DashboardBox from "@/components/DashboardBox";
 import { useGetKpisQuery } from "@/state/api";
 import React from "react";
-import PortfolioAllocation from "./PortfolioAllocation"; // gridArea A
 import ForexDisplay from "./ForexDisplay"; // gridArea B
 
 type Props = {};
@@ -13,7 +12,7 @@ function Row1({}: Props) {
     const { data } = useGetKpisQuery();
     return (
         <>
-            <DashboardBox gridArea="a"><PortfolioAllocation></PortfolioAllocation></DashboardBox>
+            <DashboardBox gridArea="a"></DashboardBox>
             <DashboardBox gridArea="b">
                 <ForexDisplay
                     fromCurrency={fromCurrency}
