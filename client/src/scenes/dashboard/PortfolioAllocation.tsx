@@ -106,42 +106,42 @@ const PortfolioAllocation = () => {
             )}
             {isModalOpen && (
                 <div style={styles.modalOverlay}>
-                    <div style={{ ...styles.modal, marginRight: "20px" }}>
-                        <h3>Add Stock</h3>
-                        <input
-                            type="text"
-                            placeholder="Ticker"
-                            value={ticker}
-                            onChange={(e) => setTicker(e.target.value.toUpperCase())}
-                            style={styles.input}
-                        />
-                        <input
-                            type="number"
-                            placeholder="Quantity"
-                            value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
-                            style={styles.input}
-                        />
-                        <button onClick={handleAddStock} style={styles.button}>Add</button>
-                        <button onClick={closeModal} style={styles.button}>Close</button>
-                        <button onClick={() => setStocks([])} style={styles.button}>Clear Stocks</button>
-                    </div>
-                    <div style={styles.modal}>
-                        <h3>Edit Stock Quantities</h3>
-                        {stocks.map((stock, index) => (
-                            <div key={stock.ticker} style={styles.stockItem}>
-                                <span>{stock.ticker}</span>
-                                <input
-                                    type="number"
-                                    value={stock.quantity}
-                                    onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
-                                    style={styles.input}
-                                />
-                            </div>
-                        ))}
-                        <button onClick={closeModal} style={styles.button}>Close</button>
-                    </div>
+                <div style={{ ...styles.modal, marginRight: "20px" }}>
+                    <h3>Add Stock</h3>
+                    <input
+                        type="text"
+                        placeholder="Ticker"
+                        value={ticker}
+                        onChange={(e) => setTicker(e.target.value.toUpperCase())}
+                        style={styles.input}
+                    />
+                    <input
+                        type="number"
+                        placeholder="Quantity"
+                        value={quantity}
+                        onChange={(e) => setQuantity(Number(e.target.value))}
+                        style={styles.input}
+                    />
+                    <button onClick={handleAddStock} style={styles.button}>Add</button>
+                    <button onClick={closeModal} style={styles.button}>Close</button>
+                    <button onClick={() => setStocks([])} style={styles.button}>Clear Stocks</button>
                 </div>
+                <div style={styles.modal}>
+                    <h3>Edit Stock Quantities</h3>
+                    {stocks.map((stock, index) => (
+                        <div key={stock.ticker} style={styles.stockItem}>
+                            <span style={styles.stockTicker}>{stock.ticker}</span>
+                            <input
+                                type="number"
+                                value={stock.quantity}
+                                onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
+                                style={{ ...styles.input, ...styles.stockInput }}
+                            />
+                        </div>
+                    ))}
+                    <button onClick={closeModal} style={styles.button}>Close</button>
+                </div>
+            </div>
             )}
         </div>
     );
@@ -213,6 +213,15 @@ const styles = {
         justifyContent: "space-between",
         alignItems: "center",
         margin: "10px 0",
+    },
+    stockTicker: {
+        flex: "1",
+        textAlign: "left",
+        paddingRight: "10px",
+        fontSize: "16px",
+    },
+    stockInput: {
+        flex: "3",
     },
     tooltip: {
         backgroundColor: "#fff",
