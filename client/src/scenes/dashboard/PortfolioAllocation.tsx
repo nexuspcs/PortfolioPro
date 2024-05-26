@@ -56,6 +56,12 @@ const PortfolioAllocation = () => {
         setStocks(updatedStocks);
     };
 
+    const handleRemoveStock = (index: number) => {
+        const updatedStocks = [...stocks];
+        updatedStocks.splice(index, 1);
+        setStocks(updatedStocks);
+    };
+
     const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
 
     const data = stocks.map(stock => ({
@@ -143,6 +149,12 @@ const PortfolioAllocation = () => {
                                             onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
                                             style={{ ...styles.input, ...styles.stockInput }}
                                         />
+                                        <button
+                                            onClick={() => handleRemoveStock(index)}
+                                            style={styles.removeButton}
+                                        >
+                                            &times;
+                                        </button>
                                     </div>
                                 ))}
                             </>
@@ -178,7 +190,7 @@ const styles = {
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         maxWidth: "500px",
         width: "100%",
-        maxHeight: "80vh",
+        maxHeight: "90vh",
         overflowY: "auto",
         fontFamily: "'Inter', sans-serif",
     },
@@ -232,6 +244,19 @@ const styles = {
     },
     stockInput: {
         flex: "3",
+    },
+    removeButton: {
+        marginLeft: "10px",
+        padding: "5px 10px",
+        cursor: "pointer",
+        backgroundColor: "#ff4d4d",
+        color: "#fff",
+        border: "none",
+        borderRadius: "50%",
+        fontSize: "16px",
+        fontWeight: "500",
+        transition: "background-color 0.3s ease",
+        fontFamily: "'Inter', sans-serif",
     },
     errorMessage: {
         color: "red",
