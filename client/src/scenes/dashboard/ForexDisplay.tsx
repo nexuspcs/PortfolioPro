@@ -114,15 +114,15 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
 
   return (
     <div>
-      <h1>Forex Pair Data</h1>
+      {/* <h1>Forex Pair Data</h1> */}
       <ResponsiveContainer width="100%" height={400}>
         <LineChart
           data={historicalData}
           margin={{
-            top: 5,
+            top: 15,
             right: 15,
             left: 15,
-            bottom: 5,
+            bottom: 10,
           }}
         >
           <CartesianGrid strokeDasharray="4 4" />
