@@ -153,28 +153,35 @@ const PortfolioAllocation = () => {
                         >
                             Clear Stocks
                         </button>
-                        <h3>Edit Stock Quantities</h3>
-                        {stocks.map((stock, index) => (
-                            <div key={stock.ticker} style={styles.stockItem}>
-                                <span style={styles.stockTicker}>
-                                    {stock.ticker}
-                                </span>
-                                <input
-                                    type="number"
-                                    value={stock.quantity}
-                                    onChange={(e) =>
-                                        handleUpdateStock(
-                                            index,
-                                            Number(e.target.value)
-                                        )
-                                    }
-                                    style={{
-                                        ...styles.input,
-                                        ...styles.stockInput,
-                                    }}
-                                />
-                            </div>
-                        ))}
+                        {stocks.length > 0 && (
+                            <>
+                                <h3>Edit Stock Quantities</h3>
+                                {stocks.map((stock, index) => (
+                                    <div
+                                        key={stock.ticker}
+                                        style={styles.stockItem}
+                                    >
+                                        <span style={styles.stockTicker}>
+                                            {stock.ticker}
+                                        </span>
+                                        <input
+                                            type="number"
+                                            value={stock.quantity}
+                                            onChange={(e) =>
+                                                handleUpdateStock(
+                                                    index,
+                                                    Number(e.target.value)
+                                                )
+                                            }
+                                            style={{
+                                                ...styles.input,
+                                                ...styles.stockInput,
+                                            }}
+                                        />
+                                    </div>
+                                ))}
+                            </>
+                        )}
                         <button onClick={closeModal} style={styles.button}>
                             Close
                         </button>
