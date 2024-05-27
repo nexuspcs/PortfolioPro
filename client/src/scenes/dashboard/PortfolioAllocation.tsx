@@ -166,12 +166,6 @@ const PortfolioAllocation = () => {
                         <button onClick={handleAddStock} style={styles.button}>
                             Add
                         </button>
-                        <button
-                            onClick={() => setStocks([])}
-                            style={styles.button}
-                        >
-                            Clear Stocks
-                        </button>
                         {stocks.length > 0 && (
                             <>
                                 <h3>Edit Stock Quantities</h3>
@@ -209,6 +203,13 @@ const PortfolioAllocation = () => {
                                 ))}
                             </>
                         )}
+                        {stocks.length > 0 && (<button
+                            onClick={() => setStocks([])}
+                            style={styles.button}
+                        >
+                            Clear Stocks
+                        </button>) }
+                        
                         <button onClick={closeModal} style={styles.button}>
                             Close
                         </button>
