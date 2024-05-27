@@ -131,7 +131,7 @@ const ForexData: React.FC<ForexDisplayProps> = ({ fromCurrency, toCurrency, apiK
           <XAxis dataKey="time" tickFormatter={formatDate} />
           <YAxis />
           <Tooltip />
-          <Legend />
+         
           <Line type="monotone" dataKey="exchangeRate" name="Exchange Rate" stroke="#82ca9d" strokeWidth={2} activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
