@@ -23,7 +23,7 @@ function Row1({}: Props) {
                     apiKey={apiKey}
                 />
             </DashboardBox>
-            <DashboardBox gridArea="c"><PortfolioChart></PortfolioChart></DashboardBox>
+             <DashboardBox gridArea="c">{/*<PortfolioChart></PortfolioChart> */}PLACEHOLDER for the portfolio chart</DashboardBox>
         </>
     );
 }
