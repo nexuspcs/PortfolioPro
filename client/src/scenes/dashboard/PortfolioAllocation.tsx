@@ -99,7 +99,7 @@ const PortfolioAllocation = () => {
     console.log("Data for PieChart:", data);
 
     return (
-        <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
+        <div style={{ textAlign: "center", padding: "20px", paddingBottom: "0", color: "#fff" }}>
             <h2>Portfolio Allocation</h2>
             {stocks.length === 0 ? (
                 <button onClick={openModal} style={styles.addButton}>
