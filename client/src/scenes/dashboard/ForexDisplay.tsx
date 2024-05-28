@@ -146,7 +146,7 @@ const ForexData: React.FC<ForexDisplayProps> = ({
                         bottom: 0,
                     }}
                 >
-                    <CartesianGrid strokeDasharray="4 4" vertical={false}/>
+                    <CartesianGrid strokeDasharray="4 4" vertical={false} />
                     <XAxis dataKey="time" tickFormatter={formatDate} />
                     <YAxis domain={["dataMin", "dataMax"]} scale="linear" />
                     <Tooltip />
