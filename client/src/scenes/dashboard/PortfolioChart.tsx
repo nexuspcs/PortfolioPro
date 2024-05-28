@@ -92,7 +92,7 @@ const PortfolioChart = () => {
                 <LineChart data={portfolioData}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="date" />
-                    <YAxis />
+                    <YAxis domain={['dataMin', 'dataMax']}/>
                     <Tooltip />
                      
                     <Line type="monotone" dataKey="value" stroke="#82ca9d" />
