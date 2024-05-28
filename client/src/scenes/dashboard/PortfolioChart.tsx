@@ -113,6 +113,7 @@ const PortfolioChart = () => {
     return (
         <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
             <h2>Portfolio Value Over Time</h2>
+            
             <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={portfolioData}>
                     <CartesianGrid strokeDasharray="3 3" />
