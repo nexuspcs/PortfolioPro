@@ -29,7 +29,7 @@ const PortfolioChart = () => {
             );
             const timeSeries = response.data["Time Series (30min)"];
             const timeSeriesArray = Object.entries(timeSeries).map(([date, prices]: any) => ({
-                date,
+                date: new Date(date).toLocaleString('en-GB', { day: '2-digit', month: 'short', year: '2-digit', hour: '2-digit', minute: '2-digit', hour12: true }),
                 close: parseFloat(prices["4. close"]),
             }));
             const recentPrices = timeSeriesArray.slice(0, 6); // Get recent prices (3-6 per day)
