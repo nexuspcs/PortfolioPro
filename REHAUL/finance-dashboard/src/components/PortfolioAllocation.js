@@ -40,7 +40,7 @@ const PortfolioAllocation = () => {
             return;
         }
 
-        const API_KEY = 'demo';
+        const API_KEY = 'YOUR_ALPHA_VANTAGE_API_KEY';
         const response = await fetch(`https://www.alphavantage.co/query?function=SYMBOL_SEARCH&keywords=${query}&apikey=${API_KEY}`);
         const data = await response.json();
 
@@ -134,54 +134,53 @@ const PortfolioAllocation = () => {
                 </ResponsiveContainer>
             )}
             {isModalOpen && (
-    <div style={styles.modalOverlay} onClick={closeModal}>
-        <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3>Add Stock</h3>
-            <input
-                type="text"
-                placeholder="Ticker"
-                value={ticker}
-                onChange={handleInputChange}
-                style={styles.input}
-            />
-            <input
-                type="number"
-                placeholder="Quantity"
-                value={quantity}
-                onChange={handleQuantityChange}
-                style={styles.input}
-            />
-            {errorMessage && <div style={styles.errorMessage}>{errorMessage}</div>}
-            <button onClick={handleAddStock} style={styles.button}>Add</button>
-            {stocks.length > 0 && (
-                <>
-                    <h3>Edit Stock Quantities</h3>
-                    {stocks.map((stock, index) => (
-                        <div key={stock.ticker} style={styles.stockItem}>
-                            <span style={styles.stockTicker}>{stock.ticker}</span>
-                            <input
-                                type="number"
-                                value={stock.quantity}
-                                onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
-                                style={{ ...styles.input, ...styles.stockInput }}
-                            />
-                            <button onClick={() => handleRemoveStock(index)} style={styles.removeButton}>
-                                &times;
+                <div style={styles.modalOverlay} onClick={closeModal}>
+                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+                        <h3>Add Stock</h3>
+                        <input
+                            type="text"
+                            placeholder="Ticker"
+                            value={ticker}
+                            onChange={handleInputChange}
+                            style={styles.input}
+                        />
+                        <input
+                            type="number"
+                            placeholder="Quantity"
+                            value={quantity}
+                            onChange={handleQuantityChange}
+                            style={styles.input}
+                        />
+                        {errorMessage && <div style={styles.errorMessage}>{errorMessage}</div>}
+                        <button onClick={handleAddStock} style={styles.button}>Add</button>
+                        {stocks.length > 0 && (
+                            <>
+                                <h3>Edit Stock Quantities</h3>
+                                {stocks.map((stock, index) => (
+                                    <div key={stock.ticker} style={styles.stockItem}>
+                                        <span style={styles.stockTicker}>{stock.ticker}</span>
+                                        <input
+                                            type="number"
+                                            value={stock.quantity}
+                                            onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
+                                            style={{ ...styles.input, ...styles.stockInput }}
+                                        />
+                                        <button onClick={() => handleRemoveStock(index)} style={styles.removeButton}>
+                                            &times;
+                                        </button>
+                                    </div>
+                                ))}
+                            </>
+                        )}
+                        {stocks.length > 0 && (
+                            <button onClick={() => setStocks([])} style={styles.button}>
+                                Clear Stocks
                             </button>
-                        </div>
-                    ))}
-                </>
+                        )}
+                        <button onClick={closeModal} style={styles.button}>Close</button>
+                    </div>
+                </div>
             )}
-            {stocks.length > 0 && (
-                <button onClick={() => setStocks([])} style={styles.button}>
-                    Clear Stocks
-                </button>
-            )}
-            <button onClick={closeModal} style={styles.button}>Close</button>
-        </div>
-    </div>
-)}
-
         </div>
     );
 };
