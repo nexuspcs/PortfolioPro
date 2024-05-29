@@ -220,6 +220,7 @@ const TimeInCities = () => {
 
   return (
     <div style={styles.container}>
+      <h2>World Clock</h2>
       {cities.map((city, index) => (
         <div key={city.name} style={styles.timeContainer} onClick={() => openModal(index)}>
           <button
