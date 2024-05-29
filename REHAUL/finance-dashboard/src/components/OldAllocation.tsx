@@ -108,7 +108,7 @@ const OldAllocation = () => {
                 </button>
             ) : (
                 <div className="chart-container">
-                    <ResponsiveContainer width={400} height={400}>
+                    <ResponsiveContainer width={500} height={400}>
                         <PieChart>
                             <Pie
                                 data={data}
