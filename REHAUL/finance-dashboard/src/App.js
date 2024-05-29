@@ -7,22 +7,22 @@ import TimeInCities from './components/TimeInCities';
 import PortfolioAllocation from './components/PortfolioAllocation';
 import PortfolioValue from './components/PortfolioValue';
 import OldAllocation from './components/OldAllocation.tsx';
- 
+
 const App = () => {
   return (
-    
+
     <>
-    <div><button onClick={() => console.log('clicked')}>Click me</button></div>
-    
-    <Navbar />
-    <div className="dashboard">
-      <div className="box"><StockChart symbol="AAPL" /></div>
-      <div className="box"><ForexChart fromCurrency="USD" toCurrency="EUR" /></div>
-      <div className="box"><TimeInCities /></div>
-      <div className="box"><PortfolioAllocation /></div>
-      <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>
-      <div className="box"><OldAllocation /></div>
-    </div></>
+      <div><button onClick={() => console.log('clicked')}>Click me</button></div>
+
+      <Navbar />
+      <div className="dashboard">
+        <div className="box"><StockChart symbol="AAPL" /></div>
+        <div className="box"><ForexChart fromCurrency="USD" toCurrency="EUR" /></div>
+        <div className="box"><TimeInCities /></div>
+        <div className="box"><PortfolioAllocation /></div>
+        <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>
+        <div className="box"><OldAllocation /></div>
+      </div></>
   );
 };
 

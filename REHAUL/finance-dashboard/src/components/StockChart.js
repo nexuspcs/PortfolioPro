@@ -7,7 +7,7 @@ const StockChart = ({ symbol }) => {
 
   useEffect(() => {
     const fetchStockData = async () => {
-      const result = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=demo`);
+      const result = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=5V8PAFDNEI2TCF9L`);
       const timeSeries = result.data['Time Series (Daily)'];
       const chartData = Object.keys(timeSeries).map(date => ({
         date,

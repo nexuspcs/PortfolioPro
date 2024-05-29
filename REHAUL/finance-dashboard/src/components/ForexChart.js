@@ -7,7 +7,7 @@ const ForexChart = ({ fromCurrency, toCurrency }) => {
 
     useEffect(() => {
         const fetchForexData = async () => {
-            const result = await axios.get(`https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=${fromCurrency}&to_symbol=${toCurrency}&apikey=demo`);
+            const result = await axios.get(`https://www.alphavantage.co/query?function=FX_DAILY&from_symbol=${fromCurrency}&to_symbol=${toCurrency}&apikey=5XJL31KJWERXJARF`);
             const timeSeries = result.data['Time Series FX (Daily)'];
             const chartData = Object.keys(timeSeries).map(date => ({
                 date,
