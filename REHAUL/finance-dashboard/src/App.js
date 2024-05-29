@@ -12,7 +12,8 @@ const App = () => {
   return (
     
     <>
-    <button onClick={() => console.log('clicked')}>Click me</button>
+    <div><button onClick={() => console.log('clicked')}>Click me</button></div>
+    
     <Navbar />
     <div className="dashboard">
       <div className="box"><StockChart symbol="AAPL" /></div>
