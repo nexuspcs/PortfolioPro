@@ -1,6 +1,7 @@
 import { colors } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
+import { CSSProperties } from "react";
 
 type Stock = {
     ticker: string;
@@ -134,9 +135,9 @@ const OldAllocation = () => {
                 </ResponsiveContainer>
             )}
             {isModalOpen && (
-                <div style={styles.modalOverlay} onClick={closeModal}>
+                <div style={styles.modalOverlay as CSSProperties} onClick={closeModal}>
                     <div
-                        style={styles.modal}
+                        style={styles.modal as CSSProperties}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3>Add Stock</h3>
@@ -147,7 +148,7 @@ const OldAllocation = () => {
                             onChange={(e) =>
                                 setTicker(e.target.value.toUpperCase())
                             }
-                            style={styles.input}
+                            style={styles.input as CSSProperties}
                         />
                         <input
                             type="number"
@@ -156,14 +157,14 @@ const OldAllocation = () => {
                             onChange={(e) =>
                                 setQuantity(Number(e.target.value))
                             }
-                            style={styles.input}
+                            style={styles.input as CSSProperties}
                         />
                         {errorMessage && (
-                            <div style={styles.errorMessage}>
+                            <div style={styles.errorMessage as CSSProperties}>
                                 {errorMessage}
                             </div>
                         )}
-                        <button onClick={handleAddStock} style={styles.button}>
+                        <button onClick={handleAddStock} style={styles.button as CSSProperties}>
                             Add
                         </button>
                         {stocks.length > 0 && (
@@ -172,9 +173,9 @@ const OldAllocation = () => {
                                 {stocks.map((stock, index) => (
                                     <div
                                         key={stock.ticker}
-                                        style={styles.stockItem}
+                                        style={styles.stockItem as CSSProperties}
                                     >
-                                        <span style={styles.stockTicker}>
+                                        <span style={styles.stockTicker as CSSProperties}>
                                             {stock.ticker}
                                         </span>
                                         <input
@@ -187,15 +188,15 @@ const OldAllocation = () => {
                                                 )
                                             }
                                             style={{
-                                                ...styles.input,
-                                                ...styles.stockInput,
+                                                ...styles.input as CSSProperties,
+                                                ...styles.stockInput as CSSProperties,
                                             }}
                                         />
                                         <button
                                             onClick={() =>
                                                 handleRemoveStock(index)
                                             }
-                                            style={styles.removeButton}
+                                            style={styles.removeButton as CSSProperties}
                                         >
                                             &times;
                                         </button>
@@ -205,12 +206,12 @@ const OldAllocation = () => {
                         )}
                         {stocks.length > 0 && (<button
                             onClick={() => setStocks([])}
-                            style={styles.button}
+                            style={styles.button as CSSProperties}
                         >
                             Clear Stocks
                         </button>) }
                         
-                        <button onClick={closeModal} style={styles.button}>
+                        <button onClick={closeModal} style={styles.button as CSSProperties}>
                             Close
                         </button>
                     </div>
@@ -234,12 +235,12 @@ const styles = {
         zIndex: 1000,
         color: "#000000",
         fontFamily: "'Inter', sans-serif",
-    },
+    } as CSSProperties,
     modal: {
         background: "#fff",
         padding: "30px",
         borderRadius: "12px",
-        textAlign: "center",
+        textAlign: "center" as CSSProperties["textAlign"],
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         maxWidth: "500px",
         width: "100%",
@@ -291,7 +292,7 @@ const styles = {
     },
     stockTicker: {
         flex: "1",
-        textAlign: "left",
+        textAlign: "left" as CSSProperties["textAlign"],
         paddingRight: "10px",
         fontSize: "16px",
     },
@@ -316,12 +317,12 @@ const styles = {
         marginBottom: "10px",
     },
     tooltip: {
-        backgroundColor: "#fff",
+        backgroundColor: "#0b0b0b",
         padding: "10px",
         color: "#000",
         border: "1px solid #ddd",
         borderRadius: "4px",
-        textAlign: "left",
+        textAlign: "left" as CSSProperties["textAlign"],
     },
 };
 
