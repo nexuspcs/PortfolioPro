@@ -1,0 +1,43 @@
+/* Navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #1f1f23; /* Adjust to match the exact color */
+    padding: 10px 20px; /* Adjust padding as necessary */
+  }
+  
+  .navbar-left, .navbar-right {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo {
+    width: 32px; /* Adjust the width of the logo */
+    height: 32px; /* Adjust the height of the logo */
+    margin-right: 10px; /* Space between logo and title */
+  }
+  
+  .navbar-title {
+    color: #f0f0f0; /* Adjust text color to match the image */
+    font-size: 18px; /* Adjust font size */
+    font-weight: 500; /* Adjust font weight */
+  }
+  
+  .navbar-link {
+    color: #f0f0f0; /* Adjust text color */
+    margin-left: 20px; /* Space between links */
+    font-size: 16px; /* Adjust font size */
+    cursor: pointer; /* Pointer cursor for links */
+  }
+  
+  .navbar-link-inactive {
+    color: #777; /* Adjust inactive link color */
+  }
+  
+  /* Optional: Add hover effects if needed */
+  .navbar-link:hover {
+    color: #fff; /* Change color on hover */
+  }
+  
