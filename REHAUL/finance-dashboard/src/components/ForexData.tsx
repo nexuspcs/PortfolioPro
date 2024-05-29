@@ -50,7 +50,7 @@ const ForexDataChart: React.FC = () => {
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" />
-        <YAxis />
+        <YAxis domain={['dataMin', 'dataMax']} />
         <Tooltip />
         <Legend />
         <Line type="monotone" dataKey="close" stroke="#8884d8" />
