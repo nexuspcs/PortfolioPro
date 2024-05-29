@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import moment from 'moment-timezone';
+
+const defaultCities = [
+  { name: 'New York', timezone: 'America/New_York' },
+  { name: 'London', timezone: 'Europe/London' },
+  { name: 'Tokyo', timezone: 'Asia/Tokyo' },
+  { name: 'Sydney', timezone: 'Australia/Sydney' },
+];
 
 const TimeInCities = () => {
-  const cities = [
-    { name: 'New York', timezone: 'America/New_York' },
-    { name: 'London', timezone: 'Europe/London' },
-    { name: 'Tokyo', timezone: 'Asia/Tokyo' },
-    { name: 'Sydney', timezone: 'Australia/Sydney' },
-  ];
+  const [cities, setCities] = useState(() => {
+    const savedCities = localStorage.getItem('cities');
+    return savedCities ? JSON.parse(savedCities) : defaultCities;
+  });
 
   const [times, setTimes] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCityIndex, setSelectedCityIndex] = useState(null);
+  const [search, setSearch] = useState('');
 
   const updateTimes = () => {
     const newTimes = {};
     cities.forEach(city => {
-      newTimes[city.name] = new Date().toLocaleString('en-US', { timeZone: city.timezone });
+      newTimes[city.name] = moment().tz(city.timezone).format('YYYY-MM-DD HH:mm:ss');
     });
     setTimes(newTimes);
   };
@@ -22,7 +31,39 @@ const TimeInCities = () => {
     updateTimes();
     const intervalId = setInterval(updateTimes, 1000);
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, []);
+  }, [cities]);
+
+  useEffect(() => {
+    localStorage.setItem('cities', JSON.stringify(cities));
+  }, [cities]);
+
+  const openModal = (index) => {
+    setSelectedCityIndex(index);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSearch('');
+  };
+
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const handleCityChange = () => {
+    if (search) {
+      const timezone = moment.tz.names().find(tz => tz.toLowerCase().includes(search.toLowerCase()));
+      if (timezone) {
+        const newCities = [...cities];
+        newCities[selectedCityIndex] = { name: search, timezone: timezone };
+        setCities(newCities);
+        closeModal();
+      } else {
+        alert('Timezone not found. Please enter a valid timezone.');
+      }
+    }
+  };
 
   const styles = {
     container: {
@@ -34,7 +75,7 @@ const TimeInCities = () => {
       textAlign: 'center',
       padding: '20px',
       color: '#fff',
-       
+      backgroundColor: '#1D1D22',
       boxSizing: 'border-box',
     },
     timeContainer: {
@@ -48,6 +89,7 @@ const TimeInCities = () => {
       alignItems: 'center',
       justifyContent: 'center',
       flexDirection: 'column',
+      cursor: 'pointer',
     },
     header: {
       margin: 0,
@@ -55,16 +97,83 @@ const TimeInCities = () => {
     paragraph: {
       margin: 0,
     },
+    modalOverlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 1000,
+    },
+    modal: {
+      background: '#fff',
+      padding: '30px',
+      borderRadius: '12px',
+      textAlign: 'center',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+      maxWidth: '500px',
+      width: '100%',
+      maxHeight: '90vh',
+      overflowY: 'auto',
+    },
+    input: {
+      display: 'block',
+      margin: '15px 0',
+      padding: '15px',
+      width: '100%',
+      boxSizing: 'border-box',
+      borderRadius: '8px',
+      border: '1px solid #ddd',
+      fontFamily: "'Inter', sans-serif",
+      fontSize: '16px',
+    },
+    button: {
+      margin: '15px',
+      padding: '15px 30px',
+      cursor: 'pointer',
+      backgroundColor: '#4CAF50',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '8px',
+      fontSize: '16px',
+      fontWeight: '500',
+      transition: 'background-color 0.3s ease',
+      fontFamily: "'Inter', sans-serif",
+    },
   };
 
   return (
     <div style={styles.container}>
-      {cities.map(city => (
-        <div key={city.name} style={styles.timeContainer}>
+      {cities.map((city, index) => (
+        <div key={city.name} style={styles.timeContainer} onClick={() => openModal(index)}>
           <h3 style={styles.header}>{city.name}</h3>
           <p style={styles.paragraph}>{times[city.name]}</p>
         </div>
       ))}
+      {isModalOpen && (
+        <div style={styles.modalOverlay} onClick={closeModal}>
+          <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <h3>Change City</h3>
+            <input
+              type="text"
+              placeholder="Enter city name or timezone"
+              value={search}
+              onChange={handleSearchChange}
+              style={styles.input}
+            />
+            <button onClick={handleCityChange} style={styles.button}>
+              Save
+            </button>
+            <button onClick={closeModal} style={styles.button}>
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
