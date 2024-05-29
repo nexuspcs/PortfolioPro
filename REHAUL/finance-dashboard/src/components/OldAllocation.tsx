@@ -12,8 +12,8 @@ const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
             <div style={styles.tooltip}>
-                <p>{`${payload[0].name}: ${payload[0].value}%`}</p>
-                <p>{`Quantity: ${payload[0].payload.quantity}`}</p>
+                <p style={{ margin: 0, color: "#000" }}>{`${payload[0].name}: ${payload[0].value}%`}</p>
+                <p style={{ margin: 0, color: "#000" }}>{`Quantity: ${payload[0].payload.quantity}`}</p>
             </div>
         );
     }
@@ -107,32 +107,34 @@ const OldAllocation = () => {
                     Add Initial Stocks
                 </button>
             ) : (
-                <ResponsiveContainer width="100%" height={400}>
-                    <PieChart>
-                        <Pie
-                            data={data}
-                            cx="50%"
-                            cy="50%"
-                            labelLine={false}
-                            outerRadius={150}
-                            fill="#8884d8"
-                            dataKey="value"
-                            onClick={openModal}
-                            label={({ name, value }) => `${name}: ${value}%`}
-                        >
-                            {data.map((entry, index) => (
-                                <Cell
-                                    key={`cell-${index}`}
-                                    fill={COLORS[index % COLORS.length]}
-                                    style={{
-                                        cursor: "grab",
-                                    }}
-                                />
-                            ))}
-                        </Pie>
-                        <Tooltip content={<CustomTooltip />} />
-                    </PieChart>
-                </ResponsiveContainer>
+                <div className="chart-container">
+                    <ResponsiveContainer width={400} height={400}>
+                        <PieChart>
+                            <Pie
+                                data={data}
+                                cx="50%"
+                                cy="50%"
+                                labelLine={false}
+                                outerRadius={150}
+                                fill="#8884d8"
+                                dataKey="value"
+                                onClick={openModal}
+                                label={({ name, value }) => `${name}: ${value}%`}
+                            >
+                                {data.map((entry, index) => (
+                                    <Cell
+                                        key={`cell-${index}`}
+                                        fill={COLORS[index % COLORS.length]}
+                                        style={{
+                                            cursor: "grab",
+                                        }}
+                                    />
+                                ))}
+                            </Pie>
+                            <Tooltip content={<CustomTooltip />} />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
             )}
             {isModalOpen && (
                 <div style={styles.modalOverlay as CSSProperties} onClick={closeModal}>
@@ -317,9 +319,9 @@ const styles = {
         marginBottom: "10px",
     },
     tooltip: {
-        backgroundColor: "#0b0b0b",
+        backgroundColor: "#fff",
         padding: "10px",
-        color: "#000",
+        color: "#000", // Ensure font color is applied
         border: "1px solid #ddd",
         borderRadius: "4px",
         textAlign: "left" as CSSProperties["textAlign"],
