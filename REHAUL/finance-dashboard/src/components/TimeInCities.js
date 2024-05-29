@@ -38,7 +38,7 @@ const TimeInCities = () => {
     localStorage.setItem('cities', JSON.stringify(cities));
   }, [cities]);
 
-  const openModal = (index) => {
+  const openModal = (index = null) => {
     setSelectedCityIndex(index);
     setIsModalOpen(true);
   };
@@ -64,7 +64,11 @@ const TimeInCities = () => {
 
   const handleCityChange = (timezone) => {
     const newCities = [...cities];
-    newCities[selectedCityIndex] = { name: timezone, timezone: timezone };
+    if (selectedCityIndex !== null) {
+      newCities[selectedCityIndex] = { name: timezone, timezone: timezone };
+    } else {
+      newCities.push({ name: timezone, timezone: timezone });
+    }
     setCities(newCities);
     closeModal();
   };
@@ -84,7 +88,7 @@ const TimeInCities = () => {
       textAlign: 'center',
       padding: '20px',
       color: '#fff',
-      backgroundColor: '#1D1D22',
+     
       boxSizing: 'border-box',
     },
     timeContainer: {
@@ -100,6 +104,7 @@ const TimeInCities = () => {
       flexDirection: 'column',
       position: 'relative',
       cursor: 'pointer',
+      width: '200px', // Ensure consistent width for all time containers
     },
     header: {
       margin: 0,
@@ -154,6 +159,21 @@ const TimeInCities = () => {
       transition: 'background-color 0.3s ease',
       fontFamily: "'Inter', sans-serif",
     },
+    addButton: {
+      backgroundColor: '#4CAF50',
+      borderRadius: '50%',
+      width: '50px',
+      height: '50px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontSize: '24px',
+      color: '#fff',
+      cursor: 'pointer',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
+      transition: 'background-color 0.3s ease',
+      marginTop: '20px',
+    },
     removeButton: {
       position: 'absolute',
       top: '10px',
@@ -201,10 +221,13 @@ const TimeInCities = () => {
           <p style={styles.paragraph}>{times[city.name]}</p>
         </div>
       ))}
+      <div style={styles.addButton} onClick={() => openModal()}>
+        +
+      </div>
       {isModalOpen && (
         <div style={styles.modalOverlay} onClick={closeModal}>
           <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h3>Change City</h3>
+            <h3>{selectedCityIndex !== null ? 'Change City' : 'Add City'}</h3>
             <input
               type="text"
               placeholder="Enter city name or timezone"
