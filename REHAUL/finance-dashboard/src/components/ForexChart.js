@@ -9,39 +9,23 @@ const ForexChart = ({ fromCurrency, toCurrency }) => {
     useEffect(() => {
         const fetchForexData = async () => {
             try {
-                const now = Math.floor(Date.now() / 1000); // current timestamp in seconds
-                const oneMonthAgo = now - 30 * 24 * 60 * 60; // timestamp for one month ago
-
-                const response = await axios.get(`https://finnhub.io/api/v1/forex/candle`, {
+                const result = await axios.get(`https://api.tiingo.com/tiingo/fx/${fromCurrency}${toCurrency}/prices`, {
                     params: {
-                        symbol: `OANDA:${fromCurrency}_${toCurrency}`,
-                        resolution: 'D',
-                        from: oneMonthAgo,
-                        to: now,
-                        token: 'cpbf7u1r01qodesspvhgcpbf7u1r01qodesspvi0',
-                    },
+                        token: '4afdccac5ca312e048ad680a9d04137338af275c', // Replace with your actual API key
+                        resampleFreq: '1day'
+                    }
                 });
-
-                if (response.status === 403) {
-                    throw new Error('Access forbidden: check your API key and permissions.');
-                }
-
-                if (response.data.s !== 'ok') {
-                    throw new Error('Failed to fetch data');
-                }
-
-                const chartData = response.data.t.map((timestamp, index) => ({
-                    date: new Date(timestamp * 1000).toISOString().split('T')[0],
-                    open: response.data.o[index],
-                    high: response.data.h[index],
-                    low: response.data.l[index],
-                    close: response.data.c[index],
+                const chartData = result.data.map(item => ({
+                    date: item.date.split('T')[0], // Extract date part only
+                    open: item.open,
+                    high: item.high,
+                    low: item.low,
+                    close: item.close,
                 }));
-
                 setData(chartData);
             } catch (error) {
                 setError(error.message);
-                console.error('Error fetching forex data:', error);
+                console.error('Error fetching Forex data:', error);
             }
         };
         fetchForexData();
