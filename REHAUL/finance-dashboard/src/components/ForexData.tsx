@@ -18,7 +18,7 @@ interface ForexDisplayProps {
 
 interface ExchangeRateData {
     exchangeRate: number;
-    timestamp: string;
+    timestamp: number;
 }
 
 interface HistoricalDataPoint {
@@ -49,7 +49,7 @@ const fetchTraderMadeFXRate = async (
     }));
 };
 
-const ForexChart: React.FC<ForexDisplayProps> = ({
+const ForexData: React.FC<ForexDisplayProps> = ({
     fromCurrency,
     toCurrency,
     apiKey,
@@ -84,10 +84,14 @@ const ForexChart: React.FC<ForexDisplayProps> = ({
                     apiKey
                 );
 
-                const newHistoricalData = data.map((point) => ({
-                    time: new Date(point.timestamp * 1000).toISOString(),
-                    exchangeRate: point.exchangeRate,
-                }));
+                const newHistoricalData = data.map((point) => {
+                    const date = new Date(point.timestamp * 1000); // Convert UNIX timestamp to milliseconds
+                    console.log("Parsed Date:", date); // Logging the date for debugging
+                    return {
+                        time: date.toISOString(),
+                        exchangeRate: point.exchangeRate,
+                    };
+                });
 
                 historicalData = [...historicalData, ...newHistoricalData];
                 localStorage.setItem(
@@ -156,4 +160,4 @@ const ForexChart: React.FC<ForexDisplayProps> = ({
     );
 };
 
-export default ForexChart;
+export default ForexData;
