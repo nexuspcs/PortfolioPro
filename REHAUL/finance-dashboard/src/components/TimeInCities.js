@@ -23,7 +23,7 @@ const TimeInCities = () => {
   const updateTimes = () => {
     const newTimes = {};
     cities.forEach(city => {
-      newTimes[city.name] = moment().tz(city.timezone).format('YYYY-MM-DD HH:mm:ss');
+      newTimes[city.name] = moment().tz(city.timezone).format('Do MMMM YYYY, hh:mm:ss A');
     });
     setTimes(newTimes);
   };
@@ -88,7 +88,7 @@ const TimeInCities = () => {
       textAlign: 'center',
       padding: '20px',
       color: '#fff',
-     
+      backgroundColor: '#1D1D22',
       boxSizing: 'border-box',
     },
     timeContainer: {
