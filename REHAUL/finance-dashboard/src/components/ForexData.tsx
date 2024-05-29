@@ -1,39 +1,62 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import dayjs from 'dayjs';
 
-const ForexData: React.FC = () => {
-    const [data, setData] = useState<any>(null);
-    const [error, setError] = useState<string | null>(null);
+interface ForexQuote {
+  date: string;
+  close: number;
+}
 
-    useEffect(() => {
-        axios.get('https://marketdata.tradermade.com/api/v1/historical?api_key=ftlbKUoHBSCOuRGoNB3q&currency=AUDUSD&date=2024-05-22')
-            .then(response => {
-                setData(response.data.quotes[0]);
-            })
-            .catch(error => {
-                setError(error.message);
-            });
-    }, []);
+const ForexDataChart: React.FC = () => {
+  const [data, setData] = useState<ForexQuote[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
+  useEffect(() => {
+    const fetchData = async () => {
+      const promises = [];
+      const today = dayjs();
+      for (let i = 0; i < 7; i++) {
+        const date = today.subtract(i, 'day').format('YYYY-MM-DD');
+        const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=ftlbKUoHBSCOuRGoNB3q&currency=AUDUSD&date=${date}`;
+        promises.push(axios.get(url));
+      }
 
-    if (!data) {
-        return <div>Loading...</div>;
-    }
+      try {
+        const responses = await Promise.all(promises);
+        const quotes = responses.map((response, index) => ({
+          date: today.subtract(index, 'day').format('YYYY-MM-DD'),
+          close: response.data.quotes[0].close,
+        }));
+        setData(quotes.reverse());
+      } catch (err) {
+         
+      }
+    };
 
-    return (
-        <div>
-            <p>Date: 2024-05-22</p>
-            <p>Base Currency: {data.base_currency}</p>
-            <p>Quote Currency: {data.quote_currency}</p>
-            <p>Open: {data.open}</p>
-            <p>High: {data.high}</p>
-            <p>Low: {data.low}</p>
-            <p>Close: {data.close}</p>
-        </div>
-    );
+    fetchData();
+  }, []);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (data.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <ResponsiveContainer width="100%" height={400}>
+      <LineChart data={data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="close" stroke="#8884d8" />
+      </LineChart>
+    </ResponsiveContainer>
+  );
 };
 
-export default ForexData;
+export default ForexDataChart;
