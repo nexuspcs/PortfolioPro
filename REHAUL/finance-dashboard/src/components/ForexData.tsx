@@ -54,14 +54,21 @@ const ForexDataChart: React.FC = () => {
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
         <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
-        <Tooltip formatter={(value) => value.toFixed(4)} labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
+        <Tooltip
+          formatter={(value) => value.toFixed(4)}
+          labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
+          contentStyle={{ backgroundColor: '#fff' }}
+          labelStyle={{ color: '#000' }}
+        />
         <Legend />
-        <Line type="monotone"
-                        dataKey="close"
-                        name="Exchange Rate"
-                        stroke="#82ca9d"
-                        strokeWidth={2}
-                        activeDot={{ r: 8 }} />
+        <Line
+          type="monotone"
+          dataKey="close"
+          name="Exchange Rate"
+          stroke="#82ca9d"
+          strokeWidth={2}
+          activeDot={{ r: 8 }}
+        />
       </LineChart>
     </ResponsiveContainer>
   );
