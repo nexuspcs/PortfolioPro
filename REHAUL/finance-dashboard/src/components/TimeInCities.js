@@ -24,12 +24,45 @@ const TimeInCities = () => {
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
 
+  const styles = {
+    container: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100vh',
+      textAlign: 'center',
+      padding: '20px',
+      color: '#fff',
+       
+      boxSizing: 'border-box',
+    },
+    timeContainer: {
+      backgroundColor: '#28282D',
+      borderRadius: '8px',
+      padding: '20px',
+      color: 'white',
+      margin: '10px 0',
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+    },
+    header: {
+      margin: 0,
+    },
+    paragraph: {
+      margin: 0,
+    },
+  };
+
   return (
-    <div>
+    <div style={styles.container}>
       {cities.map(city => (
-        <div key={city.name}>
-          <h3>{city.name}</h3>
-          <p>{times[city.name]}</p>
+        <div key={city.name} style={styles.timeContainer}>
+          <h3 style={styles.header}>{city.name}</h3>
+          <p style={styles.paragraph}>{times[city.name]}</p>
         </div>
       ))}
     </div>
