@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import './App.css';
 import StockChart from './components/StockChart';
-import ForexChart from './components/ForexChart.tsx';
+import ForexData from './components/ForexData.tsx';
 import TimeInCities from './components/TimeInCities';
 import PortfolioValue from './components/PortfolioValue';
 import OldAllocation from './components/OldAllocation.tsx';
@@ -20,7 +20,7 @@ const App = () => {
 
         <div className="box"><OldAllocation /></div>
 
-        <div className="box"><ForexChart
+        <div className="box"><ForexData
           fromCurrency="USD"
           toCurrency="AUD"
           apiKey="ftlbKUoHBSCOuRGoNB3q"
