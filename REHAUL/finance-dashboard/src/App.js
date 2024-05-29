@@ -10,7 +10,9 @@ import OldAllocation from './components/OldAllocation.tsx';
  
 const App = () => {
   return (
+    
     <>
+     <button onClick={() => console.log('clicked')}>Click me</button>
     <Navbar />
     <div className="dashboard">
       <div className="box"><StockChart symbol="AAPL" /></div>
@@ -19,6 +21,7 @@ const App = () => {
       <div className="box"><PortfolioAllocation /></div>
       <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>
       <div className="box"><OldAllocation /></div>
+      <button onClick={() => console.log('clicked')}>Click me</button>
     </div></>
   );
 };
