@@ -18,6 +18,7 @@ const TimeInCities = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCityIndex, setSelectedCityIndex] = useState(null);
   const [search, setSearch] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
 
   const updateTimes = () => {
     const newTimes = {};
@@ -45,24 +46,27 @@ const TimeInCities = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setSearch('');
+    setSuggestions([]);
   };
 
   const handleSearchChange = (e) => {
-    setSearch(e.target.value);
+    const value = e.target.value;
+    setSearch(value);
+    if (value) {
+      const filteredSuggestions = moment.tz.names().filter(tz =>
+        tz.toLowerCase().includes(value.toLowerCase())
+      );
+      setSuggestions(filteredSuggestions);
+    } else {
+      setSuggestions([]);
+    }
   };
 
-  const handleCityChange = () => {
-    if (search) {
-      const timezone = moment.tz.names().find(tz => tz.toLowerCase().includes(search.toLowerCase()));
-      if (timezone) {
-        const newCities = [...cities];
-        newCities[selectedCityIndex] = { name: search, timezone: timezone };
-        setCities(newCities);
-        closeModal();
-      } else {
-        alert('Timezone not found. Please enter a valid timezone.');
-      }
-    }
+  const handleCityChange = (timezone) => {
+    const newCities = [...cities];
+    newCities[selectedCityIndex] = { name: timezone, timezone: timezone };
+    setCities(newCities);
+    closeModal();
   };
 
   const styles = {
@@ -144,6 +148,24 @@ const TimeInCities = () => {
       transition: 'background-color 0.3s ease',
       fontFamily: "'Inter', sans-serif",
     },
+    suggestionList: {
+      listStyleType: 'none',
+      padding: 0,
+      margin: '10px 0 0 0',
+      maxHeight: '200px',
+      overflowY: 'auto',
+      border: '1px solid #ddd',
+      borderRadius: '8px',
+      backgroundColor: '#fff',
+      color: '#000',
+    },
+    suggestionItem: {
+      padding: '10px',
+      cursor: 'pointer',
+    },
+    suggestionItemHovered: {
+      backgroundColor: '#f0f0f0',
+    },
   };
 
   return (
@@ -165,9 +187,17 @@ const TimeInCities = () => {
               onChange={handleSearchChange}
               style={styles.input}
             />
-            <button onClick={handleCityChange} style={styles.button}>
-              Save
-            </button>
+            <ul style={styles.suggestionList}>
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={suggestion}
+                  style={styles.suggestionItem}
+                  onMouseDown={() => handleCityChange(suggestion)}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
             <button onClick={closeModal} style={styles.button}>
               Cancel
             </button>
