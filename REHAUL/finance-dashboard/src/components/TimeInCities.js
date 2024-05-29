@@ -69,6 +69,11 @@ const TimeInCities = () => {
     closeModal();
   };
 
+  const removeCity = (index) => {
+    const newCities = cities.filter((_, i) => i !== index);
+    setCities(newCities);
+  };
+
   const styles = {
     container: {
       display: 'flex',
@@ -91,8 +96,9 @@ const TimeInCities = () => {
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.5)',
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'space-between',
       flexDirection: 'column',
+      position: 'relative',
       cursor: 'pointer',
     },
     header: {
@@ -148,6 +154,16 @@ const TimeInCities = () => {
       transition: 'background-color 0.3s ease',
       fontFamily: "'Inter', sans-serif",
     },
+    removeButton: {
+      position: 'absolute',
+      top: '10px',
+      right: '10px',
+      backgroundColor: 'transparent',
+      border: 'none',
+      color: '#fff',
+      fontSize: '20px',
+      cursor: 'pointer',
+    },
     suggestionList: {
       listStyleType: 'none',
       padding: 0,
@@ -172,6 +188,15 @@ const TimeInCities = () => {
     <div style={styles.container}>
       {cities.map((city, index) => (
         <div key={city.name} style={styles.timeContainer} onClick={() => openModal(index)}>
+          <button
+            style={styles.removeButton}
+            onClick={(e) => {
+              e.stopPropagation();
+              removeCity(index);
+            }}
+          >
+            &times;
+          </button>
           <h3 style={styles.header}>{city.name}</h3>
           <p style={styles.paragraph}>{times[city.name]}</p>
         </div>
