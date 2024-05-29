@@ -1,34 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect, useRef } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const ForexChart = ({ fromCurrency, toCurrency }) => {
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
+    const ws = useRef(null);
 
     useEffect(() => {
-        const fetchForexData = async () => {
+        ws.current = new WebSocket('wss://api.tiingo.com/fx');
+
+        ws.current.onopen = () => {
+            console.log('WebSocket connection established');
+            const subscribe = {
+                eventName: 'subscribe',
+                authorization: '4afdccac5ca312e048ad680a9d04137338af275c', // Replace with your actual API key
+                eventData: {
+                    thresholdLevel: 5,
+                    tickers: fromCurrency && toCurrency ? [`${fromCurrency}${toCurrency}`] : ['*']
+                }
+            };
+            ws.current.send(JSON.stringify(subscribe));
+        };
+
+        ws.current.onmessage = (event) => {
             try {
-                const result = await axios.get(`https://api.tiingo.com/tiingo/fx/${fromCurrency}${toCurrency}/prices`, {
-                    params: {
-                        token: '4afdccac5ca312e048ad680a9d04137338af275c', // Replace with your actual API key
-                        resampleFreq: '1day'
-                    }
-                });
-                const chartData = result.data.map(item => ({
-                    date: item.date.split('T')[0], // Extract date part only
-                    open: item.open,
-                    high: item.high,
-                    low: item.low,
-                    close: item.close,
-                }));
-                setData(chartData);
+                const message = JSON.parse(event.data);
+                if (message && message.data && message.data.length > 0) {
+                    const [messageType, ticker, timestamp, bidSize, bidPrice, askPrice, askSize] = message.data;
+                    const date = new Date(timestamp).toISOString().split('T')[0];
+                    const close = (bidPrice + askPrice) / 2;
+
+                    setData((prevData) => [
+                        ...prevData,
+                        { date, close }
+                    ]);
+                }
             } catch (error) {
-                setError(error.message);
-                console.error('Error fetching Forex data:', error);
+                console.error('Error processing WebSocket message:', error);
             }
         };
-        fetchForexData();
+
+        ws.current.onerror = (event) => {
+            setError('WebSocket error');
+            console.error('WebSocket error:', event);
+        };
+
+        ws.current.onclose = () => {
+            console.log('WebSocket connection closed.');
+        };
+
+        return () => {
+            if (ws.current) {
+                ws.current.close();
+            }
+        };
     }, [fromCurrency, toCurrency]);
 
     if (error) {
