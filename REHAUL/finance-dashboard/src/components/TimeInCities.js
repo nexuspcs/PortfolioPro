@@ -20,10 +20,21 @@ const TimeInCities = () => {
   const [search, setSearch] = useState('');
   const [suggestions, setSuggestions] = useState([]);
 
+  const formatTimezone = (timezone) => {
+    if (timezone.startsWith('Etc/')) {
+      return timezone.replace('Etc/', '');
+    }
+    const parts = timezone.split('/');
+    if (parts.length === 2) {
+      return `${parts[1].replace('_', ' ')}, ${parts[0]}`;
+    }
+    return timezone.replace('_', ' ');
+  };
+
   const updateTimes = () => {
     const newTimes = {};
     cities.forEach(city => {
-      newTimes[city.name] = moment().tz(city.timezone).format('Do MMMM YYYY, hh:mm:ss A');
+      newTimes[city.timezone] = moment().tz(city.timezone).format('Do MMMM YYYY, hh:mm:ss A');
     });
     setTimes(newTimes);
   };
@@ -65,9 +76,9 @@ const TimeInCities = () => {
   const handleCityChange = (timezone) => {
     const newCities = [...cities];
     if (selectedCityIndex !== null) {
-      newCities[selectedCityIndex] = { name: timezone, timezone: timezone };
+      newCities[selectedCityIndex] = { name: formatTimezone(timezone), timezone: timezone };
     } else {
-      newCities.push({ name: timezone, timezone: timezone });
+      newCities.push({ name: formatTimezone(timezone), timezone: timezone });
     }
     setCities(newCities);
     closeModal();
@@ -88,7 +99,7 @@ const TimeInCities = () => {
       textAlign: 'center',
       padding: '20px',
       color: '#fff',
-      backgroundColor: '#1D1D22',
+     
       boxSizing: 'border-box',
     },
     timeContainer: {
@@ -218,7 +229,7 @@ const TimeInCities = () => {
             &times;
           </button>
           <h3 style={styles.header}>{city.name}</h3>
-          <p style={styles.paragraph}>{times[city.name]}</p>
+          <p style={styles.paragraph}>{times[city.timezone]}</p>
         </div>
       ))}
       <div style={styles.addButton} onClick={() => openModal()}>
@@ -242,7 +253,7 @@ const TimeInCities = () => {
                   style={styles.suggestionItem}
                   onMouseDown={() => handleCityChange(suggestion)}
                 >
-                  {suggestion}
+                  {formatTimezone(suggestion)}
                 </li>
               ))}
             </ul>
