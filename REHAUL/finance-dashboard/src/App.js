@@ -21,7 +21,7 @@ const App = () => {
         <div className="box"><PortfolioAllocation /></div> */}
         {/* <div className="box"><PortfolioValue portfolio="myPortfolio" /></div> */}
         <div className="box"><OldAllocation /></div>
-        <div className="box"><ForexChart fromCurrency="USD" toCurrency="EUR" /></div>
+        <div className="box"><ForexChart fromCurrency="EUR" toCurrency="USD" /></div>
       </div></>
   );
 };
