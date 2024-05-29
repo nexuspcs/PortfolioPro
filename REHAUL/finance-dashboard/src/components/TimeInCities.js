@@ -27,6 +27,9 @@ const TimeInCities = () => {
     const parts = timezone.split('/');
     if (parts.length === 2) {
       return `${parts[1].replace('_', ' ')}, ${parts[0]}`;
+    } else if (parts.length > 2) {
+      const city = parts.slice(2).join(' ').replace('_', ' ');
+      return `${city}, ${parts[1]}, ${parts[0]}`;
     }
     return timezone.replace('_', ' ');
   };
