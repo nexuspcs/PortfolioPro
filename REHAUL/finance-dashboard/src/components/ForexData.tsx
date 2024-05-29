@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import dayjs from 'dayjs';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+
+dayjs.extend(advancedFormat);
 
 interface ForexQuote {
   date: string;
@@ -30,7 +33,7 @@ const ForexDataChart: React.FC = () => {
         }));
         setData(quotes.reverse());
       } catch (err) {
-         
+        setError(err.message);
       }
     };
 
@@ -49,9 +52,9 @@ const ForexDataChart: React.FC = () => {
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="date" />
-        <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)}/>
-        <Tooltip />
+        <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
+        <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
+        <Tooltip formatter={(value) => value.toFixed(4)} labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
         <Legend />
         <Line type="monotone" dataKey="close" stroke="#8884d8" />
       </LineChart>
