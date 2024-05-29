@@ -15,14 +15,11 @@ const App = () => {
 
       <Navbar />
       <div className="dashboard">
-      <div className="box"><TimeInCities /></div>
-         <div className="box"><StockChart symbol="AAPL" /></div>
-        
-        
-        
-        <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>  
+
+        {/* <div className="box"><StockChart symbol="AAPL" /></div>
+        <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>   */}
         <div className="box"><OldAllocation /></div>
-        <div className="box"><ForexChart fromCurrency="EUR" toCurrency="USD" /></div>
+        {/* <div className="box"><ForexChart fromCurrency="EUR" toCurrency="USD" /></div> */}<div className="box"><TimeInCities /></div>
       </div></>
   );
 };
