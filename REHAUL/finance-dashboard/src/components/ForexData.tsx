@@ -16,10 +16,12 @@ const exchangeRatePairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'USDJPY', 'USDCAD', 'US
 const ForexDataChart: React.FC = () => {
   const [data, setData] = useState<ForexQuote[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [selectedPair, setSelectedPair] = useState<string>('AUDUSD');
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true); // Set loading to true when a new request is initiated
       const promises = [];
       const today = dayjs();
       for (let i = 0; i < 7; i++) {
@@ -35,8 +37,10 @@ const ForexDataChart: React.FC = () => {
           close: response.data.quotes[0].close,
         }));
         setData(quotes.reverse());
+        setLoading(false); // Set loading to false when data is received
       } catch (err) {
         setError(err.message);
+        setLoading(false); // Set loading to false on error
       }
     };
 
@@ -49,10 +53,6 @@ const ForexDataChart: React.FC = () => {
 
   if (error) {
     return <div>Error: {error}</div>;
-  }
-
-  if (data.length === 0) {
-    return <div>Loading...</div>;
   }
 
   return (
@@ -69,28 +69,32 @@ const ForexDataChart: React.FC = () => {
           </select>
         </div>
         <div style={{ width: '400px', height: '400px' }}>
-          <ResponsiveContainer>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
-              <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
-              <Tooltip
-                formatter={(value) => value.toFixed(4)}
-                labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
-                contentStyle={{ backgroundColor: '#fff' }}
-                labelStyle={{ color: '#000' }}
-              />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="close"
-                name="Exchange Rate"
-                stroke="#82ca9d"
-                strokeWidth={2}
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+          {loading ? (
+            <div>Loading...</div> // Display loading message or spinner
+          ) : (
+            <ResponsiveContainer>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
+                <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
+                <Tooltip
+                  formatter={(value) => value.toFixed(4)}
+                  labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
+                  contentStyle={{ backgroundColor: '#fff' }}
+                  labelStyle={{ color: '#000' }}
+                />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="close"
+                  name="Exchange Rate"
+                  stroke="#82ca9d"
+                  strokeWidth={2}
+                  activeDot={{ r: 8 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
         </div>
       </div>
     </div>
