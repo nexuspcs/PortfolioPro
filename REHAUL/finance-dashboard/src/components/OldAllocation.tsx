@@ -12,8 +12,12 @@ const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
             <div style={styles.tooltip}>
-                <p style={{ margin: 0, color: "#000" }}>{`${payload[0].name}: ${payload[0].value}%`}</p>
-                <p style={{ margin: 0, color: "#000" }}>{`Quantity: ${payload[0].payload.quantity}`}</p>
+                <p
+                    style={{ margin: 0, color: "#000" }}
+                >{`${payload[0].name}: ${payload[0].value}%`}</p>
+                <p
+                    style={{ margin: 0, color: "#000" }}
+                >{`Quantity: ${payload[0].payload.quantity}`}</p>
             </div>
         );
     }
@@ -100,7 +104,14 @@ const OldAllocation = () => {
     console.log("Data for PieChart:", data);
 
     return (
-        <div style={{ textAlign: "center", padding: "20px", paddingBottom: "0", color: "#fff" }}>
+        <div
+            style={{
+                textAlign: "center",
+                padding: "20px",
+                paddingBottom: "0",
+                color: "#fff",
+            }}
+        >
             <h2>Portfolio Allocation</h2>
             {stocks.length === 0 ? (
                 <button onClick={openModal} style={styles.addButton}>
@@ -119,7 +130,9 @@ const OldAllocation = () => {
                                 fill="#8884d8"
                                 dataKey="value"
                                 onClick={openModal}
-                                label={({ name, value }) => `${name}: ${value}%`}
+                                label={({ name, value }) =>
+                                    `${name}: ${value}%`
+                                }
                             >
                                 {data.map((entry, index) => (
                                     <Cell
@@ -137,7 +150,10 @@ const OldAllocation = () => {
                 </div>
             )}
             {isModalOpen && (
-                <div style={styles.modalOverlay as CSSProperties} onClick={closeModal}>
+                <div
+                    style={styles.modalOverlay as CSSProperties}
+                    onClick={closeModal}
+                >
                     <div
                         style={styles.modal as CSSProperties}
                         onClick={(e) => e.stopPropagation()}
@@ -166,7 +182,10 @@ const OldAllocation = () => {
                                 {errorMessage}
                             </div>
                         )}
-                        <button onClick={handleAddStock} style={styles.button as CSSProperties}>
+                        <button
+                            onClick={handleAddStock}
+                            style={styles.button as CSSProperties}
+                        >
                             Add
                         </button>
                         {stocks.length > 0 && (
@@ -175,9 +194,15 @@ const OldAllocation = () => {
                                 {stocks.map((stock, index) => (
                                     <div
                                         key={stock.ticker}
-                                        style={styles.stockItem as CSSProperties}
+                                        style={
+                                            styles.stockItem as CSSProperties
+                                        }
                                     >
-                                        <span style={styles.stockTicker as CSSProperties}>
+                                        <span
+                                            style={
+                                                styles.stockTicker as CSSProperties
+                                            }
+                                        >
                                             {stock.ticker}
                                         </span>
                                         <input
@@ -190,15 +215,17 @@ const OldAllocation = () => {
                                                 )
                                             }
                                             style={{
-                                                ...styles.input as CSSProperties,
-                                                ...styles.stockInput as CSSProperties,
+                                                ...(styles.input as CSSProperties),
+                                                ...(styles.stockInput as CSSProperties),
                                             }}
                                         />
                                         <button
                                             onClick={() =>
                                                 handleRemoveStock(index)
                                             }
-                                            style={styles.removeButton as CSSProperties}
+                                            style={
+                                                styles.removeButton as CSSProperties
+                                            }
                                         >
                                             &times;
                                         </button>
@@ -206,14 +233,19 @@ const OldAllocation = () => {
                                 ))}
                             </>
                         )}
-                        {stocks.length > 0 && (<button
-                            onClick={() => setStocks([])}
+                        {stocks.length > 0 && (
+                            <button
+                                onClick={() => setStocks([])}
+                                style={styles.button as CSSProperties}
+                            >
+                                Clear Stocks
+                            </button>
+                        )}
+
+                        <button
+                            onClick={closeModal}
                             style={styles.button as CSSProperties}
                         >
-                            Clear Stocks
-                        </button>) }
-                        
-                        <button onClick={closeModal} style={styles.button as CSSProperties}>
                             Close
                         </button>
                     </div>
