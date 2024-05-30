@@ -60,13 +60,25 @@ const ForexDataChart: React.FC = () => {
       <div style={{ textAlign: 'center' }}>
         <div style={{ marginBottom: '20px' }}>
           <label htmlFor="pair-select">Select Exchange Rate Pair: </label>
-          <select id="pair-select" value={selectedPair} onChange={handlePairChange}>
-            {exchangeRatePairs.map((pair) => (
-              <option key={pair} value={pair}>
-                {pair}
-              </option>
-            ))}
-          </select>
+          <select
+  id="pair-select"
+  value={selectedPair}
+  onChange={handlePairChange}
+  style={{
+    padding: '10px',
+    borderRadius: '5px',
+    border: '1px solid #ccc',
+    backgroundColor: '#2c2c2c',
+    color: '#fff',
+    fontSize: '16px',
+  }}
+>
+  {exchangeRatePairs.map((pair) => (
+    <option key={pair} value={pair}>
+      {pair}
+    </option>
+  ))}
+</select>
         </div>
         <div style={{ width: '400px', height: '400px' }}>
           {loading ? (
