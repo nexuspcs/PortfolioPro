@@ -37,6 +37,13 @@ const Navbar = () => {
               <li><a href="/contact">Contact Support</a></li>
               <li><a href="/guide">User Guide</a></li>
             </ul>
+            <iframe 
+              src="https://docs.google.com/document/d/e/your-google-doc-id/pub?embedded=true" 
+              width="100%" 
+              height="400px" 
+              title='User Manual'
+              style={{ border: 'none' }}
+            ></iframe>
           </div>
         </div>
       )}
