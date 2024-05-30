@@ -41,3 +41,50 @@
 .navbar-link:hover {
   color: #fff; /* Change color on hover */
 }
+
+.help-button {
+  background: none;
+  border: none;
+  color: #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.help-icon {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 80%;
+  color: #1d1c1c;
+}
+
+.close-button {
+  font-size: 24px;
+  float: right;
+  cursor: pointer;
+}
+
+.helpSectionTXTblock {
+  color: #1d1c1c;
+}
