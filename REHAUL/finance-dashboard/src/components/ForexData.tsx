@@ -70,7 +70,7 @@ const ForexDataChart: React.FC = () => {
         </div>
         <div style={{ width: '400px', height: '400px' }}>
           {loading ? (
-            <div>Loading...</div> // Display loading message or spinner
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>Loading...</div> // Display loading message or spinner
           ) : (
             <ResponsiveContainer>
               <LineChart data={data}>
