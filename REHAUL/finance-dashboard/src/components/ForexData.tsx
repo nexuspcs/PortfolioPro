@@ -56,7 +56,7 @@ const ForexDataChart: React.FC = () => {
   }
 
   return (
-    <div>
+    <div style={{ width: '100%', height: '100%' }}>
       <div style={{ marginBottom: '20px' }}>
         <label htmlFor="pair-select">Select Exchange Rate Pair: </label>
         <select id="pair-select" value={selectedPair} onChange={handlePairChange}>
@@ -67,28 +67,30 @@ const ForexDataChart: React.FC = () => {
           ))}
         </select>
       </div>
-      <ResponsiveContainer width="100%" height={400}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
-          <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
-          <Tooltip
-            formatter={(value) => value.toFixed(4)}
-            labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
-            contentStyle={{ backgroundColor: '#fff' }}
-            labelStyle={{ color: '#000' }}
-          />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="close"
-            name="Exchange Rate"
-            stroke="#82ca9d"
-            strokeWidth={2}
-            activeDot={{ r: 8 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div style={{ width: '100%', height: 400 }}>
+        <ResponsiveContainer>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
+            <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
+            <Tooltip
+              formatter={(value) => value.toFixed(4)}
+              labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
+              contentStyle={{ backgroundColor: '#fff' }}
+              labelStyle={{ color: '#000' }}
+            />
+            <Legend />
+            <Line
+              type="monotone"
+              dataKey="close"
+              name="Exchange Rate"
+              stroke="#82ca9d"
+              strokeWidth={2}
+              activeDot={{ r: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 };
