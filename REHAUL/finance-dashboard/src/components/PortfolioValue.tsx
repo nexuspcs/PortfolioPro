@@ -30,44 +30,57 @@ const PortfolioValue = () => {
     const [quantity, setQuantity] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
 
+    const fetchHistoricalPrices = async (ticker: string) => {
+        const apiKey = "VxLSGD9wJTouit9rQw06LqNLklLjOztx";
+        const response = await axios.get(
+            `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&timeseries=7&apikey=${apiKey}`
+        );
+        return response.data.historical;
+    };
+
     const fetchStockPrices = async () => {
         const apiKey = "VxLSGD9wJTouit9rQw06LqNLklLjOztx";
         let portfolioValue = 0;
         let portfolioPrevValue = 0;
-        const stockDataPromises = stocks.map(async (stock) => {
-            const response = await axios.get(
-                `https://financialmodelingprep.com/api/v3/quote/${stock.ticker}?apikey=${apiKey}`
-            );
-            const stockData = response.data[0];
-            const stockValue = stock.quantity * stockData.price;
-            const stockPrevValue =
-                stock.quantity * (stockData.price - stockData.change);
-            portfolioValue += stockValue;
-            portfolioPrevValue += stockPrevValue;
-            return {
-                date: new Date().toISOString().split("T")[0],
-                [`${stock.ticker}`]: stockData.price,
-                value: stockValue,
-            };
+        const historicalDataPromises = stocks.map(async (stock) => {
+            const historicalPrices = await fetchHistoricalPrices(stock.ticker);
+            return historicalPrices.map((data) => ({
+                date: data.date,
+                ticker: stock.ticker,
+                close: data.close,
+                quantity: stock.quantity,
+            }));
         });
 
-        const stockData = await Promise.all(stockDataPromises);
-        const mergedData = stockData.reduce((acc: any, cur: any) => {
-            const existingEntry = acc.find(
-                (entry: any) => entry.date === cur.date
-            );
+        const historicalData = await Promise.all(historicalDataPromises);
+        const flattenedData = historicalData.flat();
+
+        const portfolioValueByDate = flattenedData.reduce((acc, cur) => {
+            const existingEntry = acc.find((entry) => entry.date === cur.date);
+            const stockValue = cur.quantity * cur.close;
+
             if (existingEntry) {
-                existingEntry[cur.ticker] = cur[cur.ticker];
-                existingEntry.value += cur.value;
+                existingEntry.value += stockValue;
             } else {
-                acc.push(cur);
+                acc.push({ date: cur.date, value: stockValue });
             }
             return acc;
         }, []);
 
-        setPortfolioData(mergedData);
+        portfolioValueByDate.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        const currentPriceResponse = await axios.get(
+            `https://financialmodelingprep.com/api/v3/quote/${stocks[0].ticker}?apikey=${apiKey}`
+        );
+        const currentPrice = currentPriceResponse.data[0].price;
+        portfolioValue = stocks.reduce(
+            (sum, stock) => sum + stock.quantity * currentPrice,
+            0
+        );
+
+        setPortfolioData(portfolioValueByDate);
         setCurrentValue(portfolioValue);
-        setPreviousValue(portfolioPrevValue);
+        setPreviousValue(portfolioValueByDate[0].value);
     };
 
     useEffect(() => {
