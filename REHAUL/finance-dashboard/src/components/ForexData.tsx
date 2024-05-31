@@ -11,7 +11,7 @@ interface ForexQuote {
   close: number;
 }
 
-const exchangeRatePairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'USDJPY', 'USDCAD', 'USDCHF'];
+const exchangeRatePairs = ['AUDUSD', 'EURUSD', 'GBPUSD', 'USDAUD', 'USDJPY', 'USDCAD', 'USDCHF'];
 
 const ForexDataChart: React.FC = () => {
   const [data, setData] = useState<ForexQuote[]>([]);
@@ -59,7 +59,7 @@ const ForexDataChart: React.FC = () => {
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ marginBottom: '20px' }}>
-          <label htmlFor="pair-select">Select Exchange Rate Pair: </label>
+          <label htmlFor="pair-select"></label>
           <select
   id="pair-select"
   value={selectedPair}
