@@ -162,15 +162,15 @@ const PortfolioValue = () => {
     };
 
     return (
-        <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
-            <h2>Portfolio Value Over Time</h2>
+        <div style={{ width: "400px", height: "400px" }}>
+            <h2 style={{ textAlign: "center"}} >Portfolio Value Over Time</h2>
             {stocks.length === 0 ? (
                 <button style={addButtonStyle} onClick={handleAddInitialStocks}>
                     Add Initial Stocks
                 </button>
             ) : (
                 <>
-                    <ResponsiveContainer width="100%" height={400}>
+                    <ResponsiveContainer >
                         <LineChart data={portfolioData}>
                             <CartesianGrid
                                 strokeDasharray="4 4"
@@ -196,7 +196,7 @@ const PortfolioValue = () => {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                    <div style={{ marginTop: "20px" }}>
+                    <div style={{ marginTop: "20px", textAlign: "center"}}>
                         <h3>
                             Current Portfolio Value: ${currentValue.toFixed(2)}
                         </h3>
