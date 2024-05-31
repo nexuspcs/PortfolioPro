@@ -86,16 +86,16 @@ const ForexDataChart: React.FC = () => {
           ) : (
             <ResponsiveContainer>
               <LineChart data={data}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid vertical={false}  strokeDasharray="3 3" />
                 <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
-                <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(2)} />
+                <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(3)} />
                 <Tooltip
                   formatter={(value) => value.toFixed(4)}
                   labelFormatter={(date) => dayjs(date).format('Do MMM YYYY')}
                   contentStyle={{ backgroundColor: '#fff' }}
                   labelStyle={{ color: '#000' }}
                 />
-                <Legend />
+                {/* <Legend /> */}
                 <Line
                   type="monotone"
                   dataKey="close"
