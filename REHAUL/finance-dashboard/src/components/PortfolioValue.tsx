@@ -176,7 +176,10 @@ const PortfolioValue = () => {
                             <CartesianGrid strokeDasharray="4 4" vertical={false}/>
                             <XAxis dataKey="date" />
                             <YAxis domain={["dataMin", "dataMax"]} scale="linear"/>
-                            <Tooltip />
+                            <Tooltip formatter={(value) => value.toFixed(2)}
+                  
+                  contentStyle={{ backgroundColor: '#fff' }}
+                  labelStyle={{ color: '#000' }}/>
                             <Line
                                 type="monotone"
                                 dataKey="value"
