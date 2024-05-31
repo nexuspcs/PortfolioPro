@@ -39,6 +39,13 @@ const PortfolioValue = () => {
     };
 
     const fetchStockPrices = async () => {
+        if (stocks.length === 0) {
+            setPortfolioData([]);
+            setCurrentValue(0);
+            setPreviousValue(0);
+            return;
+        }
+
         const apiKey = "VxLSGD9wJTouit9rQw06LqNLklLjOztx";
         let portfolioValue = 0;
         let portfolioPrevValue = 0;
@@ -80,7 +87,7 @@ const PortfolioValue = () => {
 
         setPortfolioData(portfolioValueByDate);
         setCurrentValue(portfolioValue);
-        setPreviousValue(portfolioValueByDate[0].value);
+        setPreviousValue(portfolioValueByDate[0]?.value || 0);
     };
 
     useEffect(() => {
@@ -98,7 +105,7 @@ const PortfolioValue = () => {
 
     const calculateChange = () => {
         const change = currentValue - previousValue;
-        const changePercent = (change / previousValue) * 100;
+        const changePercent = (change / (previousValue || 1)) * 100;
         return {
             change,
             changePercent,
