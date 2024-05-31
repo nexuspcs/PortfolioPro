@@ -72,7 +72,7 @@ const OldAllocation = () => {
 
         if (value.length > 1) {
             try {
-                const response = await axios.get(`https://financialmodelingprep.com/api/v3/search-ticker?query=${value}&apikey=VxLSGD9wJTouit9rQw06LqNLklLjOztx`);
+                const response = await axios.get(`https://financialmodelingprep.com/api/v3/search-ticker?query=${value}&apikey=RbHkZj4JGTbZYbdBUuXobFOkZ6VDqCbE`);
                 setSuggestions(response.data.map((item: any) => item.symbol)); // Assuming the API returns a list of ticker suggestions
             } catch (error) {
                 console.error("Error fetching ticker suggestions:", error);
