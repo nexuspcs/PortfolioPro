@@ -28,6 +28,8 @@ const exchangeRatePairs = [
     "USDJPY",
     "USDCAD",
     "USDCHF",
+    "AUDCNY",
+    "USDCNY"
 ];
 
 const ForexDataChart: React.FC = () => {
