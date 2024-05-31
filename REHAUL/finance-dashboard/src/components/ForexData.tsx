@@ -26,7 +26,7 @@ const ForexDataChart: React.FC = () => {
       const today = dayjs();
       for (let i = 0; i < 7; i++) {
         const date = today.subtract(i, 'day').format('YYYY-MM-DD');
-        const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=ftlbKUoHBSCOuRGoNB3q&currency=${selectedPair}&date=${date}`;
+        const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=whvB4NtWALlYqW9oHpmg&currency=${selectedPair}&date=${date}`;
         promises.push(axios.get(url));
       }
 
