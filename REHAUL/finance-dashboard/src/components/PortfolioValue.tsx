@@ -74,7 +74,9 @@ const PortfolioValue = () => {
             return acc;
         }, []);
 
-        portfolioValueByDate.sort((a, b) => new Date(a.date) - new Date(b.date));
+        portfolioValueByDate.sort(
+            (a, b) => new Date(a.date) - new Date(b.date)
+        );
 
         const currentPriceResponse = await axios.get(
             `https://financialmodelingprep.com/api/v3/quote/${stocks[0].ticker}?apikey=${apiKey}`
@@ -163,23 +165,27 @@ const PortfolioValue = () => {
         <div style={{ textAlign: "center", padding: "20px", color: "#fff" }}>
             <h2>Portfolio Value Over Time</h2>
             {stocks.length === 0 ? (
-                <button
-                    style={addButtonStyle}
-                    onClick={handleAddInitialStocks}
-                >
+                <button style={addButtonStyle} onClick={handleAddInitialStocks}>
                     Add Initial Stocks
                 </button>
             ) : (
                 <>
                     <ResponsiveContainer width="100%" height={400}>
                         <LineChart data={portfolioData}>
-                            <CartesianGrid strokeDasharray="4 4" vertical={false}/>
+                            <CartesianGrid
+                                strokeDasharray="4 4"
+                                vertical={false}
+                            />
                             <XAxis dataKey="date" />
-                            <YAxis domain={["dataMin", "dataMax"]} scale="linear"/>
-                            <Tooltip formatter={(value) => value.toFixed(2)}
-                  
-                  contentStyle={{ backgroundColor: '#fff' }}
-                  labelStyle={{ color: '#000' }}/>
+                            <YAxis
+                                domain={["dataMin", "dataMax"]}
+                                scale="linear"
+                            />
+                            <Tooltip
+                                formatter={(value) => value.toFixed(2)}
+                                contentStyle={{ backgroundColor: "#fff" }}
+                                labelStyle={{ color: "#000" }}
+                            />
                             <Line
                                 type="monotone"
                                 dataKey="value"
@@ -191,13 +197,16 @@ const PortfolioValue = () => {
                         </LineChart>
                     </ResponsiveContainer>
                     <div style={{ marginTop: "20px" }}>
-                        <h3>Current Portfolio Value: ${currentValue.toFixed(2)}</h3>
+                        <h3>
+                            Current Portfolio Value: ${currentValue.toFixed(2)}
+                        </h3>
                         <h3
                             style={{
                                 color: change > 0 ? "green" : "red",
                             }}
                         >
-                            24h Change: ${change.toFixed(2)} ({changePercent.toFixed(2)}
+                            24h Change: ${change.toFixed(2)} (
+                            {changePercent.toFixed(2)}
                             %)
                         </h3>
                     </div>
@@ -273,13 +282,15 @@ const PortfolioValue = () => {
                                 ))}
                             </>
                         )}
-                        {stocks.length > 0 && (<button
-                            onClick={() => setStocks([])}
-                            style={styles.button}
-                        >
-                            Clear Stocks
-                        </button>) }
-                        
+                        {stocks.length > 0 && (
+                            <button
+                                onClick={() => setStocks([])}
+                                style={styles.button}
+                            >
+                                Clear Stocks
+                            </button>
+                        )}
+
                         <button onClick={closeModal} style={styles.button}>
                             Close
                         </button>
