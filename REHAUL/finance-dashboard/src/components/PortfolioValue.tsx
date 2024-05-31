@@ -191,7 +191,7 @@ const PortfolioValue = () => {
                                 dataKey="value"
                                 name="Value"
                                 stroke="#82ca9d"
-                                strokeWidth={2}
+                                strokeWidth={3}
                                 activeDot={{ r: 8 }}
                             />
                         </LineChart>

@@ -101,7 +101,7 @@ const ForexDataChart: React.FC = () => {
                   dataKey="close"
                   name="Exchange Rate"
                   stroke="#82ca9d"
-                  strokeWidth={2}
+                  strokeWidth={3}
                   activeDot={{ r: 8 }}
                 />
               </LineChart>
