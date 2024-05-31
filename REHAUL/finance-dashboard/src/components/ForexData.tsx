@@ -17,7 +17,10 @@ const ForexDataChart: React.FC = () => {
   const [data, setData] = useState<ForexQuote[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [selectedPair, setSelectedPair] = useState<string>('AUDUSD');
+  const [selectedPair, setSelectedPair] = useState<string>(() => {
+    const savedPair = localStorage.getItem('selectedPair');
+    return savedPair ? savedPair : 'AUDUSD';
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,7 +51,9 @@ const ForexDataChart: React.FC = () => {
   }, [selectedPair]);
 
   const handlePairChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setSelectedPair(event.target.value);
+    const newPair = event.target.value;
+    setSelectedPair(newPair);
+    localStorage.setItem('selectedPair', newPair);
   };
 
   if (error) {
@@ -61,24 +66,24 @@ const ForexDataChart: React.FC = () => {
         <div style={{ marginBottom: '20px' }}>
           <label htmlFor="pair-select"></label>
           <select
-  id="pair-select"
-  value={selectedPair}
-  onChange={handlePairChange}
-  style={{
-    padding: '10px',
-    borderRadius: '5px',
-    border: '1px solid #ccc',
-    backgroundColor: '#2c2c2c',
-    color: '#fff',
-    fontSize: '16px',
-  }}
->
-  {exchangeRatePairs.map((pair) => (
-    <option key={pair} value={pair}>
-      {pair}
-    </option>
-  ))}
-</select>
+            id="pair-select"
+            value={selectedPair}
+            onChange={handlePairChange}
+            style={{
+              padding: '10px',
+              borderRadius: '5px',
+              border: '1px solid #ccc',
+              backgroundColor: '#2c2c2c',
+              color: '#fff',
+              fontSize: '16px',
+            }}
+          >
+            {exchangeRatePairs.map((pair) => (
+              <option key={pair} value={pair}>
+                {pair}
+              </option>
+            ))}
+          </select>
         </div>
         <div style={{ width: '400px', height: '400px' }}>
           {loading ? (
@@ -86,7 +91,7 @@ const ForexDataChart: React.FC = () => {
           ) : (
             <ResponsiveContainer>
               <LineChart data={data}>
-                <CartesianGrid vertical={false}  strokeDasharray="3 3" />
+                <CartesianGrid vertical={false} strokeDasharray="3 3" />
                 <XAxis dataKey="date" tickFormatter={(date) => dayjs(date).format('Do MMM YYYY')} />
                 <YAxis domain={['dataMin', 'dataMax']} tickFormatter={(value) => value.toFixed(3)} />
                 <Tooltip
