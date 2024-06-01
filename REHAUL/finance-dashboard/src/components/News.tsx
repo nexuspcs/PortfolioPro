@@ -118,9 +118,19 @@ const News: React.FC = () => {
     }, []);
 
     const filterArticles = (articles: any[]) => {
-        const unwantedPhrases = ["Print this page", "Sign up for our newsletter"];
+        const unwantedPhrases = [
+            "Print this page",
+            "Sign up for our newsletter",
+            "GLOBE NEWSWIRE",
+            "PRNewswire",
+            "Business Wire",
+            "MarketWatch",
+            "NEW YORK",
+            "Disclaimer"
+        ];
+
         return articles.filter(article => {
-            return !unwantedPhrases.some(phrase => article.snippet.includes(phrase));
+            return !unwantedPhrases.some(phrase => new RegExp(phrase, 'i').test(article.snippet));
         });
     };
 
