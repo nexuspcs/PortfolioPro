@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import {
     LineChart,
     Line,
@@ -7,23 +7,23 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer
-} from 'recharts';
-import dayjs from 'dayjs';
-import advancedFormat from 'dayjs/plugin/advancedFormat';
+    ResponsiveContainer,
+} from "recharts";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
 
 const timeScales = [
     { label: "Daily", value: "DAILY", timespan: "day", multiplier: 1 },
     { label: "Weekly", value: "WEEKLY", timespan: "week", multiplier: 1 },
-    { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 }
+    { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 },
 ];
 
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
 
 const getStoredStocks = () => {
-    const stocks = JSON.parse(localStorage.getItem('stocks') || '[]');
+    const stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
     return stocks.map((stock: { ticker: string }) => stock.ticker);
 };
 
@@ -35,14 +35,25 @@ const StockChart: React.FC = () => {
         return savedStock ? savedStock : "AAPL";
     });
     const [selectedTimeScale, setSelectedTimeScale] = useState<string>(() => {
-        const savedTimeScale = localStorage.getItem("selectedStockChartTimeScale");
+        const savedTimeScale = localStorage.getItem(
+            "selectedStockChartTimeScale"
+        );
         return savedTimeScale ? savedTimeScale : "DAILY";
     });
-    const [storedStocks, setStoredStocks] = useState<string[]>(getStoredStocks());
+    const [storedStocks, setStoredStocks] = useState<string[]>(
+        getStoredStocks()
+    );
 
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const delay = (ms: number) =>
+        new Promise((resolve) => setTimeout(resolve, ms));
 
-    const fetchStockData = async (symbol: string, timeScale: any, bypassCache = false, retries = 3, delayTime = 1000) => {
+    const fetchStockData = async (
+        symbol: string,
+        timeScale: any,
+        bypassCache = false,
+        retries = 3,
+        delayTime = 1000
+    ) => {
         const cacheKey = `stockData_${symbol}_${timeScale.value}`;
         const cachedData = localStorage.getItem(cacheKey);
         const now = dayjs();
@@ -56,20 +67,22 @@ const StockChart: React.FC = () => {
             }
         }
 
-        setLoading(`Updating prices to match ${timeScale.label.toLowerCase()} timescale`);
+        setLoading(
+            `Updating prices to match ${timeScale.label.toLowerCase()} timescale`
+        );
         try {
             let from;
             let to = now.format("YYYY-MM-DD");
 
             switch (timeScale.value) {
                 case "DAILY":
-                    from = now.subtract(7, 'day').format("YYYY-MM-DD");
+                    from = now.subtract(7, "day").format("YYYY-MM-DD");
                     break;
                 case "WEEKLY":
-                    from = now.subtract(7, 'week').format("YYYY-MM-DD");
+                    from = now.subtract(7, "week").format("YYYY-MM-DD");
                     break;
                 case "MONTHLY":
-                    from = now.subtract(12, 'month').format("YYYY-MM-DD");
+                    from = now.subtract(12, "month").format("YYYY-MM-DD");
                     break;
                 default:
                     throw new Error("Invalid timespan");
@@ -87,7 +100,10 @@ const StockChart: React.FC = () => {
                 close: item.c,
             }));
             setData(chartData);
-            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: chartData }));
+            localStorage.setItem(
+                cacheKey,
+                JSON.stringify({ timestamp: now, data: chartData })
+            );
             setLoading(null); // Set loading to null when data is received
         } catch (err) {
             if (retries === 0) {
@@ -95,27 +111,35 @@ const StockChart: React.FC = () => {
                 setLoading(null); // Set loading to null on error
             } else {
                 await delay(delayTime);
-                fetchStockData(symbol, timeScale, bypassCache, retries - 1, delayTime * 2); // Exponential backoff
+                fetchStockData(
+                    symbol,
+                    timeScale,
+                    bypassCache,
+                    retries - 1,
+                    delayTime * 2
+                ); // Exponential backoff
             }
         }
     };
 
     useEffect(() => {
-        const selectedTimeScaleObj = timeScales.find(ts => ts.value === selectedTimeScale);
+        const selectedTimeScaleObj = timeScales.find(
+            (ts) => ts.value === selectedTimeScale
+        );
         fetchStockData(selectedStock, selectedTimeScaleObj);
     }, [selectedStock, selectedTimeScale]);
 
     useEffect(() => {
         const handleStorageChange = (event: StorageEvent) => {
-            if (event.key === 'stocks') {
+            if (event.key === "stocks") {
                 setStoredStocks(getStoredStocks());
             }
         };
 
-        window.addEventListener('storage', handleStorageChange);
+        window.addEventListener("storage", handleStorageChange);
 
         return () => {
-            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener("storage", handleStorageChange);
         };
     }, []);
 
@@ -131,10 +155,16 @@ const StockChart: React.FC = () => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
         localStorage.setItem("selectedStockChartTicker", newStock);
-        fetchStockData(newStock, timeScales.find(ts => ts.value === selectedTimeScale), true); // Bypass cache when stock changes
+        fetchStockData(
+            newStock,
+            timeScales.find((ts) => ts.value === selectedTimeScale),
+            true
+        ); // Bypass cache when stock changes
     };
 
-    const handleTimeScaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleTimeScaleChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
         const newTimeScale = event.target.value;
         setSelectedTimeScale(newTimeScale);
         localStorage.setItem("selectedStockChartTimeScale", newTimeScale);
@@ -154,7 +184,14 @@ const StockChart: React.FC = () => {
                     <div>Please add your stocks, by using the button above</div>
                 ) : (
                     <>
-                        <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
+                        <div
+                            style={{
+                                marginBottom: "20px",
+                                display: "flex",
+                                justifyContent: "center",
+                                gap: "10px",
+                            }}
+                        >
                             <div>
                                 <label htmlFor="stock-select"></label>
                                 <select
@@ -193,7 +230,10 @@ const StockChart: React.FC = () => {
                                     }}
                                 >
                                     {timeScales.map((scale) => (
-                                        <option key={scale.value} value={scale.value}>
+                                        <option
+                                            key={scale.value}
+                                            value={scale.value}
+                                        >
                                             {scale.label}
                                         </option>
                                     ))}
@@ -215,16 +255,34 @@ const StockChart: React.FC = () => {
                             ) : (
                                 <ResponsiveContainer>
                                     <LineChart data={data}>
-                                        <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                                        <CartesianGrid
+                                            vertical={false}
+                                            strokeDasharray="3 3"
+                                        />
                                         <XAxis
                                             dataKey="date"
-                                            tickFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
+                                            tickFormatter={(date) =>
+                                                dayjs(date).format(
+                                                    "Do MMM YYYY"
+                                                )
+                                            }
                                         />
-                                        <YAxis domain={['dataMin', 'dataMax']} scale={"linear"} />
+                                        <YAxis
+                                            domain={["dataMin", "dataMax"]}
+                                            scale={"linear"}
+                                        />
                                         <Tooltip
-                                            formatter={(value) => value.toFixed(2)}
-                                            labelFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
-                                            contentStyle={{ backgroundColor: "#fff" }}
+                                            formatter={(value) =>
+                                                value.toFixed(2)
+                                            }
+                                            labelFormatter={(date) =>
+                                                dayjs(date).format(
+                                                    "Do MMM YYYY"
+                                                )
+                                            }
+                                            contentStyle={{
+                                                backgroundColor: "#fff",
+                                            }}
                                             labelStyle={{ color: "#000" }}
                                         />
                                         <Line
