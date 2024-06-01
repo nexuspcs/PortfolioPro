@@ -58,6 +58,19 @@ const ForexDataChart: React.FC = () => {
         }
 
         setLoading(true); // Set loading to true when a new request is initiated
+
+        // Set a timeout to fallback to cached data if loading takes too long
+        const loadingTimeout = setTimeout(() => {
+            if (loading) {
+                if (cachedData) {
+                    const { data } = JSON.parse(cachedData);
+                    setData(data);
+                }
+                setLoading(false);
+                setError("Loading took too long, reverted to cached data");
+            }
+        }, 5000);
+
         const promises = [];
         const today = dayjs();
         for (let i = 0; i < 7; i++) {
@@ -75,6 +88,7 @@ const ForexDataChart: React.FC = () => {
             setData(quotes.reverse());
             localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: quotes }));
             setLoading(false); // Set loading to false when data is received
+            clearTimeout(loadingTimeout); // Clear the timeout if data is received in time
         } catch (err) {
             if (err.response && err.response.status === 503 && retryCount < MAX_RETRIES) {
                 // Retry the API call if status code is 503 and retry limit is not reached
@@ -82,6 +96,7 @@ const ForexDataChart: React.FC = () => {
             } else {
                 setError(err.message);
                 setLoading(false); // Set loading to false on error
+                clearTimeout(loadingTimeout); // Clear the timeout on error
             }
         }
     };
@@ -96,10 +111,6 @@ const ForexDataChart: React.FC = () => {
         localStorage.setItem("selectedPair", newPair);
         fetchData(true); // Bypass cache when pair changes
     };
-
-    if (error) {
-        return <div>Error: {error}</div>;
-    }
 
     return (
         <div
@@ -145,6 +156,8 @@ const ForexDataChart: React.FC = () => {
                         >
                             Loading...
                         </div> // Display loading message or spinner
+                    ) : error ? (
+                        <div>Error: {error}</div>
                     ) : (
                         <ResponsiveContainer>
                             <LineChart data={data}>
