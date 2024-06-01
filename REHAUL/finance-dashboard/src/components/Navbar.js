@@ -37,7 +37,7 @@ const Navbar = () => {
             <span className="close-button" onClick={closeModal}>&times;</span>
             <h2>Help</h2>
             <p className="helpSectionTXTblock">This is the help section. Here you can find information and links to help you navigate the site.</p>
-            <ul>
+            <ul className='helpLinks'>
               <li><a href="/faq">FAQ</a></li>
               <li><a href="/contact">Contact Support</a></li>
               <li><a href="https://docs.google.com/document/d/1NURz-jVA2e_gDFBphvJ5XpDmnIhUVbX_Hjks45zJurk/edit?usp=sharing">User Manual</a></li>
