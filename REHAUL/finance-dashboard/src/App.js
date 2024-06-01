@@ -10,7 +10,6 @@ import OldAllocation from './components/OldAllocation.tsx';
 const App = () => {
   return (
     <>
-      <div><button onClick={() => console.log('clicked')}>Click me</button></div>
 
       <Navbar />
       <div className="dashboard">
