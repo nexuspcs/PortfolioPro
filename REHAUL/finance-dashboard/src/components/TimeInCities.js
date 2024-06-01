@@ -118,7 +118,7 @@ const TimeInCities = () => {
       flexDirection: 'column',
       position: 'relative',
       cursor: 'pointer',
-      width: '200px', // Ensure consistent width for all time containers
+      width: '250px', // Ensure consistent width for all time containers
     },
     header: {
       margin: 0,

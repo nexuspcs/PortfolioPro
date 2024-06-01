@@ -1,4 +1,3 @@
-import { colors } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
@@ -45,7 +44,7 @@ const OldAllocation = () => {
 
     const handleAddStock = () => {
         if (ticker && quantity > 0) {
-            setStocks([...stocks, { ticker, quantity }]);
+            setStocks((prevStocks) => [...prevStocks, { ticker, quantity }]);
             setTicker("");
             setQuantity(0);
             setErrorMessage(""); // Clear the error message on successful add
@@ -56,15 +55,15 @@ const OldAllocation = () => {
     };
 
     const handleUpdateStock = (index: number, newQuantity: number) => {
-        const updatedStocks = [...stocks];
-        updatedStocks[index].quantity = newQuantity;
-        setStocks(updatedStocks);
+        setStocks((prevStocks) => {
+            const updatedStocks = [...prevStocks];
+            updatedStocks[index].quantity = newQuantity;
+            return updatedStocks;
+        });
     };
 
     const handleRemoveStock = (index: number) => {
-        const updatedStocks = [...stocks];
-        updatedStocks.splice(index, 1);
-        setStocks(updatedStocks);
+        setStocks((prevStocks) => prevStocks.filter((_, i) => i !== index));
     };
 
     const handleTickerChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -121,7 +120,7 @@ const OldAllocation = () => {
 
     return (
         <div style={{ textAlign: "center", padding: "20px", paddingBottom: "0", color: "#fff" }}>
-            <h2>Portfolio Allocation</h2>
+            {/* <h2>Portfolio Allocation</h2> */}
             {stocks.length === 0 ? (
                 <button onClick={openModal} style={styles.addButton}>
                     Add Initial Stocks
@@ -244,6 +243,7 @@ const OldAllocation = () => {
         </div>
     );
 };
+
 
 const styles = {
     modalOverlay: {
