@@ -7,7 +7,6 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    Legend,
     ResponsiveContainer,
 } from "recharts";
 import dayjs from "dayjs";
@@ -32,6 +31,8 @@ const exchangeRatePairs = [
     "USDCNY"
 ];
 
+const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes in milliseconds
+
 const ForexDataChart: React.FC = () => {
     const [data, setData] = useState<ForexQuote[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -41,31 +42,45 @@ const ForexDataChart: React.FC = () => {
         return savedPair ? savedPair : "AUDUSD";
     });
 
+    const fetchData = async (bypassCache = false) => {
+        const cacheKey = `forexData_${selectedPair}`;
+        const cachedData = localStorage.getItem(cacheKey);
+        const now = dayjs();
+
+        if (!bypassCache && cachedData) {
+            const { timestamp, data } = JSON.parse(cachedData);
+            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
+                setData(data);
+                setLoading(false);
+                return;
+            }
+        }
+
+        setLoading(true); // Set loading to true when a new request is initiated
+        const promises = [];
+        const today = dayjs();
+        for (let i = 0; i < 7; i++) {
+            const date = today.subtract(i, "day").format("YYYY-MM-DD");
+            const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=Ou7HsjMs4uhJyQp2pM6_&currency=${selectedPair}&date=${date}`;
+            promises.push(axios.get(url));
+        }
+
+        try {
+            const responses = await Promise.all(promises);
+            const quotes = responses.map((response, index) => ({
+                date: today.subtract(index, "day").format("YYYY-MM-DD"),
+                close: response.data.quotes[0].close,
+            }));
+            setData(quotes.reverse());
+            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: quotes }));
+            setLoading(false); // Set loading to false when data is received
+        } catch (err) {
+            setError(err.message);
+            setLoading(false); // Set loading to false on error
+        }
+    };
+
     useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true); // Set loading to true when a new request is initiated
-            const promises = [];
-            const today = dayjs();
-            for (let i = 0; i < 7; i++) {
-                const date = today.subtract(i, "day").format("YYYY-MM-DD");
-                const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=D9O_X8drU_i8IZvvSfZi&currency=${selectedPair}&date=${date}`;
-                promises.push(axios.get(url));
-            }
-
-            try {
-                const responses = await Promise.all(promises);
-                const quotes = responses.map((response, index) => ({
-                    date: today.subtract(index, "day").format("YYYY-MM-DD"),
-                    close: response.data.quotes[0].close,
-                }));
-                setData(quotes.reverse());
-                setLoading(false); // Set loading to false when data is received
-            } catch (err) {
-                setError(err.message);
-                setLoading(false); // Set loading to false on error
-            }
-        };
-
         fetchData();
     }, [selectedPair]);
 
@@ -73,6 +88,7 @@ const ForexDataChart: React.FC = () => {
         const newPair = event.target.value;
         setSelectedPair(newPair);
         localStorage.setItem("selectedPair", newPair);
+        fetchData(true); // Bypass cache when pair changes
     };
 
     if (error) {
@@ -137,7 +153,8 @@ const ForexDataChart: React.FC = () => {
                                     }
                                 />
                                 <YAxis
-                                    domain={["dataMin", "dataMax"]} scale={"linear"}
+                                    domain={["dataMin", "dataMax"]}
+                                    scale={"linear"}
                                     tickFormatter={(value) => value.toFixed(3)}
                                 />
                                 <Tooltip
