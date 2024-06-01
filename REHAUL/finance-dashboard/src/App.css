@@ -37,11 +37,6 @@ code {
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
-#row2 {
-  margin-top: 0px;
-  height: ;
-}
-
 .box:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
