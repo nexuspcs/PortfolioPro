@@ -126,19 +126,6 @@ const PortfolioValue = () => {
 
     const { change, changePercent } = calculateChange();
 
-    const addButtonStyle = {
-        padding: "15px 30px",
-        cursor: "pointer",
-        backgroundColor: "#4CAF50",
-        color: "#fff",
-        border: "none",
-        borderRadius: "8px",
-        fontSize: "16px",
-        fontWeight: "500",
-        transition: "background-color 0.3s ease",
-        fontFamily: "'Inter', sans-serif",
-    };
-
     const handleAddInitialStocks = () => {
         setIsModalOpen(true);
     };
@@ -172,23 +159,17 @@ const PortfolioValue = () => {
     };
 
     return (
-        <div style={{ width: "400px", height: "400px" }}>
-            {/* <h2 style={{ textAlign: "center" }}>Portfolio Value Over Time</h2> */}
+        <div style={styles.container}>
             {loading ? (
-                <div
-                    style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100%",
-                    }}
-                >
+                <div style={styles.loadingContainer}>
                     Loading...
                 </div>
             ) : stocks.length === 0 ? (
-                <button style={addButtonStyle} onClick={handleAddInitialStocks}>
-                    Add Initial Stocks
-                </button>
+                <div style={styles.buttonContainer}>
+                    <button style={styles.addButton} onClick={handleAddInitialStocks}>
+                        Add Initial Stocks
+                    </button>
+                </div>
             ) : (
                 <>
                     <ResponsiveContainer>
@@ -291,6 +272,38 @@ const PortfolioValue = () => {
 };
 
 const styles = {
+    container: {
+        width: "400px",
+        height: "400px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+    },
+    loadingContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+    },
+    buttonContainer: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+    },
+    addButton: {
+        padding: "15px 30px",
+        cursor: "pointer",
+        backgroundColor: "#4CAF50",
+        color: "#fff",
+        border: "none",
+        borderRadius: "8px",
+        fontSize: "16px",
+        fontWeight: "500",
+        transition: "background-color 0.3s ease",
+        fontFamily: "'Inter', sans-serif",
+    },
     modalOverlay: {
         position: "fixed",
         top: 0,
@@ -330,18 +343,6 @@ const styles = {
     },
     button: {
         margin: "15px",
-        padding: "15px 30px",
-        cursor: "pointer",
-        backgroundColor: "#4CAF50",
-        color: "#fff",
-        border: "none",
-        borderRadius: "8px",
-        fontSize: "16px",
-        fontWeight: "500",
-        transition: "background-color 0.3s ease",
-        fontFamily: "'Inter', sans-serif",
-    },
-    addButton: {
         padding: "15px 30px",
         cursor: "pointer",
         backgroundColor: "#4CAF50",
