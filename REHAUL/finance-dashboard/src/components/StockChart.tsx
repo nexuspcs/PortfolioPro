@@ -22,7 +22,7 @@ const timeScales = [
 
 const StockChart: React.FC = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<string | null>(null);
     const [selectedStock, setSelectedStock] = useState<string>(() => {
         const savedStock = localStorage.getItem("selectedStockChartTicker");
         return savedStock ? savedStock : "AAPL";
@@ -35,7 +35,7 @@ const StockChart: React.FC = () => {
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
     const fetchStockData = async (symbol: string, timeScale: any, retries = 3, delayTime = 1000) => {
-        setLoading(true); // Set loading to true when a new request is initiated
+        setLoading(`Updating prices to match ${timeScale.label.toLowerCase()} timescale`);
         try {
             const now = dayjs();
             let from;
@@ -67,11 +67,11 @@ const StockChart: React.FC = () => {
                 close: item.c,
             }));
             setData(chartData);
-            setLoading(false); // Set loading to false when data is received
+            setLoading(null); // Set loading to null when data is received
         } catch (err) {
             if (retries === 0) {
                 console.error("Error fetching stock data:", err);
-                setLoading(false); // Set loading to false on error
+                setLoading(null); // Set loading to null on error
             } else {
                 await delay(delayTime);
                 fetchStockData(symbol, timeScale, retries - 1, delayTime * 2); // Exponential backoff
@@ -167,7 +167,7 @@ const StockChart: React.FC = () => {
                                 height: "100%",
                             }}
                         >
-                            Loading...
+                            {loading}
                         </div> // Display loading message or spinner
                     ) : (
                         <ResponsiveContainer>
