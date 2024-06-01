@@ -88,3 +88,8 @@
 .helpSectionTXTblock {
   color: #1d1c1c;
 }
+
+.helpModalBanner {
+  width: 100%;
+  border-radius: 5px;
+}
