@@ -67,7 +67,7 @@ const ForexDataChart: React.FC = () => {
                     setData(data);
                 }
                 setLoading(false);
-                setError("Loading took too long, reverted to cached data");
+                setError("Loading took too long, reverting to cached data. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history.");
             }
         }, 5000);
 
