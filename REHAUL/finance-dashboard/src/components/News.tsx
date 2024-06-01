@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './News.css';
 
-const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
 
 const News: React.FC = () => {
     const [articles, setArticles] = useState([]);
