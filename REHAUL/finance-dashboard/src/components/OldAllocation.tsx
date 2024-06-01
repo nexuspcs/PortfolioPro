@@ -138,7 +138,7 @@ const OldAllocation = () => {
                                 fill="#8884d8"
                                 dataKey="value"
                                 onClick={openModal}
-                                label={({ name, value }) => `${name}: ${value}%`}
+                                label={({ name }) => `${name}`}
                             >
                                 {data.map((entry, index) => (
                                     <Cell
