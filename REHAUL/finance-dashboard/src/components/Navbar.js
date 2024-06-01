@@ -18,8 +18,12 @@ const Navbar = () => {
     <>
       <nav className="navbar">
         <div className="navbar-left">
-          <img src={logo} alt="Logo" className="navbar-logo" />
-          <span className="navbar-title">PortfolioPro</span>
+          <a href="https://portfoliopro.au">
+            <img src={logo} alt="Logo" className="navbar-logo" />
+          </a>
+          <a href="https://portfoliopro.au" className="navbar-title">
+            PortfolioPro
+          </a>
         </div>
         <div className="navbar-right">
           <button className="help-button" onClick={openModal}>
@@ -32,7 +36,7 @@ const Navbar = () => {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close-button" onClick={closeModal}>&times;</span>
             <h2>Help</h2>
-            <p class="helpSectionTXTblock">This is the help section. Here you can find information and links to help you navigate the site.</p>
+            <p className="helpSectionTXTblock">This is the help section. Here you can find information and links to help you navigate the site.</p>
             <ul>
               <li><a href="/faq">FAQ</a></li>
               <li><a href="/contact">Contact Support</a></li>
