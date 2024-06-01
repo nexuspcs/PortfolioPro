@@ -39,7 +39,12 @@ const OldAllocation = () => {
     useEffect(() => {
         // Load tickers from the JSON file
         fetch("/tickers.json")
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
             .then(data => setTickers(data))
             .catch(error => console.error("Error loading tickers:", error));
     }, []);
