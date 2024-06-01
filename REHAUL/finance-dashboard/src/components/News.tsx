@@ -82,19 +82,39 @@ const News: React.FC = () => {
     };
 
     useEffect(() => {
-        const stocks = localStorage.getItem('stocks');
-        if (stocks) {
-            const parsedStocks = JSON.parse(stocks);
-            if (parsedStocks.length > 0) {
-                setStoredStocks(true);
-                const symbols = parsedStocks.map((stock: { ticker: string }) => stock.ticker).join(',');
-                fetchStockNews(symbols);
+        const fetchData = () => {
+            const stocks = localStorage.getItem('stocks');
+            if (stocks) {
+                const parsedStocks = JSON.parse(stocks);
+                if (parsedStocks.length > 0) {
+                    setStoredStocks(true);
+                    const symbols = parsedStocks.map((stock: { ticker: string }) => stock.ticker).join(',');
+                    fetchStockNews(symbols);
+                } else {
+                    setStoredStocks(false);
+                }
             } else {
                 setStoredStocks(false);
             }
-        } else {
-            setStoredStocks(false);
-        }
+        };
+
+        fetchData();
+
+        const interval = setInterval(() => {
+            localStorage.removeItem('latestNews');
+            fetchData();
+        }, CACHE_DURATION);
+
+        const handleStorageChange = () => {
+            fetchData();
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            clearInterval(interval);
+            window.removeEventListener('storage', handleStorageChange);
+        };
     }, []);
 
     const filterArticles = (articles: any[]) => {
@@ -125,9 +145,6 @@ const News: React.FC = () => {
                             ) : (
                                 <>
                                     <p>Please add your stocks, by using the button above</p>
-                                    {/* <button onClick={() => fetchLatestNews(true)} className="fetch-latest-news-button">
-                                        Fetch Latest News
-                                    </button> */}
                                 </>
                             )}
                         </div>
