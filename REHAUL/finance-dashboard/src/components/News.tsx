@@ -19,7 +19,8 @@ const News: React.FC = () => {
                     symbols: symbols,
                     limit: 10,
                     sort: 'published_at',
-                    sort_order: 'desc'
+                    sort_order: 'desc',
+                    language: 'en'
                 }
             })
             .then(response => {
