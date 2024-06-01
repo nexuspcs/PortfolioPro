@@ -14,15 +14,17 @@ const App = () => {
       <Navbar />
       <div className="dashboard">
 
-        <div className="box"><PortfolioValue /></div>         
+        <div className="box"><PortfolioValue /></div>
 
         <div className="box"><OldAllocation /></div>
 
         <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="xxxxxxxx" /></div>
-        
-        <div className="box"><TimeInCities /></div></div>
+
+        <div className="box"><TimeInCities /></div>
 
         <div className="box"><StockChart symbol="AAPL" /></div>
+
+      </div>
 
     </>
   );
