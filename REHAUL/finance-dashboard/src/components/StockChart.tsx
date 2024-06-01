@@ -22,6 +22,11 @@ const timeScales = [
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
 
+const getStoredStocks = () => {
+    const stocks = JSON.parse(localStorage.getItem('stocks') || '[]');
+    return stocks.map((stock: { ticker: string }) => stock.ticker);
+};
+
 const StockChart: React.FC = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState<string | null>(null);
@@ -33,6 +38,7 @@ const StockChart: React.FC = () => {
         const savedTimeScale = localStorage.getItem("selectedStockChartTimeScale");
         return savedTimeScale ? savedTimeScale : "DAILY";
     });
+    const [storedStocks, setStoredStocks] = useState<string[]>(getStoredStocks());
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -99,6 +105,20 @@ const StockChart: React.FC = () => {
         fetchStockData(selectedStock, selectedTimeScaleObj);
     }, [selectedStock, selectedTimeScale]);
 
+    useEffect(() => {
+        const handleStorageChange = (event: StorageEvent) => {
+            if (event.key === 'stocks') {
+                setStoredStocks(getStoredStocks());
+            }
+        };
+
+        window.addEventListener('storage', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+        };
+    }, []);
+
     const handleStockChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
@@ -110,11 +130,6 @@ const StockChart: React.FC = () => {
         const newTimeScale = event.target.value;
         setSelectedTimeScale(newTimeScale);
         localStorage.setItem("selectedStockChartTimeScale", newTimeScale);
-    };
-
-    const getStoredStocks = () => {
-        const stocks = JSON.parse(localStorage.getItem('stocks') || '[]');
-        return stocks.map((stock: { ticker: string }) => stock.ticker);
     };
 
     return (
@@ -143,7 +158,7 @@ const StockChart: React.FC = () => {
                                 fontSize: "16px",
                             }}
                         >
-                            {getStoredStocks().map((ticker) => (
+                            {storedStocks.map((ticker) => (
                                 <option key={ticker} value={ticker}>
                                     {ticker}
                                 </option>
