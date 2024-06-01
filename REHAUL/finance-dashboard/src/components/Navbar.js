@@ -39,7 +39,7 @@ const Navbar = () => {
               <li><a href="https://docs.google.com/document/d/1NURz-jVA2e_gDFBphvJ5XpDmnIhUVbX_Hjks45zJurk/edit?usp=sharing">User Manual</a></li>
             </ul>
             <br></br>
-            <img src={banner} alt="Banner" className="helpModalBanner" />
+            <a href="https://portfoliopro.au"><img src={banner} alt="Banner" className="helpModalBanner" /></a>
           </div>
         </div>
       )}
