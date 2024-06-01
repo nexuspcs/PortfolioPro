@@ -1,7 +1,7 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import './App.css';
-import StockChart from './components/StockChart';
+import StockChart from './components/StockChart.tsx';
 import ForexData from './components/ForexData.tsx';
 import TimeInCities from './components/TimeInCities';
 import PortfolioValue from './components/PortfolioValue.tsx';
@@ -14,10 +14,8 @@ const App = () => {
       <Navbar />
       <div className="dashboard">
 
-        {/* <div className="box"><StockChart symbol="AAPL" /></div>
-        <div className="box"><PortfolioValue portfolio="myPortfolio" /></div>   */}
-
-
+         <div className="box"><StockChart symbol="AAPL" /></div>
+        
 
         <div className="box"><PortfolioValue /></div>         
 
