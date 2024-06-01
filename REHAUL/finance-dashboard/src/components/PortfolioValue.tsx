@@ -173,7 +173,7 @@ const PortfolioValue = () => {
 
     return (
         <div style={{ width: "400px", height: "400px" }}>
-            <h2 style={{ textAlign: "center" }}>Portfolio Value Over Time</h2>
+            {/* <h2 style={{ textAlign: "center" }}>Portfolio Value Over Time</h2> */}
             {loading ? (
                 <div
                     style={{
