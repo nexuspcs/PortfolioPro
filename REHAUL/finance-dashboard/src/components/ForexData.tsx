@@ -137,7 +137,7 @@ const ForexDataChart: React.FC = () => {
                                     }
                                 />
                                 <YAxis
-                                    domain={["dataMin", "dataMax"]}
+                                    domain={["dataMin", "dataMax"]} scale={"linear"}
                                     tickFormatter={(value) => value.toFixed(3)}
                                 />
                                 <Tooltip
