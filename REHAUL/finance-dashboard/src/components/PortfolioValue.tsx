@@ -166,9 +166,10 @@ const PortfolioValue = () => {
                 </div>
             ) : stocks.length === 0 ? (
                 <div style={styles.buttonContainer}>
-                    <button style={styles.addButton} onClick={handleAddInitialStocks}>
+                    {/* <button style={styles.addButton} onClick={handleAddInitialStocks}>
                         Add Initial Stocks
-                    </button>
+                    </button> */}
+                    <p1>Please add your stocks, by using the button to the right</p1>
                 </div>
             ) : (
                 <>
