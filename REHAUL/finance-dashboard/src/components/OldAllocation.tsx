@@ -34,6 +34,7 @@ const OldAllocation = () => {
 
     useEffect(() => {
         localStorage.setItem("stocks", JSON.stringify(stocks));
+        window.dispatchEvent(new Event('storage')); // Manually trigger the storage event
     }, [stocks]);
 
     const openModal = () => setIsModalOpen(true);
