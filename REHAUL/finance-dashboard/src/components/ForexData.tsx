@@ -32,6 +32,7 @@ const exchangeRatePairs = [
 ];
 
 const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
+const MAX_RETRIES = 3; // Maximum number of retries for API calls
 
 const ForexDataChart: React.FC = () => {
     const [data, setData] = useState<ForexQuote[]>([]);
@@ -42,7 +43,7 @@ const ForexDataChart: React.FC = () => {
         return savedPair ? savedPair : "AUDUSD";
     });
 
-    const fetchData = async (bypassCache = false) => {
+    const fetchData = async (bypassCache = false, retryCount = 0) => {
         const cacheKey = `forexData_${selectedPair}`;
         const cachedData = localStorage.getItem(cacheKey);
         const now = dayjs();
@@ -75,8 +76,13 @@ const ForexDataChart: React.FC = () => {
             localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: quotes }));
             setLoading(false); // Set loading to false when data is received
         } catch (err) {
-            setError(err.message);
-            setLoading(false); // Set loading to false on error
+            if (err.response && err.response.status === 503 && retryCount < MAX_RETRIES) {
+                // Retry the API call if status code is 503 and retry limit is not reached
+                setTimeout(() => fetchData(bypassCache, retryCount + 1), 1000); // Retry after 1 second
+            } else {
+                setError(err.message);
+                setLoading(false); // Set loading to false on error
+            }
         }
     };
 
