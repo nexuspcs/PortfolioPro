@@ -39,8 +39,8 @@ const StockChart: React.FC = () => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
             const now = dayjs();
-            const from = timeScale.value === "INTRADAY" ? now.subtract(1, 'day').toISOString() : now.subtract(1, 'year').toISOString();
-            const to = now.toISOString();
+            const from = timeScale.value === "INTRADAY" ? now.subtract(1, 'day').format("YYYY-MM-DD") : now.subtract(1, 'year').format("YYYY-MM-DD");
+            const to = now.format("YYYY-MM-DD");
             
             let url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timeScale.multiplier}/${timeScale.timespan}/${from}/${to}?apiKey=AFv47nwMc9Mtc6PuU05nTvcg16Fajj0e`;
 
