@@ -7,6 +7,11 @@ type Stock = {
     quantity: number;
 };
 
+type TickerData = {
+    ticker: string;
+    name: string;
+};
+
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
@@ -28,8 +33,8 @@ const OldAllocation = () => {
     const [ticker, setTicker] = useState("");
     const [quantity, setQuantity] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState("");
-    const [suggestions, setSuggestions] = useState<string[]>([]);
-    const [tickers, setTickers] = useState<string[]>([]);
+    const [suggestions, setSuggestions] = useState<TickerData[]>([]);
+    const [tickers, setTickers] = useState<TickerData[]>([]);
 
     useEffect(() => {
         localStorage.setItem("stocks", JSON.stringify(stocks));
@@ -84,8 +89,9 @@ const OldAllocation = () => {
         setTicker(value);
 
         if (value.length > 1) {
-            const filteredSuggestions = tickers.filter(ticker =>
-                ticker.startsWith(value)
+            const filteredSuggestions = tickers.filter(tickerData =>
+                tickerData.ticker.startsWith(value) ||
+                tickerData.name.toUpperCase().includes(value)
             );
             setSuggestions(filteredSuggestions);
         } else {
@@ -93,8 +99,8 @@ const OldAllocation = () => {
         }
     };
 
-    const handleSuggestionClick = (suggestion: string) => {
-        setTicker(suggestion);
+    const handleSuggestionClick = (suggestion: TickerData) => {
+        setTicker(suggestion.ticker);
         setSuggestions([]);
     };
 
@@ -185,11 +191,11 @@ const OldAllocation = () => {
                                 <ul style={styles.suggestionsList}>
                                     {suggestions.map((suggestion) => (
                                         <li
-                                            key={suggestion}
+                                            key={suggestion.ticker}
                                             style={styles.suggestionItem}
                                             onClick={() => handleSuggestionClick(suggestion)}
                                         >
-                                            {suggestion}
+                                            {`${suggestion.ticker} - ${suggestion.name}`}
                                         </li>
                                     ))}
                                 </ul>
