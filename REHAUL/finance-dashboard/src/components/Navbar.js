@@ -19,7 +19,7 @@ const Navbar = () => {
       <nav className="navbar">
         <div className="navbar-left">
           <img src={logo} alt="Logo" className="navbar-logo" />
-          <span className="navbar-title">Portfolio Pro</span>
+          <span className="navbar-title">PortfolioPro</span>
         </div>
         <div className="navbar-right">
           <button className="help-button" onClick={openModal}>
