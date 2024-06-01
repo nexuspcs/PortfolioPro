@@ -7,12 +7,6 @@ type Stock = {
     quantity: number;
 };
 
-const TICKERS = [
-    "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "FB", "BRK.A", "JNJ", "V", "WMT", 
-    "JPM", "NVDA", "PG", "HD", "DIS", "PYPL", "VZ", "NFLX", "ADBE", "CMCSA",
-    // ... add more tickers as needed
-];
-
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
@@ -35,11 +29,20 @@ const OldAllocation = () => {
     const [quantity, setQuantity] = useState<number>(0);
     const [errorMessage, setErrorMessage] = useState("");
     const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [tickers, setTickers] = useState<string[]>([]);
 
     useEffect(() => {
         localStorage.setItem("stocks", JSON.stringify(stocks));
         window.dispatchEvent(new Event('storage')); // Manually trigger the storage event
     }, [stocks]);
+
+    useEffect(() => {
+        // Load tickers from the JSON file
+        fetch("/tickers.json")
+            .then(response => response.json())
+            .then(data => setTickers(data))
+            .catch(error => console.error("Error loading tickers:", error));
+    }, []);
 
     const openModal = () => setIsModalOpen(true);
     const closeModal = () => {
@@ -76,7 +79,7 @@ const OldAllocation = () => {
         setTicker(value);
 
         if (value.length > 1) {
-            const filteredSuggestions = TICKERS.filter(ticker =>
+            const filteredSuggestions = tickers.filter(ticker =>
                 ticker.startsWith(value)
             );
             setSuggestions(filteredSuggestions);
