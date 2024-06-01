@@ -32,7 +32,7 @@ const PortfolioValue = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchHistoricalPrices = async (ticker: string) => {
-        const apiKey = "RbHkZj4JGTbZYbdBUuXobFOkZ6VDqCbE";
+        const apiKey = "VxLSGD9wJTouit9rQw06LqNLklLjOztx";
         const response = await axios.get(
             `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&timeseries=7&apikey=${apiKey}`
         );
@@ -49,7 +49,7 @@ const PortfolioValue = () => {
             return;
         }
 
-        const apiKey = "RbHkZj4JGTbZYbdBUuXobFOkZ6VDqCbE";
+        const apiKey = "VxLSGD9wJTouit9rQw06LqNLklLjOztx";
         let portfolioValue = 0;
         let portfolioPrevValue = 0;
         const historicalDataPromises = stocks.map(async (stock) => {
