@@ -33,7 +33,9 @@ const StockChart: React.FC = () => {
         return savedTimeScale ? savedTimeScale : "DAILY";
     });
 
-    const fetchStockData = async (symbol: string, timeScale: any) => {
+    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+    const fetchStockData = async (symbol: string, timeScale: any, retries = 3, delayTime = 1000) => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
             const now = dayjs();
@@ -54,8 +56,13 @@ const StockChart: React.FC = () => {
             setData(chartData);
             setLoading(false); // Set loading to false when data is received
         } catch (err) {
-            console.error("Error fetching stock data:", err);
-            setLoading(false); // Set loading to false on error
+            if (retries === 0) {
+                console.error("Error fetching stock data:", err);
+                setLoading(false); // Set loading to false on error
+            } else {
+                await delay(delayTime);
+                fetchStockData(symbol, timeScale, retries - 1, delayTime * 2); // Exponential backoff
+            }
         }
     };
 
