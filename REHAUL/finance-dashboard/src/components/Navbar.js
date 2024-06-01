@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import './Navbar.css'; // Import the CSS file for styling
-import logo from './logo.png'; // Import the logo image
+import logo from './resources/images/logo.png'; // Import the logo image
 
 const Navbar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
