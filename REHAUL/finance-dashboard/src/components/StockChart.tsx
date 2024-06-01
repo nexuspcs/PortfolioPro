@@ -15,7 +15,6 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 dayjs.extend(advancedFormat);
 
 const timeScales = [
-    { label: "Intraday", value: "INTRADAY", interval: "minute", timespan: "minute", multiplier: 60 },
     { label: "Daily", value: "DAILY", timespan: "day", multiplier: 1 },
     { label: "Weekly", value: "WEEKLY", timespan: "week", multiplier: 1 },
     { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 }
@@ -39,9 +38,23 @@ const StockChart: React.FC = () => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
             const now = dayjs();
-            const from = timeScale.value === "INTRADAY" ? now.subtract(1, 'day').format("YYYY-MM-DD") : now.subtract(1, 'year').format("YYYY-MM-DD");
-            const to = now.format("YYYY-MM-DD");
-            
+            let from;
+            let to = now.format("YYYY-MM-DD");
+
+            switch (timeScale.value) {
+                case "DAILY":
+                    from = now.subtract(7, 'day').format("YYYY-MM-DD");
+                    break;
+                case "WEEKLY":
+                    from = now.subtract(7, 'week').format("YYYY-MM-DD");
+                    break;
+                case "MONTHLY":
+                    from = now.subtract(12, 'month').format("YYYY-MM-DD");
+                    break;
+                default:
+                    throw new Error("Invalid timespan");
+            }
+
             let url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timeScale.multiplier}/${timeScale.timespan}/${from}/${to}?apiKey=AFv47nwMc9Mtc6PuU05nTvcg16Fajj0e`;
 
             const result = await axios.get(url);
