@@ -120,8 +120,12 @@ const StockChart: React.FC = () => {
     }, []);
 
     useEffect(() => {
-        setStoredStocks(getStoredStocks());
-    }, [storedStocks]);
+        const interval = setInterval(() => {
+            setStoredStocks(getStoredStocks());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
 
     const handleStockChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStock = event.target.value;
@@ -218,7 +222,7 @@ const StockChart: React.FC = () => {
                                         />
                                         <YAxis domain={['dataMin', 'dataMax']} scale={"linear"} />
                                         <Tooltip
-                                            formatter={(value) => value.toFixed(2)}
+                                            formatter={(value) => value.toFixed(4)}
                                             labelFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
                                             contentStyle={{ backgroundColor: "#fff" }}
                                             labelStyle={{ color: "#000" }}
