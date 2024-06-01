@@ -2,42 +2,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1f1f23; /* Adjust to match the exact color */
-  padding: 10px 20px; /* Adjust padding as necessary */
+  background-color: #1f1f23;
+  padding: 10px 20px;
 }
 
-.navbar-left, .navbar-right {
+.navbar-left,
+.navbar-right {
   display: flex;
   align-items: center;
 }
 
 .navbar-logo {
-  width: 32px; /* Adjust the width of the logo */
-  height: 32px; /* Adjust the height of the logo */
-  margin-right: 10px; /* Space between logo and title */
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
 }
 
 .navbar-title {
-  color: #f0f0f0; /* Adjust text color to match the image */
-  font-size: 18px; /* Adjust font size */
-  font-weight: 500; /* Adjust font weight */
+  color: #f0f0f0;
+  font-size: 18px;
+  font-weight: 500;
 }
 
 .navbar-link {
-  color: #f0f0f0; /* Adjust text color */
-  margin-left: 20px; /* Space between links */
-  font-size: 16px; /* Adjust font size */
-  cursor: pointer; /* Pointer cursor for links */
-  text-decoration: none; /* Remove underline from link */
+  color: #f0f0f0;
+  margin-left: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .navbar-link-inactive {
-  color: #777; /* Adjust inactive link color */
+  color: #777;
 }
 
-/* Optional: Add hover effects if needed */
+/* Add hover effects */
 .navbar-link:hover {
-  color: #fff; /* Change color on hover */
+  color: #fff;
 }
 
 .help-button {
@@ -93,19 +94,19 @@
 }
 
 .helpLinks {
-  text-decoration: none;
+  list-style: disc;
+  padding-left: 20px;
 }
 
 .helpLinks li {
   position: relative;
-  padding-right: 20px; /* Adjust to provide space for the arrow */
-  list-style: none;
+  padding-right: 20px;
 }
 
 .helpLinks li a {
   position: relative;
   text-decoration: none;
-  color: #1d1c1c; /* Adjust the color as necessary */
+  color: #1d1c1c;
 }
 
 .helpLinks li a::after {
@@ -115,7 +116,7 @@
   opacity: 0;
   transform: translateX(-10px);
   transition: transform 0.3s ease, opacity 0.3s ease;
-  color: #1d1c1c; /* Adjust the color as necessary */
+  color: #1d1c1c;
 }
 
 .helpLinks li a:hover::after {
@@ -124,5 +125,5 @@
 }
 
 .helpLinks li a:hover {
-  text-decoration: none; /* Optional: Keeps text-decoration none on hover */
+  text-decoration: none;
 }
