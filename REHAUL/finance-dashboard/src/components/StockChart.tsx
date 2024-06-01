@@ -119,6 +119,10 @@ const StockChart: React.FC = () => {
         };
     }, []);
 
+    useEffect(() => {
+        setStoredStocks(getStoredStocks());
+    }, [storedStocks]);
+
     const handleStockChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
