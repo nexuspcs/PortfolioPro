@@ -21,11 +21,11 @@ const App = () => {
 
         <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="Ou7HsjMs4uhJyQp2pM6_" /></div>
 
-        <div className="box"><TimeInCities /></div>
+        <div className="box" id='row2'><TimeInCities /></div>
 
-        <div className="box"><StockChart symbol="AAPL" /></div>
+        <div className="box" id='row2'><StockChart symbol="AAPL" /></div>
 
-        <div className="box"><News /></div>
+        <div className="box" id='row2'><News /></div>
       </div>
 
     </>
