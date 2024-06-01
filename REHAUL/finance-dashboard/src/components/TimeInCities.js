@@ -102,7 +102,6 @@ const TimeInCities = () => {
       textAlign: 'center',
       padding: '20px',
       color: '#fff',
-     
       boxSizing: 'border-box',
     },
     timeContainer: {
