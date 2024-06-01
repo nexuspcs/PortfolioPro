@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Navbar.css'; // Import the CSS file for styling
 import logo from './resources/images/logo.png'; // Import the logo image
+import banner from './resources/images/banner-highestres.png'; // Import the banner image
 
 const Navbar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
@@ -37,6 +38,8 @@ const Navbar = () => {
               <li><a href="/contact">Contact Support</a></li>
               <li><a href="https://docs.google.com/document/d/1NURz-jVA2e_gDFBphvJ5XpDmnIhUVbX_Hjks45zJurk/edit?usp=sharing">User Manual</a></li>
             </ul>
+            <br></br>
+            <img src={banner} alt="Banner" className="helpModalBanner" />
           </div>
         </div>
       )}
