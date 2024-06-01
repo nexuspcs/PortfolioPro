@@ -14,9 +14,6 @@ const App = () => {
       <Navbar />
       <div className="dashboard">
 
-         <div className="box"><StockChart symbol="AAPL" /></div>
-        
-
         <div className="box"><PortfolioValue /></div>         
 
         <div className="box"><OldAllocation /></div>
@@ -24,6 +21,9 @@ const App = () => {
         <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="D9O_X8drU_i8IZvvSfZi" /></div>
         
         <div className="box"><TimeInCities /></div></div>
+
+        <div className="box"><StockChart symbol="AAPL" /></div>
+
     </>
   );
 };
