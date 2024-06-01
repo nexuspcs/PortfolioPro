@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './News.css';
 
 const News: React.FC = () => {
     const [articles, setArticles] = useState([]);
@@ -17,20 +18,28 @@ const News: React.FC = () => {
                 params: {
                     api_token: apiKey,
                     symbols: symbols,
-                    limit: 10,
+                    limit: 3,
                     sort: 'published_at',
                     sort_order: 'desc',
                     language: 'en'
                 }
             })
             .then(response => {
-                setArticles(response.data.data);
+                const filteredArticles = filterArticles(response.data.data);
+                setArticles(filteredArticles);
             })
             .catch(error => {
                 console.error('Error fetching news:', error);
             });
         }
     }, []);
+
+    const filterArticles = (articles: any[]) => {
+        const unwantedPhrases = ["Print this page", "Sign up for our newsletter"];
+        return articles.filter(article => {
+            return !unwantedPhrases.some(phrase => article.snippet.includes(phrase));
+        });
+    };
 
     return (
         <div className="news-container">
