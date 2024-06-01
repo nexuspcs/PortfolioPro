@@ -1,0 +1,31 @@
+.news-container {
+    background-color: #1e1e1e;
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+}
+
+.news-article {
+    background-color: #2a2a2a;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.news-article h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+}
+
+.news-article p {
+    margin: 0 0 10px;
+    font-size: 1em;
+}
+
+.news-article a {
+    color: #1e90ff;
+    text-decoration: none;
+}

@@ -6,6 +6,7 @@ import ForexData from './components/ForexData.tsx';
 import TimeInCities from './components/TimeInCities';
 import PortfolioValue from './components/PortfolioValue.tsx';
 import OldAllocation from './components/OldAllocation.tsx';
+import News from './components/News';
 
 const App = () => {
   return (
@@ -24,6 +25,7 @@ const App = () => {
 
         <div className="box"><StockChart symbol="AAPL" /></div>
 
+        <div className="box"><News /></div>
       </div>
 
     </>
