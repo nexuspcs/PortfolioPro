@@ -10,6 +10,10 @@ import {
     Legend,
 } from "recharts";
 import axios from "axios";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
+
+dayjs.extend(advancedFormat);
 
 type Stock = {
     ticker: string;
@@ -194,21 +198,22 @@ const PortfolioValue = () => {
                 </div>
             ) : stocks.length === 0 ? (
                 <div style={styles.buttonContainer}>
-                    {/* <button style={styles.addButton} onClick={handleAddInitialStocks}>
-                        Add Initial Stocks
-                    </button> */}
-                    <p1>Please add your stocks, by using the button to the right</p1>
+                    <p>Please add your stocks, by using the button to the right</p>
                 </div>
             ) : (
                 <>
                     <ResponsiveContainer>
                         <LineChart data={portfolioData}>
                             <CartesianGrid strokeDasharray="4 4" vertical={false} />
-                            <XAxis dataKey="date" />
+                            <XAxis 
+                                dataKey="date" 
+                                tickFormatter={(tick) => dayjs(tick).format("Do MMMM YYYY")}
+                            />
                             <YAxis domain={["dataMin", "dataMax"]} scale="linear" />
                             <Tooltip
                                 formatter={(value) => value.toFixed(2)}
                                 contentStyle={{ backgroundColor: "#fff" }}
+                                labelFormatter={(label) => dayjs(label).format("Do MMMM YYYY")}
                                 labelStyle={{ color: "#000" }}
                             />
                             <Line
@@ -226,9 +231,10 @@ const PortfolioValue = () => {
                         <h3
                             style={{
                                 color: change > 0 ? "green" : "red",
+                                fontStyle: "normal"
                             }}
                         >
-                            24h Change: ${change.toFixed(2)} ({changePercent.toFixed(2)}%)
+                            24h Change: {change > 0 ? '+' : '-'} ${Math.abs(change).toFixed(2)} ({changePercent.toFixed(2)}%)
                         </h3>
                     </div>
                 </>
