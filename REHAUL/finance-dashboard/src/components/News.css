@@ -1,3 +1,4 @@
+/* News.css */
 .news-container {
     color: #ffffff;
     padding: 20px;
@@ -26,4 +27,17 @@
 .news-article a {
     color: #92C8A0;
     text-decoration: none;
+}
+
+.fetch-latest-news-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fetch-latest-news-button:hover {
+    background-color: #45a049;
 }
