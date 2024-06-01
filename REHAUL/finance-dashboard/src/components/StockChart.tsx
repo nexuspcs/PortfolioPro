@@ -36,7 +36,7 @@ const StockChart: React.FC = () => {
     const fetchStockData = async (symbol: string, timeScale: any) => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
-            let url = `https://www.alphavantage.co/query?function=${timeScale.function}&symbol=${symbol}&apikey=H5SZB3WBYEJRSK8X`;
+            let url = `https://www.alphavantage.co/query?function=${timeScale.function}&symbol=${symbol}&apikey=MDBBZ5B94SCT9Z83`;
             if (timeScale.value === "INTRADAY") {
                 url += `&interval=${timeScale.interval}`;
             }
