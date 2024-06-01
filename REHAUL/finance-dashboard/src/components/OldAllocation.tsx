@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { CSSProperties } from "react";
 
@@ -7,6 +6,12 @@ type Stock = {
     ticker: string;
     quantity: number;
 };
+
+const TICKERS = [
+    "AAPL", "MSFT", "GOOGL", "AMZN", "TSLA", "FB", "BRK.A", "JNJ", "V", "WMT", 
+    "JPM", "NVDA", "PG", "HD", "DIS", "PYPL", "VZ", "NFLX", "ADBE", "CMCSA",
+    // ... add more tickers as needed
+];
 
 const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
@@ -66,17 +71,15 @@ const OldAllocation = () => {
         setStocks((prevStocks) => prevStocks.filter((_, i) => i !== index));
     };
 
-    const handleTickerChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleTickerChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.toUpperCase();
         setTicker(value);
 
         if (value.length > 1) {
-            try {
-                const response = await axios.get(`https://financialmodelingprep.com/api/v3/search-ticker?query=${value}&apikey=de`);
-                setSuggestions(response.data.map((item: any) => item.symbol)); // Assuming the API returns a list of ticker suggestions
-            } catch (error) {
-                console.error("Error fetching ticker suggestions:", error);
-            }
+            const filteredSuggestions = TICKERS.filter(ticker =>
+                ticker.startsWith(value)
+            );
+            setSuggestions(filteredSuggestions);
         } else {
             setSuggestions([]);
         }
