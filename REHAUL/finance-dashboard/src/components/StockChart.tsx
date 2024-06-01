@@ -142,91 +142,97 @@ const StockChart: React.FC = () => {
             }}
         >
             <div style={{ textAlign: "center" }}>
-                <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
-                    <div>
-                        <label htmlFor="stock-select"></label>
-                        <select
-                            id="stock-select"
-                            value={selectedStock}
-                            onChange={handleStockChange}
-                            style={{
-                                padding: "10px",
-                                borderRadius: "5px",
-                                border: "1px solid #ccc",
-                                backgroundColor: "#2c2c2c",
-                                color: "#fff",
-                                fontSize: "16px",
-                            }}
-                        >
-                            {storedStocks.map((ticker) => (
-                                <option key={ticker} value={ticker}>
-                                    {ticker}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                    <div>
-                        <label htmlFor="time-scale-select"></label>
-                        <select
-                            id="time-scale-select"
-                            value={selectedTimeScale}
-                            onChange={handleTimeScaleChange}
-                            style={{
-                                padding: "10px",
-                                borderRadius: "5px",
-                                border: "1px solid #ccc",
-                                backgroundColor: "#2c2c2c",
-                                color: "#fff",
-                                fontSize: "16px",
-                            }}
-                        >
-                            {timeScales.map((scale) => (
-                                <option key={scale.value} value={scale.value}>
-                                    {scale.label}
-                                </option>
-                            ))}
-                        </select>
-                    </div>
-                </div>
-                <div style={{ width: "400px", height: "400px" }}>
-                    {loading ? (
-                        <div
-                            style={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100%",
-                            }}
-                        >
-                            {loading}
-                        </div> // Display loading message or spinner
-                    ) : (
-                        <ResponsiveContainer>
-                            <LineChart data={data}>
-                                <CartesianGrid vertical={false} strokeDasharray="3 3" />
-                                <XAxis
-                                    dataKey="date"
-                                    tickFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
-                                />
-                                <YAxis domain={['dataMin', 'dataMax']} scale={"linear"} />
-                                <Tooltip
-                                    formatter={(value) => value.toFixed(4)}
-                                    labelFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
-                                    contentStyle={{ backgroundColor: "#fff" }}
-                                    labelStyle={{ color: "#000" }}
-                                />
-                                <Line
-                                    type="monotone"
-                                    dataKey="close"
-                                    name="Closing Price"
-                                    stroke="#82ca9d"
-                                    strokeWidth={3}
-                                    activeDot={{ r: 8 }}
-                                />
-                            </LineChart>
-                        </ResponsiveContainer>
-                    )}
-                </div>
+                {storedStocks.length === 0 ? (
+                    <div>Please add your stocks, by using the button above</div>
+                ) : (
+                    <>
+                        <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
+                            <div>
+                                <label htmlFor="stock-select"></label>
+                                <select
+                                    id="stock-select"
+                                    value={selectedStock}
+                                    onChange={handleStockChange}
+                                    style={{
+                                        padding: "10px",
+                                        borderRadius: "5px",
+                                        border: "1px solid #ccc",
+                                        backgroundColor: "#2c2c2c",
+                                        color: "#fff",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    {storedStocks.map((ticker) => (
+                                        <option key={ticker} value={ticker}>
+                                            {ticker}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div>
+                                <label htmlFor="time-scale-select"></label>
+                                <select
+                                    id="time-scale-select"
+                                    value={selectedTimeScale}
+                                    onChange={handleTimeScaleChange}
+                                    style={{
+                                        padding: "10px",
+                                        borderRadius: "5px",
+                                        border: "1px solid #ccc",
+                                        backgroundColor: "#2c2c2c",
+                                        color: "#fff",
+                                        fontSize: "16px",
+                                    }}
+                                >
+                                    {timeScales.map((scale) => (
+                                        <option key={scale.value} value={scale.value}>
+                                            {scale.label}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                        <div style={{ width: "400px", height: "400px" }}>
+                            {loading ? (
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        height: "100%",
+                                    }}
+                                >
+                                    {loading}
+                                </div> // Display loading message or spinner
+                            ) : (
+                                <ResponsiveContainer>
+                                    <LineChart data={data}>
+                                        <CartesianGrid vertical={false} strokeDasharray="3 3" />
+                                        <XAxis
+                                            dataKey="date"
+                                            tickFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
+                                        />
+                                        <YAxis domain={['dataMin', 'dataMax']} scale={"linear"} />
+                                        <Tooltip
+                                            formatter={(value) => value.toFixed(4)}
+                                            labelFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
+                                            contentStyle={{ backgroundColor: "#fff" }}
+                                            labelStyle={{ color: "#000" }}
+                                        />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="close"
+                                            name="Closing Price"
+                                            stroke="#82ca9d"
+                                            strokeWidth={3}
+                                            activeDot={{ r: 8 }}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            )}
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );
