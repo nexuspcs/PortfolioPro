@@ -29,7 +29,7 @@ const PortfolioValue = () => {
     const [ticker, setTicker] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
-    const [loading, setLoading] = useState(true); // Added loading state
+    const [loading, setLoading] = useState(true);
 
     const fetchHistoricalPrices = async (ticker: string) => {
         const apiKey = "RbHkZj4JGTbZYbdBUuXobFOkZ6VDqCbE";
@@ -40,12 +40,12 @@ const PortfolioValue = () => {
     };
 
     const fetchStockPrices = async () => {
-        setLoading(true); // Set loading to true when fetching starts
+        setLoading(true);
         if (stocks.length === 0) {
             setPortfolioData([]);
             setCurrentValue(0);
             setPreviousValue(0);
-            setLoading(false); // Set loading to false when no stocks
+            setLoading(false);
             return;
         }
 
@@ -93,19 +93,25 @@ const PortfolioValue = () => {
         setPortfolioData(portfolioValueByDate);
         setCurrentValue(portfolioValue);
         setPreviousValue(portfolioValueByDate[0]?.value || 0);
-        setLoading(false); // Set loading to false when data is received
+        setLoading(false);
     };
 
     useEffect(() => {
-        const savedStocks = localStorage.getItem("stocks");
-        if (savedStocks) {
-            setStocks(JSON.parse(savedStocks));
-        }
-        fetchStockPrices();
+        const handleStorageChange = () => {
+            const savedStocks = localStorage.getItem("stocks");
+            if (savedStocks) {
+                setStocks(JSON.parse(savedStocks));
+            }
+        };
+
+        window.addEventListener("storage", handleStorageChange);
+
+        return () => {
+            window.removeEventListener("storage", handleStorageChange);
+        };
     }, []);
 
     useEffect(() => {
-        localStorage.setItem("stocks", JSON.stringify(stocks));
         fetchStockPrices();
     }, [stocks]);
 
@@ -168,7 +174,7 @@ const PortfolioValue = () => {
     return (
         <div style={{ width: "400px", height: "400px" }}>
             <h2 style={{ textAlign: "center" }}>Portfolio Value Over Time</h2>
-            {loading ? ( // Show loading message when data is being fetched
+            {loading ? (
                 <div
                     style={{
                         display: "flex",
