@@ -165,26 +165,28 @@ const OldAllocation = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3>Add Stock</h3>
-                        <input
-                            type="text"
-                            placeholder="Ticker"
-                            value={ticker}
-                            onChange={handleTickerChange}
-                            style={styles.input as CSSProperties}
-                        />
-                        {suggestions.length > 0 && (
-                            <ul style={styles.suggestionsList}>
-                                {suggestions.map((suggestion) => (
-                                    <li
-                                        key={suggestion}
-                                        style={styles.suggestionItem}
-                                        onClick={() => handleSuggestionClick(suggestion)}
-                                    >
-                                        {suggestion}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
+                        <div style={styles.inputContainer}>
+                            <input
+                                type="text"
+                                placeholder="Ticker"
+                                value={ticker}
+                                onChange={handleTickerChange}
+                                style={styles.input as CSSProperties}
+                            />
+                            {suggestions.length > 0 && (
+                                <ul style={styles.suggestionsList}>
+                                    {suggestions.map((suggestion) => (
+                                        <li
+                                            key={suggestion}
+                                            style={styles.suggestionItem}
+                                            onClick={() => handleSuggestionClick(suggestion)}
+                                        >
+                                            {suggestion}
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </div>
                         <input
                             type="number"
                             placeholder="Quantity"
@@ -247,7 +249,6 @@ const OldAllocation = () => {
     );
 };
 
-
 const styles = {
     modalOverlay: {
         position: "fixed",
@@ -274,6 +275,10 @@ const styles = {
         maxHeight: "90vh",
         overflowY: "auto",
         fontFamily: "'Inter', sans-serif",
+    },
+    inputContainer: {
+        position: "relative",
+        width: "100%",
     },
     input: {
         display: "block",
@@ -362,7 +367,8 @@ const styles = {
         overflowY: "auto",
         zIndex: 1000,
         position: "absolute",
-        width: "calc(100% - 32px)", // Adjust to fit within the modal
+        width: "100%",
+        boxSizing: "border-box",
     },
     suggestionItem: {
         padding: "10px",
