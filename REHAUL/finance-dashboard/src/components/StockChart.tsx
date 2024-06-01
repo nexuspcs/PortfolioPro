@@ -15,10 +15,10 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 dayjs.extend(advancedFormat);
 
 const timeScales = [
-    { label: "Intraday", value: "INTRADAY", function: "TIME_SERIES_INTRADAY", interval: "60min" },
-    { label: "Daily", value: "DAILY", function: "TIME_SERIES_DAILY" },
-    { label: "Weekly", value: "WEEKLY", function: "TIME_SERIES_WEEKLY" },
-    { label: "Monthly", value: "MONTHLY", function: "TIME_SERIES_MONTHLY" }
+    { label: "Intraday", value: "INTRADAY", interval: "minute", timespan: "minute", multiplier: 60 },
+    { label: "Daily", value: "DAILY", timespan: "day", multiplier: 1 },
+    { label: "Weekly", value: "WEEKLY", timespan: "week", multiplier: 1 },
+    { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 }
 ];
 
 const StockChart: React.FC = () => {
@@ -26,7 +26,7 @@ const StockChart: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [selectedStock, setSelectedStock] = useState<string>(() => {
         const savedStock = localStorage.getItem("selectedStockChartTicker");
-        return savedStock ? savedStock : "AA";
+        return savedStock ? savedStock : "AAPL";
     });
     const [selectedTimeScale, setSelectedTimeScale] = useState<string>(() => {
         const savedTimeScale = localStorage.getItem("selectedStockChartTimeScale");
@@ -36,21 +36,22 @@ const StockChart: React.FC = () => {
     const fetchStockData = async (symbol: string, timeScale: any) => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
-            let url = `https://www.alphavantage.co/query?function=${timeScale.function}&symbol=${symbol}&apikey=MDBBZ5B94SCT9Z83`;
-            if (timeScale.value === "INTRADAY") {
-                url += `&interval=${timeScale.interval}`;
-            }
+            const now = dayjs();
+            const from = timeScale.value === "INTRADAY" ? now.subtract(1, 'day').toISOString() : now.subtract(1, 'year').toISOString();
+            const to = now.toISOString();
+            
+            let url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timeScale.multiplier}/${timeScale.timespan}/${from}/${to}?apiKey=AFv47nwMc9Mtc6PuU05nTvcg16Fajj0e`;
+
             const result = await axios.get(url);
-            const timeSeriesKey = timeScale.value === "INTRADAY" ? `Time Series (${timeScale.interval})` : `Time Series (${timeScale.label})`;
-            const timeSeries = result.data[timeSeriesKey];
-            const chartData = Object.keys(timeSeries).map(date => ({
-                date,
-                open: parseFloat(timeSeries[date]['1. open']),
-                high: parseFloat(timeSeries[date]['2. high']),
-                low: parseFloat(timeSeries[date]['3. low']),
-                close: parseFloat(timeSeries[date]['4. close']),
+            const timeSeries = result.data.results;
+            const chartData = timeSeries.map((item: any) => ({
+                date: dayjs(item.t).format("YYYY-MM-DD HH:mm:ss"),
+                open: item.o,
+                high: item.h,
+                low: item.l,
+                close: item.c,
             }));
-            setData(chartData.reverse());
+            setData(chartData);
             setLoading(false); // Set loading to false when data is received
         } catch (err) {
             console.error("Error fetching stock data:", err);
