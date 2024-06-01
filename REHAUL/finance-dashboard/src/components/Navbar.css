@@ -1,9 +1,14 @@
+body {
+  background: #28282D;
+}
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1f1f23;
+  background: linear-gradient(45deg, #6a11cb 0%, #2575fc 100%); /* Gradient background */
   padding: 10px 20px;
+  border-radius: 5px;
+
 }
 
 .navbar-left,
