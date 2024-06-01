@@ -14,6 +14,13 @@ import advancedFormat from 'dayjs/plugin/advancedFormat';
 
 dayjs.extend(advancedFormat);
 
+const timeScales = [
+    { label: "Intraday", value: "INTRADAY", function: "TIME_SERIES_INTRADAY", interval: "60min" },
+    { label: "Daily", value: "DAILY", function: "TIME_SERIES_DAILY" },
+    { label: "Weekly", value: "WEEKLY", function: "TIME_SERIES_WEEKLY" },
+    { label: "Monthly", value: "MONTHLY", function: "TIME_SERIES_MONTHLY" }
+];
+
 const StockChart: React.FC = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -21,12 +28,21 @@ const StockChart: React.FC = () => {
         const savedStock = localStorage.getItem("selectedStockChartTicker");
         return savedStock ? savedStock : "AA";
     });
+    const [selectedTimeScale, setSelectedTimeScale] = useState<string>(() => {
+        const savedTimeScale = localStorage.getItem("selectedStockChartTimeScale");
+        return savedTimeScale ? savedTimeScale : "DAILY";
+    });
 
-    const fetchStockData = async (symbol: string) => {
+    const fetchStockData = async (symbol: string, timeScale: any) => {
         setLoading(true); // Set loading to true when a new request is initiated
         try {
-            const result = await axios.get(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${symbol}&apikey=5V8PAFDNEI2TCF9L`);
-            const timeSeries = result.data['Time Series (Daily)'];
+            let url = `https://www.alphavantage.co/query?function=${timeScale.function}&symbol=${symbol}&apikey=H5SZB3WBYEJRSK8X`;
+            if (timeScale.value === "INTRADAY") {
+                url += `&interval=${timeScale.interval}`;
+            }
+            const result = await axios.get(url);
+            const timeSeriesKey = timeScale.value === "INTRADAY" ? `Time Series (${timeScale.interval})` : `Time Series (${timeScale.label})`;
+            const timeSeries = result.data[timeSeriesKey];
             const chartData = Object.keys(timeSeries).map(date => ({
                 date,
                 open: parseFloat(timeSeries[date]['1. open']),
@@ -43,13 +59,20 @@ const StockChart: React.FC = () => {
     };
 
     useEffect(() => {
-        fetchStockData(selectedStock);
-    }, [selectedStock]);
+        const selectedTimeScaleObj = timeScales.find(ts => ts.value === selectedTimeScale);
+        fetchStockData(selectedStock, selectedTimeScaleObj);
+    }, [selectedStock, selectedTimeScale]);
 
     const handleStockChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
         localStorage.setItem("selectedStockChartTicker", newStock);
+    };
+
+    const handleTimeScaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const newTimeScale = event.target.value;
+        setSelectedTimeScale(newTimeScale);
+        localStorage.setItem("selectedStockChartTimeScale", newTimeScale);
     };
 
     const getStoredStocks = () => {
@@ -67,27 +90,51 @@ const StockChart: React.FC = () => {
             }}
         >
             <div style={{ textAlign: "center" }}>
-                <div style={{ marginBottom: "20px" }}>
-                    <label htmlFor="stock-select"></label>
-                    <select
-                        id="stock-select"
-                        value={selectedStock}
-                        onChange={handleStockChange}
-                        style={{
-                            padding: "10px",
-                            borderRadius: "5px",
-                            border: "1px solid #ccc",
-                            backgroundColor: "#2c2c2c",
-                            color: "#fff",
-                            fontSize: "16px",
-                        }}
-                    >
-                        {getStoredStocks().map((ticker) => (
-                            <option key={ticker} value={ticker}>
-                                {ticker}
-                            </option>
-                        ))}
-                    </select>
+                <div style={{ marginBottom: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
+                    <div>
+                        <label htmlFor="stock-select"></label>
+                        <select
+                            id="stock-select"
+                            value={selectedStock}
+                            onChange={handleStockChange}
+                            style={{
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                backgroundColor: "#2c2c2c",
+                                color: "#fff",
+                                fontSize: "16px",
+                            }}
+                        >
+                            {getStoredStocks().map((ticker) => (
+                                <option key={ticker} value={ticker}>
+                                    {ticker}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="time-scale-select"></label>
+                        <select
+                            id="time-scale-select"
+                            value={selectedTimeScale}
+                            onChange={handleTimeScaleChange}
+                            style={{
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                backgroundColor: "#2c2c2c",
+                                color: "#fff",
+                                fontSize: "16px",
+                            }}
+                        >
+                            {timeScales.map((scale) => (
+                                <option key={scale.value} value={scale.value}>
+                                    {scale.label}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
                 </div>
                 <div style={{ width: "400px", height: "400px" }}>
                     {loading ? (
