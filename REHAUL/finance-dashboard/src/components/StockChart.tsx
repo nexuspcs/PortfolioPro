@@ -20,6 +20,8 @@ const timeScales = [
     { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 }
 ];
 
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes in milliseconds
+
 const StockChart: React.FC = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState<string | null>(null);
@@ -34,10 +36,22 @@ const StockChart: React.FC = () => {
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-    const fetchStockData = async (symbol: string, timeScale: any, retries = 3, delayTime = 1000) => {
+    const fetchStockData = async (symbol: string, timeScale: any, bypassCache = false, retries = 3, delayTime = 1000) => {
+        const cacheKey = `stockData_${symbol}_${timeScale.value}`;
+        const cachedData = localStorage.getItem(cacheKey);
+        const now = dayjs();
+
+        if (!bypassCache && cachedData) {
+            const { timestamp, data } = JSON.parse(cachedData);
+            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
+                setData(data);
+                setLoading(null);
+                return;
+            }
+        }
+
         setLoading(`Updating prices to match ${timeScale.label.toLowerCase()} timescale`);
         try {
-            const now = dayjs();
             let from;
             let to = now.format("YYYY-MM-DD");
 
@@ -67,6 +81,7 @@ const StockChart: React.FC = () => {
                 close: item.c,
             }));
             setData(chartData);
+            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: chartData }));
             setLoading(null); // Set loading to null when data is received
         } catch (err) {
             if (retries === 0) {
@@ -74,7 +89,7 @@ const StockChart: React.FC = () => {
                 setLoading(null); // Set loading to null on error
             } else {
                 await delay(delayTime);
-                fetchStockData(symbol, timeScale, retries - 1, delayTime * 2); // Exponential backoff
+                fetchStockData(symbol, timeScale, bypassCache, retries - 1, delayTime * 2); // Exponential backoff
             }
         }
     };
@@ -88,6 +103,7 @@ const StockChart: React.FC = () => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
         localStorage.setItem("selectedStockChartTicker", newStock);
+        fetchStockData(newStock, timeScales.find(ts => ts.value === selectedTimeScale), true); // Bypass cache when stock changes
     };
 
     const handleTimeScaleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
