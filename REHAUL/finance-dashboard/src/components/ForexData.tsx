@@ -31,7 +31,7 @@ const exchangeRatePairs = [
     "USDCNY"
 ];
 
-const CACHE_DURATION = 60 * 60 * 1000; // 60 minutes in milliseconds
+const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 
 const ForexDataChart: React.FC = () => {
     const [data, setData] = useState<ForexQuote[]>([]);
