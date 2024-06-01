@@ -16,6 +16,8 @@ type Stock = {
     quantity: number;
 };
 
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hr in milliseconds
+
 const PortfolioValue = () => {
     const [stocks, setStocks] = useState<Stock[]>(() => {
         const savedStocks = localStorage.getItem("stocks");
@@ -39,7 +41,7 @@ const PortfolioValue = () => {
         return response.data.historical;
     };
 
-    const fetchStockPrices = async () => {
+    const fetchStockPrices = async (bypassCache = false) => {
         setLoading(true);
         if (stocks.length === 0) {
             setPortfolioData([]);
@@ -47,6 +49,21 @@ const PortfolioValue = () => {
             setPreviousValue(0);
             setLoading(false);
             return;
+        }
+
+        const cacheKey = `portfolioData_${stocks.map(stock => stock.ticker).join("_")}`;
+        const cachedData = localStorage.getItem(cacheKey);
+        const now = new Date().getTime();
+
+        if (!bypassCache && cachedData) {
+            const { timestamp, data, currentValue, previousValue } = JSON.parse(cachedData);
+            if (now - timestamp < CACHE_DURATION) {
+                setPortfolioData(data);
+                setCurrentValue(currentValue);
+                setPreviousValue(previousValue);
+                setLoading(false);
+                return;
+            }
         }
 
         const apiKey = "VUUKDCsdBaEFKZXY3Be02Svs0YGReZMk";
@@ -94,6 +111,13 @@ const PortfolioValue = () => {
         setCurrentValue(portfolioValue);
         setPreviousValue(portfolioValueByDate[0]?.value || 0);
         setLoading(false);
+
+        localStorage.setItem(cacheKey, JSON.stringify({
+            timestamp: now,
+            data: portfolioValueByDate,
+            currentValue: portfolioValue,
+            previousValue: portfolioValueByDate[0]?.value || 0,
+        }));
     };
 
     useEffect(() => {
@@ -145,17 +169,20 @@ const PortfolioValue = () => {
         const newStocks = [...stocks, { ticker, quantity }];
         setStocks(newStocks);
         closeModal();
+        fetchStockPrices(true); // Bypass cache when new stocks are added
     };
 
     const handleUpdateStock = (index: number, newQuantity: number) => {
         const updatedStocks = [...stocks];
         updatedStocks[index].quantity = newQuantity;
         setStocks(updatedStocks);
+        fetchStockPrices(true); // Bypass cache when stocks are updated
     };
 
     const handleRemoveStock = (index: number) => {
         const updatedStocks = stocks.filter((_, i) => i !== index);
         setStocks(updatedStocks);
+        fetchStockPrices(true); // Bypass cache when stocks are removed
     };
 
     return (
