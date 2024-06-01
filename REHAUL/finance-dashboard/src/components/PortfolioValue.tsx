@@ -29,6 +29,7 @@ const PortfolioValue = () => {
     const [ticker, setTicker] = useState("");
     const [quantity, setQuantity] = useState(0);
     const [errorMessage, setErrorMessage] = useState("");
+    const [loading, setLoading] = useState(true); // Added loading state
 
     const fetchHistoricalPrices = async (ticker: string) => {
         const apiKey = "RbHkZj4JGTbZYbdBUuXobFOkZ6VDqCbE";
@@ -39,10 +40,12 @@ const PortfolioValue = () => {
     };
 
     const fetchStockPrices = async () => {
+        setLoading(true); // Set loading to true when fetching starts
         if (stocks.length === 0) {
             setPortfolioData([]);
             setCurrentValue(0);
             setPreviousValue(0);
+            setLoading(false); // Set loading to false when no stocks
             return;
         }
 
@@ -75,7 +78,7 @@ const PortfolioValue = () => {
         }, []);
 
         portfolioValueByDate.sort(
-            (a, b) => new Date(a.date) - new Date(b.date)
+            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
         );
 
         const currentPriceResponse = await axios.get(
@@ -90,6 +93,7 @@ const PortfolioValue = () => {
         setPortfolioData(portfolioValueByDate);
         setCurrentValue(portfolioValue);
         setPreviousValue(portfolioValueByDate[0]?.value || 0);
+        setLoading(false); // Set loading to false when data is received
     };
 
     useEffect(() => {
@@ -163,24 +167,29 @@ const PortfolioValue = () => {
 
     return (
         <div style={{ width: "400px", height: "400px" }}>
-            <h2 style={{ textAlign: "center"}} >Portfolio Value Over Time</h2>
-            {stocks.length === 0 ? (
+            <h2 style={{ textAlign: "center" }}>Portfolio Value Over Time</h2>
+            {loading ? ( // Show loading message when data is being fetched
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100%",
+                    }}
+                >
+                    Loading...
+                </div>
+            ) : stocks.length === 0 ? (
                 <button style={addButtonStyle} onClick={handleAddInitialStocks}>
                     Add Initial Stocks
                 </button>
             ) : (
                 <>
-                    <ResponsiveContainer >
+                    <ResponsiveContainer>
                         <LineChart data={portfolioData}>
-                            <CartesianGrid
-                                strokeDasharray="4 4"
-                                vertical={false}
-                            />
+                            <CartesianGrid strokeDasharray="4 4" vertical={false} />
                             <XAxis dataKey="date" />
-                            <YAxis
-                                domain={["dataMin", "dataMax"]}
-                                scale="linear"
-                            />
+                            <YAxis domain={["dataMin", "dataMax"]} scale="linear" />
                             <Tooltip
                                 formatter={(value) => value.toFixed(2)}
                                 contentStyle={{ backgroundColor: "#fff" }}
@@ -196,51 +205,38 @@ const PortfolioValue = () => {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                    <div style={{ marginTop: "20px", textAlign: "center"}}>
-                        <h3>
-                            Current Portfolio Value: ${currentValue.toFixed(2)}
-                        </h3>
+                    <div style={{ marginTop: "20px", textAlign: "center" }}>
+                        <h3>Current Portfolio Value: ${currentValue.toFixed(2)}</h3>
                         <h3
                             style={{
                                 color: change > 0 ? "green" : "red",
                             }}
                         >
-                            24h Change: ${change.toFixed(2)} (
-                            {changePercent.toFixed(2)}
-                            %)
+                            24h Change: ${change.toFixed(2)} ({changePercent.toFixed(2)}%)
                         </h3>
                     </div>
                 </>
             )}
             {isModalOpen && (
                 <div style={styles.modalOverlay} onClick={closeModal}>
-                    <div
-                        style={styles.modal}
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
                         <h3>Add Stock</h3>
                         <input
                             type="text"
                             placeholder="Ticker"
                             value={ticker}
-                            onChange={(e) =>
-                                setTicker(e.target.value.toUpperCase())
-                            }
+                            onChange={(e) => setTicker(e.target.value.toUpperCase())}
                             style={styles.input}
                         />
                         <input
                             type="number"
                             placeholder="Quantity"
                             value={quantity}
-                            onChange={(e) =>
-                                setQuantity(Number(e.target.value))
-                            }
+                            onChange={(e) => setQuantity(Number(e.target.value))}
                             style={styles.input}
                         />
                         {errorMessage && (
-                            <div style={styles.errorMessage}>
-                                {errorMessage}
-                            </div>
+                            <div style={styles.errorMessage}>{errorMessage}</div>
                         )}
                         <button onClick={handleAddStock} style={styles.button}>
                             Add
@@ -249,21 +245,13 @@ const PortfolioValue = () => {
                             <>
                                 <h3>Edit Stock Quantities</h3>
                                 {stocks.map((stock, index) => (
-                                    <div
-                                        key={stock.ticker}
-                                        style={styles.stockItem}
-                                    >
-                                        <span style={styles.stockTicker}>
-                                            {stock.ticker}
-                                        </span>
+                                    <div key={stock.ticker} style={styles.stockItem}>
+                                        <span style={styles.stockTicker}>{stock.ticker}</span>
                                         <input
                                             type="number"
                                             value={stock.quantity}
                                             onChange={(e) =>
-                                                handleUpdateStock(
-                                                    index,
-                                                    Number(e.target.value)
-                                                )
+                                                handleUpdateStock(index, Number(e.target.value))
                                             }
                                             style={{
                                                 ...styles.input,
@@ -271,9 +259,7 @@ const PortfolioValue = () => {
                                             }}
                                         />
                                         <button
-                                            onClick={() =>
-                                                handleRemoveStock(index)
-                                            }
+                                            onClick={() => handleRemoveStock(index)}
                                             style={styles.removeButton}
                                         >
                                             &times;
@@ -283,10 +269,7 @@ const PortfolioValue = () => {
                             </>
                         )}
                         {stocks.length > 0 && (
-                            <button
-                                onClick={() => setStocks([])}
-                                style={styles.button}
-                            >
+                            <button onClick={() => setStocks([])} style={styles.button}>
                                 Clear Stocks
                             </button>
                         )}
