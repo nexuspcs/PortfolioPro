@@ -201,7 +201,17 @@ const PortfolioValue = () => {
                     <p>Please add your stocks, by using the button to the right</p>
                 </div>
             ) : (
-                <>
+                <><div style={{ marginTop: "20px", textAlign: "center", paddingBottom: "20px" }}>
+                <h3>Current Portfolio Value: ${currentValue.toFixed(2)}</h3>
+                <h3
+                    style={{
+                        color: change > 0 ? "green" : "red",
+                        fontStyle: "normal"
+                    }}
+                >
+                    24h Change: {change > 0 ? '+' : '-'} ${Math.abs(change).toFixed(2)} ({changePercent.toFixed(2)}%)
+                </h3>
+            </div>
                     <ResponsiveContainer>
                         <LineChart data={portfolioData}>
                             <CartesianGrid strokeDasharray="4 4" vertical={false} />
@@ -226,17 +236,7 @@ const PortfolioValue = () => {
                             />
                         </LineChart>
                     </ResponsiveContainer>
-                    <div style={{ marginTop: "20px", textAlign: "center" }}>
-                        <h3>Current Portfolio Value: ${currentValue.toFixed(2)}</h3>
-                        <h3
-                            style={{
-                                color: change > 0 ? "green" : "red",
-                                fontStyle: "normal"
-                            }}
-                        >
-                            24h Change: {change > 0 ? '+' : '-'} ${Math.abs(change).toFixed(2)} ({changePercent.toFixed(2)}%)
-                        </h3>
-                    </div>
+                    
                 </>
             )}
             {isModalOpen && (
