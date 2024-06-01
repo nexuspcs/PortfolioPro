@@ -13,7 +13,7 @@ const News: React.FC = () => {
         axios.get('https://api.marketaux.com/v1/news/all', {
             params: {
                 api_token: apiKey,
-                limit: 3,
+                limit: 5,
                 sort: 'published_at',
                 sort_order: 'desc',
                 language: 'en'
@@ -74,7 +74,7 @@ const News: React.FC = () => {
 
     return (
         <div className="news-container">
-            <h2>Latest News</h2>
+           
             {loading ? (
                 <p>Loading news based on your portfolio...</p>
             ) : (
