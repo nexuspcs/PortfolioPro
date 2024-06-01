@@ -222,7 +222,7 @@ const StockChart: React.FC = () => {
                                         />
                                         <YAxis domain={['dataMin', 'dataMax']} scale={"linear"} />
                                         <Tooltip
-                                            formatter={(value) => value.toFixed(4)}
+                                            formatter={(value) => value.toFixed(2)}
                                             labelFormatter={(date) => dayjs(date).format("Do MMM YYYY")}
                                             contentStyle={{ backgroundColor: "#fff" }}
                                             labelStyle={{ color: "#000" }}
