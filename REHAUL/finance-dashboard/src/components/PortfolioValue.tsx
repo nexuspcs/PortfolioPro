@@ -136,7 +136,7 @@ const PortfolioValue = () => {
     }, []);
 
     useEffect(() => {
-        fetchStockPrices(true); // Bypass cache when stocks are updated
+        fetchStockPrices();
         localStorage.setItem("stocks", JSON.stringify(stocks));
     }, [stocks]);
 
@@ -170,17 +170,20 @@ const PortfolioValue = () => {
         const newStocks = [...stocks, { ticker, quantity }];
         setStocks(newStocks);
         closeModal();
+        fetchStockPrices(true); // Bypass cache when new stocks are added
     };
 
     const handleUpdateStock = (index: number, newQuantity: number) => {
         const updatedStocks = [...stocks];
         updatedStocks[index].quantity = newQuantity;
         setStocks(updatedStocks);
+        fetchStockPrices(true); // Bypass cache when stocks are updated
     };
 
     const handleRemoveStock = (index: number) => {
         const updatedStocks = stocks.filter((_, i) => i !== index);
         setStocks(updatedStocks);
+        fetchStockPrices(true); // Bypass cache when stocks are removed
     };
 
     return (
