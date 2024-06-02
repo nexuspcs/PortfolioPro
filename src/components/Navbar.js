@@ -58,6 +58,53 @@ const Navbar = () => {
             </ul>
             <p className="helpSectionTXTblock">PortfolioPro has been developed solely by James Coates, and is currently actively maintained by James. He has been developing web apps for some time now, and recently, began to learn React. PortfolioPro is built on React, and hence, this application made good use of James' elementary React skills, with many challenges and surprises along the way. Ultimately, PortfolioPro yields a success, when measured against its design brief.</p>
             <br></br>
+            <hr></hr>
+            <br></br>
+            <p className="helpSectionTXTblockCC">The application is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License You can find more information about the license by clicking on the link below.</p>
+            <br></br>
+            <p className="helpSectionTXTblockCC2">
+              <a href="https://portfoliopro.au" title="PortfolioPro">
+                PortfolioPro&nbsp;
+              </a>
+              by&nbsp;
+              <a href="https://www.linkedin.com/in/jamescoatesaus/" title="James Coates">
+                James Coates&nbsp;
+              </a>
+              is licensed under
+              <br></br>
+              <a
+                href="https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1"
+                target="_blank"
+                rel="license noopener noreferrer"
+                style={{ display: 'inline-block' }}
+              >
+
+                <div>CC BY-NC-ND 4.0&nbsp;
+                  <hr></hr>
+                  <img
+                    style={{ height: '22px', marginLeft: '0px', verticalAlign: 'text-bottom' }}
+                    src="https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1"
+                    alt="Creative Commons"
+                  />
+                  <img
+                    style={{ height: '22px', marginLeft: '3px', verticalAlign: 'text-bottom' }}
+                    src="https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1"
+                    alt="Attribution"
+                  />
+                  <img
+                    style={{ height: '22px', marginLeft: '3px', verticalAlign: 'text-bottom' }}
+                    src="https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1"
+                    alt="NonCommercial"
+                  />
+                  <img
+                    style={{ height: '22px', marginLeft: '3px', verticalAlign: 'text-bottom' }}
+                    src="https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1"
+                    alt="NoDerivatives"
+                  /></div>
+              </a>
+            </p>
+            <br></br>
+            <hr></hr>
             <a href="https://portfoliopro.au"><img src={banner} alt="Banner" className="helpModalBanner" /></a>
           </div>
         </div>

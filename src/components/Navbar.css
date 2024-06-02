@@ -136,3 +136,13 @@ body {
 .helpLinks li a:hover {
   text-decoration: none;
 }
+
+.helpSectionTXTblockCC {
+  font-size: 10px;
+  color: black;
+}
+
+.helpSectionTXTblockCC2 {
+  font-size: 10px;
+  color: black;
+}
