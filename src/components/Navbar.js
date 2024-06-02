@@ -1,15 +1,30 @@
+/**
+ * Navbar component for the PortfolioPro application.
+ * Renders a navigation bar with a logo, title, and a help button.
+ * Displays a modal with helpful links when the help button is clicked.
+ */
 import React, { useState } from 'react';
 import './Navbar.css'; // Import the CSS file for styling
 import logo from './resources/images/logo.png'; // Import the logo image
 import banner from './resources/images/banner-highestres.svg'; // Import the banner image
 
+/**
+ * Navbar functional component.
+ * @returns {JSX.Element} The JSX element representing the Navbar component.
+ */
 const Navbar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
 
+  /**
+   * Opens the modal.
+   */
   const openModal = () => {
     setModalOpen(true);
   };
 
+  /**
+   * Closes the modal.
+   */
   const closeModal = () => {
     setModalOpen(false);
   };
