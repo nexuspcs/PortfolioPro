@@ -1,2 +1,4 @@
-ForexData
-News
+ForexData: TraderMade
+News: Marketaux
+PortfolioValue: Financial Modeling Prep
+StockChart: Polygon.io
