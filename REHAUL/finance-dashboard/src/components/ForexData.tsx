@@ -28,7 +28,7 @@ const exchangeRatePairs = [
     "USDCAD",
     "USDCHF",
     "AUDCNY",
-    "USDCNY"
+    "USDCNY",
 ];
 
 const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
@@ -67,7 +67,9 @@ const ForexDataChart: React.FC = () => {
                     setData(data);
                 }
                 setLoading(false);
-                setError("Loading took too long, reverting to cached data. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history.");
+                setError(
+                    "Loading took too long, reverting to cached data. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
+                );
             }
         }, 5000);
 
@@ -86,11 +88,18 @@ const ForexDataChart: React.FC = () => {
                 close: response.data.quotes[0].close,
             }));
             setData(quotes.reverse());
-            localStorage.setItem(cacheKey, JSON.stringify({ timestamp: now, data: quotes }));
+            localStorage.setItem(
+                cacheKey,
+                JSON.stringify({ timestamp: now, data: quotes })
+            );
             setLoading(false); // Set loading to false when data is received
             clearTimeout(loadingTimeout); // Clear the timeout if data is received in time
         } catch (err) {
-            if (err.response && err.response.status === 503 && retryCount < MAX_RETRIES) {
+            if (
+                err.response &&
+                err.response.status === 503 &&
+                retryCount < MAX_RETRIES
+            ) {
                 // Retry the API call if status code is 503 and retry limit is not reached
                 setTimeout(() => fetchData(bypassCache, retryCount + 1), 1000); // Retry after 1 second
             } else {
