@@ -65,11 +65,26 @@ const ForexDataChart: React.FC = () => {
                 if (cachedData) {
                     const { data } = JSON.parse(cachedData);
                     setData(data);
+                } else {
+                    // Fallback to another cached pair
+                    for (const pair of exchangeRatePairs) {
+                        const fallbackCacheKey = `forexData_${pair}`;
+                        const fallbackCachedData = localStorage.getItem(fallbackCacheKey);
+                        if (fallbackCachedData) {
+                            const { timestamp, data } = JSON.parse(fallbackCachedData);
+                            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
+                                setData(data);
+                                setSelectedPair(pair);
+                                localStorage.setItem("selectedPair", pair);
+                                setError(
+                                    "Loading took too long, reverted to a cached FX pair. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
+                                );
+                                break;
+                            }
+                        }
+                    }
                 }
                 setLoading(false);
-                setError(
-                    "Loading took too long, reverting to cached data. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
-                );
             }
         }, 5000);
 
