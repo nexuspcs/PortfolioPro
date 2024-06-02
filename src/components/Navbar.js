@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Navbar.css'; // Import the CSS file for styling
 import logo from './resources/images/logo.png'; // Import the logo image
-import banner from './resources/images/banner-highestres.png'; // Import the banner image
+import banner from './resources/images/banner-highestres.svg'; // Import the banner image
 
 const Navbar = () => {
   const [isModalOpen, setModalOpen] = useState(false);
