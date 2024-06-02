@@ -130,7 +130,7 @@ const News: React.FC = () => {
             clearInterval(interval);
             window.removeEventListener("storage", handleStorageChange);
         };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filterArticles = (articles: any[]) => {

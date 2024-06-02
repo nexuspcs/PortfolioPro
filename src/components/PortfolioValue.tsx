@@ -151,7 +151,7 @@ const PortfolioValue = () => {
     useEffect(() => {
         fetchStockPrices();
         localStorage.setItem("stocks", JSON.stringify(stocks));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stocks]);
 
     const calculateChange = () => {

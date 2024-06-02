@@ -15,8 +15,12 @@ const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
             <div style={styles.tooltip}>
-                <p style={{ margin: 0, color: "#000" }}>{`${payload[0].name}: ${payload[0].value}%`}</p>
-                <p style={{ margin: 0, color: "#000" }}>{`Quantity: ${payload[0].payload.quantity}`}</p>
+                <p
+                    style={{ margin: 0, color: "#000" }}
+                >{`${payload[0].name}: ${payload[0].value}%`}</p>
+                <p
+                    style={{ margin: 0, color: "#000" }}
+                >{`Quantity: ${payload[0].payload.quantity}`}</p>
             </div>
         );
     }
@@ -104,7 +108,10 @@ const OldAllocation = () => {
         setSuggestions([]);
     };
 
-    const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
+    const totalQuantity = stocks.reduce(
+        (sum, stock) => sum + stock.quantity,
+        0
+    );
 
     const data = stocks.map((stock) => ({
         name: stock.ticker,
@@ -180,9 +187,17 @@ const OldAllocation = () => {
             )}
             {isModalOpen && (
                 <div style={styles.modalOverlay} onClick={closeModal}>
-                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
+                    <div
+                        style={styles.modal}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <h3>Add Stock</h3>
-                        <div style={{ ...styles.inputContainer, position: undefined }}>
+                        <div
+                            style={{
+                                ...styles.inputContainer,
+                                position: undefined,
+                            }}
+                        >
                             <input
                                 type="text"
                                 placeholder="Ticker"
@@ -196,7 +211,11 @@ const OldAllocation = () => {
                                         <li
                                             key={suggestion.ticker}
                                             style={styles.suggestionItem}
-                                            onClick={() => handleSuggestionClick(suggestion)}
+                                            onClick={() =>
+                                                handleSuggestionClick(
+                                                    suggestion
+                                                )
+                                            }
                                         >
                                             {`${suggestion.ticker} - ${suggestion.name}`}
                                         </li>
@@ -208,10 +227,16 @@ const OldAllocation = () => {
                             type="number"
                             placeholder="Quantity"
                             value={quantity}
-                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            onChange={(e) =>
+                                setQuantity(Number(e.target.value))
+                            }
                             style={styles.input}
                         />
-                        {errorMessage && <div style={styles.errorMessage}>{errorMessage}</div>}
+                        {errorMessage && (
+                            <div style={styles.errorMessage}>
+                                {errorMessage}
+                            </div>
+                        )}
                         <button onClick={handleAddStock} style={styles.button}>
                             Add
                         </button>
@@ -219,15 +244,33 @@ const OldAllocation = () => {
                             <>
                                 <h3>Edit Stock Quantities</h3>
                                 {stocks.map((stock, index) => (
-                                    <div key={stock.ticker} style={styles.stockItem}>
-                                        <span style={styles.stockTicker}>{stock.ticker}</span>
+                                    <div
+                                        key={stock.ticker}
+                                        style={styles.stockItem}
+                                    >
+                                        <span style={styles.stockTicker}>
+                                            {stock.ticker}
+                                        </span>
                                         <input
                                             type="number"
                                             value={stock.quantity}
-                                            onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
-                                            style={{ ...styles.input, ...styles.stockInput }}
+                                            onChange={(e) =>
+                                                handleUpdateStock(
+                                                    index,
+                                                    Number(e.target.value)
+                                                )
+                                            }
+                                            style={{
+                                                ...styles.input,
+                                                ...styles.stockInput,
+                                            }}
                                         />
-                                        <button onClick={() => handleRemoveStock(index)} style={styles.removeButton}>
+                                        <button
+                                            onClick={() =>
+                                                handleRemoveStock(index)
+                                            }
+                                            style={styles.removeButton}
+                                        >
                                             &times;
                                         </button>
                                     </div>
@@ -235,7 +278,10 @@ const OldAllocation = () => {
                             </>
                         )}
                         {stocks.length > 0 && (
-                            <button onClick={() => setStocks([])} style={styles.button}>
+                            <button
+                                onClick={() => setStocks([])}
+                                style={styles.button}
+                            >
                                 Clear Stocks
                             </button>
                         )}
