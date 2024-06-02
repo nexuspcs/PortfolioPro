@@ -112,7 +112,7 @@ const ForexDataChart: React.FC = () => {
 
     useEffect(() => {
         fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPair]);
 
     const handlePairChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -187,7 +187,9 @@ const ForexDataChart: React.FC = () => {
                                     tickFormatter={(value) => value.toFixed(3)}
                                 />
                                 <Tooltip
-                                    formatter={(value) => (Number(value) as number).toFixed(4)}
+                                    formatter={(value) =>
+                                        (Number(value) as number).toFixed(4)
+                                    }
                                     labelFormatter={(date) =>
                                         dayjs(date).format("Do MMM YYYY")
                                     }
