@@ -27,7 +27,7 @@ const CustomTooltip = ({ active, payload }: any) => {
     return null;
 };
 
-const OldAllocation = () => {
+const Allocation = () => {
     const [stocks, setStocks] = useState<Stock[]>(() => {
         const savedStocks = localStorage.getItem("stocks");
         return savedStocks ? JSON.parse(savedStocks) : [];
@@ -422,4 +422,4 @@ const styles: { [key: string]: CSSProperties } = {
     },
 };
 
-export default OldAllocation;
+export default Allocation;

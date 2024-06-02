@@ -5,7 +5,7 @@ import StockChart from './components/StockChart.tsx';
 import ForexData from './components/ForexData.tsx';
 import TimeInCities from './components/TimeInCities';
 import PortfolioValue from './components/PortfolioValue.tsx';
-import OldAllocation from './components/OldAllocation.tsx';
+import Allocation from './components/Allocation.tsx';
 import News from './components/News';
 
 const App = () => {
@@ -24,7 +24,7 @@ const App = () => {
 
         <div className="box"><PortfolioValue /></div>
 
-        <div className="box"><OldAllocation /></div>
+        <div className="box"><Allocation /></div>
 
         <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="mrpZH84LrQCSbAjcCGqG" /></div>
 
