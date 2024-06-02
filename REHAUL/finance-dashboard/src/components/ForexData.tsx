@@ -94,7 +94,7 @@ const ForexDataChart: React.FC = () => {
             );
             setLoading(false); // Set loading to false when data is received
             clearTimeout(loadingTimeout); // Clear the timeout if data is received in time
-        } catch (err) {
+        } catch (err: any) {
             if (
                 err.response &&
                 err.response.status === 503 &&
@@ -186,7 +186,7 @@ const ForexDataChart: React.FC = () => {
                                     tickFormatter={(value) => value.toFixed(3)}
                                 />
                                 <Tooltip
-                                    formatter={(value) => value.toFixed(4)}
+                                    formatter={(value) => (Number(value) as number).toFixed(4)}
                                     labelFormatter={(date) =>
                                         dayjs(date).format("Do MMM YYYY")
                                     }

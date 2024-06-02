@@ -196,7 +196,7 @@ const OldAllocation = () => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3>Add Stock</h3>
-                        <div style={styles.inputContainer}>
+                        <div style={{ ...styles.inputContainer, position: undefined }}>
                             <input
                                 type="text"
                                 placeholder="Ticker"
