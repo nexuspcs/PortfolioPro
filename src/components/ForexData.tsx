@@ -65,11 +65,26 @@ const ForexDataChart: React.FC = () => {
                 if (cachedData) {
                     const { data } = JSON.parse(cachedData);
                     setData(data);
+                } else {
+                    // Fallback to another cached pair
+                    for (const pair of exchangeRatePairs) {
+                        const fallbackCacheKey = `forexData_${pair}`;
+                        const fallbackCachedData = localStorage.getItem(fallbackCacheKey);
+                        if (fallbackCachedData) {
+                            const { timestamp, data } = JSON.parse(fallbackCachedData);
+                            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
+                                setData(data);
+                                setSelectedPair(pair);
+                                localStorage.setItem("selectedPair", pair);
+                                setError(
+                                    "Loading took too long, reverted to a cached FX pair. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
+                                );
+                                break;
+                            }
+                        }
+                    }
                 }
                 setLoading(false);
-                setError(
-                    "Loading took too long, reverting to cached data. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
-                );
             }
         }, 5000);
 
@@ -77,7 +92,7 @@ const ForexDataChart: React.FC = () => {
         const today = dayjs();
         for (let i = 0; i < 7; i++) {
             const date = today.subtract(i, "day").format("YYYY-MM-DD");
-            const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=Ou7HsjMs4uhJyQp2pM6_&currency=${selectedPair}&date=${date}`;
+            const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=mrpZH84LrQCSbAjcCGqG&currency=${selectedPair}&date=${date}`;
             promises.push(axios.get(url));
         }
 
