@@ -10,6 +10,7 @@ const News: React.FC = () => {
     const [storedStocks, setStoredStocks] = useState(false);
     const apiKey = "83C3FiMlE5VMtxGNAZCewQrtkTI0W5JCo5v3GFgj";
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchLatestNews = async (bypassCache = false) => {
         setLoading(true);
         const cacheKey = "latestNews";
@@ -129,6 +130,7 @@ const News: React.FC = () => {
             clearInterval(interval);
             window.removeEventListener("storage", handleStorageChange);
         };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const filterArticles = (articles: any[]) => {

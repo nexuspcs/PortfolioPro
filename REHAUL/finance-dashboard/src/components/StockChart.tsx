@@ -127,6 +127,7 @@ const StockChart: React.FC = () => {
             (ts) => ts.value === selectedTimeScale
         );
         fetchStockData(selectedStock, selectedTimeScaleObj);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStock, selectedTimeScale]);
 
     useEffect(() => {

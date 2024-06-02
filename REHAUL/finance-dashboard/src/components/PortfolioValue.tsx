@@ -7,7 +7,6 @@ import {
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
-    Legend,
 } from "recharts";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -75,6 +74,7 @@ const PortfolioValue = () => {
 
         const apiKey = "Uo1Xt5BOn42seKkIQnkbm9vq8a7ifwGp";
         let portfolioValue = 0;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let portfolioPrevValue = 0;
         const historicalDataPromises = stocks.map(async (stock) => {
             const historicalPrices = await fetchHistoricalPrices(stock.ticker);
@@ -151,6 +151,7 @@ const PortfolioValue = () => {
     useEffect(() => {
         fetchStockPrices();
         localStorage.setItem("stocks", JSON.stringify(stocks));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stocks]);
 
     const calculateChange = () => {
@@ -164,6 +165,7 @@ const PortfolioValue = () => {
 
     const { change, changePercent } = calculateChange();
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const handleAddInitialStocks = () => {
         setIsModalOpen(true);
     };
