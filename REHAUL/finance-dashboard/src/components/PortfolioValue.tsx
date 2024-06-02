@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import {
     LineChart,
     Line,
@@ -28,7 +28,7 @@ const PortfolioValue = () => {
         return savedStocks ? JSON.parse(savedStocks) : [];
     });
 
-    const [portfolioData, setPortfolioData] = useState([]);
+    const [portfolioData, setPortfolioData] = useState<any[]>([]);
     const [currentValue, setCurrentValue] = useState(0);
     const [previousValue, setPreviousValue] = useState(0);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -90,7 +90,9 @@ const PortfolioValue = () => {
         const flattenedData = historicalData.flat();
 
         const portfolioValueByDate = flattenedData.reduce((acc, cur) => {
-            const existingEntry = acc.find((entry: any) => entry.date === cur.date);
+            const existingEntry = acc.find(
+                (entry: any) => entry.date === cur.date
+            );
             const stockValue = cur.quantity * cur.close;
 
             if (existingEntry) {
@@ -102,7 +104,8 @@ const PortfolioValue = () => {
         }, []);
 
         portfolioValueByDate.sort(
-            (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            (a: any, b: any) =>
+                new Date(a.date).getTime() - new Date(b.date).getTime()
         );
 
         const currentPriceResponse = await axios.get(
@@ -197,11 +200,13 @@ const PortfolioValue = () => {
     };
 
     return (
-        <div style={styles.container}>
+        <div style={styles.container as CSSProperties}>
             {loading ? (
-                <div style={styles.loadingContainer}>Loading...</div>
+                <div style={styles.loadingContainer as CSSProperties}>
+                    Loading...
+                </div>
             ) : stocks.length === 0 ? (
-                <div style={styles.buttonContainer}>
+                <div style={styles.buttonContainer as CSSProperties}>
                     <p>
                         Please add your stocks, by using the button to the right
                     </p>
@@ -209,20 +214,25 @@ const PortfolioValue = () => {
             ) : (
                 <>
                     <div
-                        style={{
-                            marginTop: "20px",
-                            textAlign: "center",
-                            paddingBottom: "20px",
-                        }}
+                        style={
+                            {
+                                marginTop: "20px",
+                                textAlign: "center",
+                                paddingBottom: "20px",
+                            } as CSSProperties
+                        }
                     >
                         <h3>
-                            Current Portfolio Value: ${currentValue.toFixed(2)}
+                            Current Portfolio Value:{" "}
+                            {Number(currentValue).toFixed(2) as string}
                         </h3>
                         <h3
-                            style={{
-                                color: change > 0 ? "green" : "red",
-                                fontStyle: "normal",
-                            }}
+                            style={
+                                {
+                                    color: change > 0 ? "green" : "red",
+                                    fontStyle: "normal",
+                                } as CSSProperties
+                            }
                         >
                             24h Change: {change > 0 ? "+" : "-"} $
                             {Math.abs(change).toFixed(2)} (
@@ -246,12 +256,17 @@ const PortfolioValue = () => {
                                 scale="linear"
                             />
                             <Tooltip
-                                formatter={(value) => value.toFixed(2)}
+                                formatter={(value: any) => {
+                                    if (typeof value === "number") {
+                                        return value.toFixed(2);
+                                    }
+                                    return value;
+                                }}
                                 contentStyle={{ backgroundColor: "#fff" }}
                                 labelFormatter={(label) =>
                                     dayjs(label).format("Do MMMM YYYY")
                                 }
-                                labelStyle={{ color: "#000" }}
+                                labelStyle={{ color: "#000" }} // Add this line
                             />
                             <Line
                                 type="monotone"
@@ -266,9 +281,12 @@ const PortfolioValue = () => {
                 </>
             )}
             {isModalOpen && (
-                <div style={styles.modalOverlay} onClick={closeModal}>
+                <div
+                    style={styles.modalOverlay as CSSProperties}
+                    onClick={closeModal}
+                >
                     <div
-                        style={styles.modal}
+                        style={styles.modal as CSSProperties}
                         onClick={(e) => e.stopPropagation()}
                     >
                         <h3>Add Stock</h3>
@@ -279,7 +297,7 @@ const PortfolioValue = () => {
                             onChange={(e) =>
                                 setTicker(e.target.value.toUpperCase())
                             }
-                            style={styles.input}
+                            style={styles.input as CSSProperties}
                         />
                         <input
                             type="number"
@@ -288,14 +306,17 @@ const PortfolioValue = () => {
                             onChange={(e) =>
                                 setQuantity(Number(e.target.value))
                             }
-                            style={styles.input}
+                            style={styles.input as CSSProperties}
                         />
                         {errorMessage && (
-                            <div style={styles.errorMessage}>
+                            <div style={styles.errorMessage as CSSProperties}>
                                 {errorMessage}
                             </div>
                         )}
-                        <button onClick={handleAddStock} style={styles.button}>
+                        <button
+                            onClick={handleAddStock}
+                            style={styles.button as CSSProperties}
+                        >
                             Add
                         </button>
                         {stocks.length > 0 && (
@@ -304,9 +325,15 @@ const PortfolioValue = () => {
                                 {stocks.map((stock, index) => (
                                     <div
                                         key={stock.ticker}
-                                        style={styles.stockItem}
+                                        style={
+                                            styles.stockItem as CSSProperties
+                                        }
                                     >
-                                        <span style={styles.stockTicker}>
+                                        <span
+                                            style={
+                                                styles.stockTicker as CSSProperties
+                                            }
+                                        >
                                             {stock.ticker}
                                         </span>
                                         <input
@@ -319,15 +346,17 @@ const PortfolioValue = () => {
                                                 )
                                             }
                                             style={{
-                                                ...styles.input,
-                                                ...styles.stockInput,
+                                                ...(styles.input as CSSProperties),
+                                                ...(styles.stockInput as CSSProperties),
                                             }}
                                         />
                                         <button
                                             onClick={() =>
                                                 handleRemoveStock(index)
                                             }
-                                            style={styles.removeButton}
+                                            style={
+                                                styles.removeButton as CSSProperties
+                                            }
                                         >
                                             &times;
                                         </button>
@@ -338,13 +367,16 @@ const PortfolioValue = () => {
                         {stocks.length > 0 && (
                             <button
                                 onClick={() => setStocks([])}
-                                style={styles.button}
+                                style={styles.button as CSSProperties}
                             >
                                 Clear Stocks
                             </button>
                         )}
 
-                        <button onClick={closeModal} style={styles.button}>
+                        <button
+                            onClick={closeModal}
+                            style={styles.button as CSSProperties}
+                        >
                             Close
                         </button>
                     </div>
@@ -354,7 +386,7 @@ const PortfolioValue = () => {
     );
 };
 
-const styles = {
+const styles: { [key: string]: CSSProperties } = {
     container: {
         width: "400px",
         height: "400px",

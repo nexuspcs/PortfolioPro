@@ -272,19 +272,20 @@ const StockChart: React.FC = () => {
                                             scale={"linear"}
                                         />
                                         <Tooltip
-                                            formatter={(value) =>
-                                                value.toFixed(2)
-                                            }
-                                            labelFormatter={(date) =>
-                                                dayjs(date).format(
-                                                    "Do MMM YYYY"
-                                                )
-                                            }
-                                            contentStyle={{
-                                                backgroundColor: "#fff",
-                                            }}
-                                            labelStyle={{ color: "#000" }}
-                                        />
+    formatter={(value: any) => {
+        if (typeof value === "number") {
+            return value.toFixed(2);
+        }
+        return value;
+    }}
+    labelFormatter={(date) =>
+        dayjs(date).format("Do MMM YYYY")
+    }
+    contentStyle={{
+        backgroundColor: "#fff",
+    }}
+    labelStyle={{ color: "#000" }}
+/>
                                         <Line
                                             type="monotone"
                                             dataKey="close"
