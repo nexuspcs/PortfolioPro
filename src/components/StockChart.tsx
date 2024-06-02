@@ -1,3 +1,9 @@
+
+/**
+ * Renders a stock chart component.
+ * Fetches stock data from the Polygon API and displays it using Recharts.
+ * Allows users to select a stock and time scale for the chart.
+ */
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import {
@@ -14,20 +20,30 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 
 dayjs.extend(advancedFormat);
 
+// Time scale options for the chart
 const timeScales = [
     { label: "Daily", value: "DAILY", timespan: "day", multiplier: 1 },
     { label: "Weekly", value: "WEEKLY", timespan: "week", multiplier: 1 },
     { label: "Monthly", value: "MONTHLY", timespan: "month", multiplier: 1 },
 ];
 
-const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
+// Cache duration for stock data in milliseconds
+const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
 
+/**
+ * Retrieves the stored stocks from local storage.
+ * @returns An array of stock tickers.
+ */
 const getStoredStocks = () => {
     const stocks = JSON.parse(localStorage.getItem("stocks") || "[]");
     return stocks.map((stock: { ticker: string }) => stock.ticker);
 };
 
+/**
+ * Renders a stock chart component.
+ */
 const StockChart: React.FC = () => {
+    // State variables
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState<string | null>(null);
     const [selectedStock, setSelectedStock] = useState<string>(() => {
@@ -44,9 +60,22 @@ const StockChart: React.FC = () => {
         getStoredStocks()
     );
 
+    /**
+     * Delays execution for a specified number of milliseconds.
+     * @param ms - The delay time in milliseconds.
+     * @returns A promise that resolves after the specified delay.
+     */
     const delay = (ms: number) =>
         new Promise((resolve) => setTimeout(resolve, ms));
 
+    /**
+     * Fetches stock data from the Polygon API.
+     * @param symbol - The stock symbol.
+     * @param timeScale - The selected time scale for the chart.
+     * @param bypassCache - Whether to bypass the cache and fetch fresh data.
+     * @param retries - The number of retries in case of network errors.
+     * @param delayTime - The initial delay time between retries.
+     */
     const fetchStockData = async (
         symbol: string,
         timeScale: any,
@@ -122,6 +151,7 @@ const StockChart: React.FC = () => {
         }
     };
 
+    // Fetch stock data when selected stock or time scale changes
     useEffect(() => {
         const selectedTimeScaleObj = timeScales.find(
             (ts) => ts.value === selectedTimeScale
@@ -130,6 +160,7 @@ const StockChart: React.FC = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStock, selectedTimeScale]);
 
+    // Update stored stocks when local storage changes
     useEffect(() => {
         const handleStorageChange = (event: StorageEvent) => {
             if (event.key === "stocks") {
@@ -144,6 +175,7 @@ const StockChart: React.FC = () => {
         };
     }, []);
 
+    // Update stored stocks periodically
     useEffect(() => {
         const interval = setInterval(() => {
             setStoredStocks(getStoredStocks());
@@ -152,6 +184,10 @@ const StockChart: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
+    /**
+     * Handles the change event of the stock select input.
+     * @param event - The change event.
+     */
     const handleStockChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStock = event.target.value;
         setSelectedStock(newStock);
@@ -163,6 +199,10 @@ const StockChart: React.FC = () => {
         ); // Bypass cache when stock changes
     };
 
+    /**
+     * Handles the change event of the time scale select input.
+     * @param event - The change event.
+     */
     const handleTimeScaleChange = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
