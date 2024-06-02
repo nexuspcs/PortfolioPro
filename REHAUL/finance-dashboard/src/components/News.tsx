@@ -5,7 +5,7 @@ import "./News.css";
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
 
 const News: React.FC = () => {
-    const [articles, setArticles] = useState([]);
+    const [articles, setArticles] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [storedStocks, setStoredStocks] = useState(false);
     const apiKey = "83C3FiMlE5VMtxGNAZCewQrtkTI0W5JCo5v3GFgj";
