@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, CSSProperties } from "react";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
-import { CSSProperties } from "react";
 
 type Stock = {
     ticker: string;
@@ -16,12 +15,8 @@ const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
         return (
             <div style={styles.tooltip}>
-                <p
-                    style={{ margin: 0, color: "#000" }}
-                >{`${payload[0].name}: ${payload[0].value}%`}</p>
-                <p
-                    style={{ margin: 0, color: "#000" }}
-                >{`Quantity: ${payload[0].payload.quantity}`}</p>
+                <p style={{ margin: 0, color: "#000" }}>{`${payload[0].name}: ${payload[0].value}%`}</p>
+                <p style={{ margin: 0, color: "#000" }}>{`Quantity: ${payload[0].payload.quantity}`}</p>
             </div>
         );
     }
@@ -109,10 +104,7 @@ const OldAllocation = () => {
         setSuggestions([]);
     };
 
-    const totalQuantity = stocks.reduce(
-        (sum, stock) => sum + stock.quantity,
-        0
-    );
+    const totalQuantity = stocks.reduce((sum, stock) => sum + stock.quantity, 0);
 
     const data = stocks.map((stock) => ({
         name: stock.ticker,
@@ -187,14 +179,8 @@ const OldAllocation = () => {
                 </div>
             )}
             {isModalOpen && (
-                <div
-                    style={styles.modalOverlay as CSSProperties}
-                    onClick={closeModal}
-                >
-                    <div
-                        style={styles.modal as CSSProperties}
-                        onClick={(e) => e.stopPropagation()}
-                    >
+                <div style={styles.modalOverlay} onClick={closeModal}>
+                    <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
                         <h3>Add Stock</h3>
                         <div style={{ ...styles.inputContainer, position: undefined }}>
                             <input
@@ -202,7 +188,7 @@ const OldAllocation = () => {
                                 placeholder="Ticker"
                                 value={ticker}
                                 onChange={handleTickerChange}
-                                style={styles.input as CSSProperties}
+                                style={styles.input}
                             />
                             {suggestions.length > 0 && (
                                 <ul style={styles.suggestionsList}>
@@ -210,11 +196,7 @@ const OldAllocation = () => {
                                         <li
                                             key={suggestion.ticker}
                                             style={styles.suggestionItem}
-                                            onClick={() =>
-                                                handleSuggestionClick(
-                                                    suggestion
-                                                )
-                                            }
+                                            onClick={() => handleSuggestionClick(suggestion)}
                                         >
                                             {`${suggestion.ticker} - ${suggestion.name}`}
                                         </li>
@@ -226,61 +208,26 @@ const OldAllocation = () => {
                             type="number"
                             placeholder="Quantity"
                             value={quantity}
-                            onChange={(e) =>
-                                setQuantity(Number(e.target.value))
-                            }
-                            style={styles.input as CSSProperties}
+                            onChange={(e) => setQuantity(Number(e.target.value))}
+                            style={styles.input}
                         />
-                        {errorMessage && (
-                            <div style={styles.errorMessage as CSSProperties}>
-                                {errorMessage}
-                            </div>
-                        )}
-                        <button
-                            onClick={handleAddStock}
-                            style={styles.button as CSSProperties}
-                        >
+                        {errorMessage && <div style={styles.errorMessage}>{errorMessage}</div>}
+                        <button onClick={handleAddStock} style={styles.button}>
                             Add
                         </button>
                         {stocks.length > 0 && (
                             <>
                                 <h3>Edit Stock Quantities</h3>
                                 {stocks.map((stock, index) => (
-                                    <div
-                                        key={stock.ticker}
-                                        style={
-                                            styles.stockItem as CSSProperties
-                                        }
-                                    >
-                                        <span
-                                            style={
-                                                styles.stockTicker as CSSProperties
-                                            }
-                                        >
-                                            {stock.ticker}
-                                        </span>
+                                    <div key={stock.ticker} style={styles.stockItem}>
+                                        <span style={styles.stockTicker}>{stock.ticker}</span>
                                         <input
                                             type="number"
                                             value={stock.quantity}
-                                            onChange={(e) =>
-                                                handleUpdateStock(
-                                                    index,
-                                                    Number(e.target.value)
-                                                )
-                                            }
-                                            style={{
-                                                ...(styles.input as CSSProperties),
-                                                ...(styles.stockInput as CSSProperties),
-                                            }}
+                                            onChange={(e) => handleUpdateStock(index, Number(e.target.value))}
+                                            style={{ ...styles.input, ...styles.stockInput }}
                                         />
-                                        <button
-                                            onClick={() =>
-                                                handleRemoveStock(index)
-                                            }
-                                            style={
-                                                styles.removeButton as CSSProperties
-                                            }
-                                        >
+                                        <button onClick={() => handleRemoveStock(index)} style={styles.removeButton}>
                                             &times;
                                         </button>
                                     </div>
@@ -288,17 +235,11 @@ const OldAllocation = () => {
                             </>
                         )}
                         {stocks.length > 0 && (
-                            <button
-                                onClick={() => setStocks([])}
-                                style={styles.button as CSSProperties}
-                            >
+                            <button onClick={() => setStocks([])} style={styles.button}>
                                 Clear Stocks
                             </button>
                         )}
-                        <button
-                            onClick={closeModal}
-                            style={styles.button as CSSProperties}
-                        >
+                        <button onClick={closeModal} style={styles.button}>
                             Close
                         </button>
                     </div>
@@ -308,7 +249,7 @@ const OldAllocation = () => {
     );
 };
 
-const styles = {
+const styles: { [key: string]: CSSProperties } = {
     modalOverlay: {
         position: "fixed",
         top: 0,
@@ -322,12 +263,12 @@ const styles = {
         zIndex: 1000,
         color: "#000000",
         fontFamily: "'Inter', sans-serif",
-    } as CSSProperties,
+    },
     modal: {
         background: "#fff",
         padding: "30px",
         borderRadius: "12px",
-        textAlign: "center" as CSSProperties["textAlign"],
+        textAlign: "center",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
         maxWidth: "500px",
         width: "100%",
@@ -383,7 +324,7 @@ const styles = {
     },
     stockTicker: {
         flex: "1",
-        textAlign: "left" as CSSProperties["textAlign"],
+        textAlign: "left",
         paddingRight: "10px",
         fontSize: "16px",
     },
@@ -413,7 +354,7 @@ const styles = {
         color: "#000", // Ensure font color is applied
         border: "1px solid #ddd",
         borderRadius: "4px",
-        textAlign: "left" as CSSProperties["textAlign"],
+        textAlign: "left",
     },
     suggestionsList: {
         listStyleType: "none",
