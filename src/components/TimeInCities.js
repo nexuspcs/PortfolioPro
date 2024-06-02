@@ -1,3 +1,8 @@
+/**
+ * Renders a world clock component that displays the current time in different cities.
+ *
+ * The TimeInCities component
+ */
 import React, { useState, useEffect } from 'react';
 import moment from 'moment-timezone';
 

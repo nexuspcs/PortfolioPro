@@ -1,3 +1,10 @@
+/**
+ * Represents a component that displays news articles based on the user's portfolio.
+ *
+ * This component fetches news articles from an API and filters them based on the user's portfolio stocks.
+ * It uses local storage to cache the fetched data and refreshes it periodically.
+ *
+ */
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./News.css";
