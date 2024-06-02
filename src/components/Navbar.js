@@ -56,6 +56,7 @@ const Navbar = () => {
               <li><a href="mailto:james@portfoliopro.au?subject=Query%20regarding%20PortfolioPro">Contact Support</a></li>
               <li><a href="https://docs.google.com/document/d/1NURz-jVA2e_gDFBphvJ5XpDmnIhUVbX_Hjks45zJurk/edit?usp=sharing">User Manual</a></li>
             </ul>
+            <p className="helpSectionTXTblock">PortfolioPro has been developed solely by James Coates, and is currently actively maintained by James. He has been developing web apps for some time now, and recently, began to learn React. PortfolioPro is built on React, and hence, this application made good use of James' elementary React skills, with many challenges and surprises along the way. Ultimately, PortfolioPro yields a success, when measured against its design brief.</p>
             <br></br>
             <a href="https://portfoliopro.au"><img src={banner} alt="Banner" className="helpModalBanner" /></a>
           </div>
