@@ -46,6 +46,7 @@ const TimeInCities = () => {
     updateTimes();
     const intervalId = setInterval(updateTimes, 1000);
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cities]);
 
   useEffect(() => {

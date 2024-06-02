@@ -112,6 +112,7 @@ const ForexDataChart: React.FC = () => {
 
     useEffect(() => {
         fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedPair]);
 
     const handlePairChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
