@@ -1,0 +1,43 @@
+/* News.css */
+.news-container {
+    color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.news-article {
+    background-color: #28282D;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.news-article h3 {
+    margin: 0 0 10px;
+    font-size: 1.2em;
+}
+
+.news-article p {
+    margin: 0 0 10px;
+    font-size: 1em;
+}
+
+.news-article a {
+    color: #92C8A0;
+    text-decoration: none;
+}
+
+.fetch-latest-news-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.fetch-latest-news-button:hover {
+    background-color: #45a049;
+}

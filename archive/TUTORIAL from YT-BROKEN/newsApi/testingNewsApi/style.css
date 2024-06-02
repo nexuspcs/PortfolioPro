@@ -1,0 +1,72 @@
+/* Apply a consistent font and spacing */
+body {
+    font-family: Arial, sans-serif; /* Set a fallback font family */
+    line-height: 1.6; /* Set line height for better readability */
+}
+
+/* Center the content vertically and horizontally */
+html, body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+}
+
+/* Container for articles */
+.articles-container {
+    max-width: 600px; /* Limit the width of the articles container */
+    margin: 20px; /* Add margin to create space around the container */
+    padding: 20px; /* Add padding inside the container */
+    background-color: #f9f9f9; /* Light gray background color */
+    border-radius: 8px; /* Add rounded corners */
+}
+
+#load-more-btn {
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+    font-size: 20px;
+    background-color: #007bff;
+}
+#previous-btn {
+    align-items: left;
+    display: flex;
+    justify-content: left;
+    margin-top: 20px;
+    font-size: 20px;
+    background-color: #007bff;
+}
+
+/* Styles for the links */
+.title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #007bff; /* Blue color for links */
+    text-decoration: none; /* Remove default underline */
+    margin-bottom: 10px; /* Add some spacing between links */
+    display: block; /* Make links block elements to occupy full width */
+}
+
+/* Hover effect for links */
+.title:hover {
+    text-decoration: underline; /* Underline on hover */
+}
+
+/* Styles for the author */
+.author {
+    font-size: 14px;
+    color: #555; /* Dark gray color for author */
+}
+
+/* Styles for the publish time */
+.publish-time {
+    font-size: 14px;
+    color: #555; /* Dark gray color for publish time */
+}
+
+/* Add spacing between articles */
+.article:not(:last-child) {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,138 @@
+body {
+  background: #1D1D22;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(45deg, #1D2671 0%, #C33764 100%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin: 10px;
+  margin-right: 10px;
+
+}
+
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-logo {
+  width: 32px;
+  height: 32px;
+  margin-right: 10px;
+}
+
+.navbar-title {
+  color: #f0f0f0;
+  font-size: 18px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar-link {
+  color: #f0f0f0;
+  margin-left: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar-link-inactive {
+  color: #777;
+}
+
+/* Add hover effects */
+.navbar-link:hover {
+  color: #fff;
+}
+
+.help-button {
+  background: none;
+  border: none;
+  color: #f0f0f0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.help-icon {
+  font-size: 18px;
+  margin-right: 5px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  max-width: 80%;
+  color: #1d1c1c;
+}
+
+.close-button {
+  font-size: 24px;
+  float: right;
+  cursor: pointer;
+}
+
+.helpSectionTXTblock {
+  color: #1d1c1c;
+}
+
+.helpModalBanner {
+  width: 100%;
+  border-radius: 5px;
+}
+
+.helpLinks {
+  list-style: disc;
+  padding-left: 20px;
+}
+
+.helpLinks li {
+  position: relative;
+  padding-right: 20px;
+}
+
+.helpLinks li a {
+  position: relative;
+  text-decoration: none;
+  color: #1d1c1c;
+}
+
+.helpLinks li a::after {
+  content: '→';
+  position: absolute;
+  right: -20px;
+  opacity: 0;
+  transform: translateX(-10px);
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  color: #1d1c1c;
+}
+
+.helpLinks li a:hover::after {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.helpLinks li a:hover {
+  text-decoration: none;
+}
