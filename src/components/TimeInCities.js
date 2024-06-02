@@ -267,7 +267,7 @@ const TimeInCities = () => {
               ))}
             </ul>
             <button onClick={closeModal} style={styles.button}>
-              Cancel
+              Close
             </button>
           </div>
         </div>
