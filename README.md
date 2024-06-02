@@ -19,15 +19,6 @@ Terms and conditions are avaliable to view [here](/terms/terms.md).
 Privacy agreement and declaration to view [here](/privacy/privacy.md).
 
 
-
-
-
-
-
-
-
-
-
 ![PortfolioPro Banner](resources/images/banner-highestres.png)
 
 
