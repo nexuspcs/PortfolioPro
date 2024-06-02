@@ -78,7 +78,7 @@ const PortfolioValue = () => {
         let portfolioPrevValue = 0;
         const historicalDataPromises = stocks.map(async (stock) => {
             const historicalPrices = await fetchHistoricalPrices(stock.ticker);
-            return historicalPrices.map((data) => ({
+            return historicalPrices.map((data: any) => ({
                 date: data.date,
                 ticker: stock.ticker,
                 close: data.close,
@@ -90,7 +90,7 @@ const PortfolioValue = () => {
         const flattenedData = historicalData.flat();
 
         const portfolioValueByDate = flattenedData.reduce((acc, cur) => {
-            const existingEntry = acc.find((entry) => entry.date === cur.date);
+            const existingEntry = acc.find((entry: any) => entry.date === cur.date);
             const stockValue = cur.quantity * cur.close;
 
             if (existingEntry) {
@@ -102,7 +102,7 @@ const PortfolioValue = () => {
         }, []);
 
         portfolioValueByDate.sort(
-            (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+            (a: any, b: any) => new Date(a.date).getTime() - new Date(b.date).getTime()
         );
 
         const currentPriceResponse = await axios.get(
