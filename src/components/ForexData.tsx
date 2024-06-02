@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import axios from "axios";
 import {
     LineChart,
@@ -43,98 +43,100 @@ const ForexDataChart: React.FC = () => {
         return savedPair ? savedPair : "AUDUSD";
     });
 
-    const fetchData = async (bypassCache = false, retryCount = 0) => {
-        const cacheKey = `forexData_${selectedPair}`;
-        const cachedData = localStorage.getItem(cacheKey);
-        const now = dayjs();
+    const fetchData = useCallback(
+        async (pair: string, bypassCache = false, retryCount = 0) => {
+            const cacheKey = `forexData_${pair}`;
+            const cachedData = localStorage.getItem(cacheKey);
+            const now = dayjs();
 
-        if (!bypassCache && cachedData) {
-            const { timestamp, data } = JSON.parse(cachedData);
-            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
-                setData(data);
-                setLoading(false);
-                return;
-            }
-        }
-
-        setLoading(true); // Set loading to true when a new request is initiated
-
-        // Set a timeout to fallback to cached data if loading takes too long
-        const loadingTimeout = setTimeout(() => {
-            if (loading) {
-                if (cachedData) {
-                    const { data } = JSON.parse(cachedData);
+            if (!bypassCache && cachedData) {
+                const { timestamp, data } = JSON.parse(cachedData);
+                if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
                     setData(data);
-                } else {
-                    // Fallback to another cached pair
-                    for (const pair of exchangeRatePairs) {
-                        const fallbackCacheKey = `forexData_${pair}`;
-                        const fallbackCachedData = localStorage.getItem(fallbackCacheKey);
-                        if (fallbackCachedData) {
-                            const { timestamp, data } = JSON.parse(fallbackCachedData);
-                            if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
-                                setData(data);
-                                setSelectedPair(pair);
-                                localStorage.setItem("selectedPair", pair);
-                                setError(
-                                    "Loading took too long, reverted to a cached FX pair. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
-                                );
-                                break;
+                    setLoading(false);
+                    return;
+                }
+            }
+
+            setLoading(true); // Set loading to true when a new request is initiated
+
+            // Set a timeout to fallback to cached data if loading takes too long
+            const loadingTimeout = setTimeout(() => {
+                if (loading) {
+                    if (cachedData) {
+                        const { data } = JSON.parse(cachedData);
+                        setData(data);
+                    } else {
+                        // Fallback to another cached pair
+                        for (const fallbackPair of exchangeRatePairs) {
+                            const fallbackCacheKey = `forexData_${fallbackPair}`;
+                            const fallbackCachedData = localStorage.getItem(fallbackCacheKey);
+                            if (fallbackCachedData) {
+                                const { timestamp, data } = JSON.parse(fallbackCachedData);
+                                if (now.diff(dayjs(timestamp)) < CACHE_DURATION) {
+                                    setData(data);
+                                    setSelectedPair(fallbackPair);
+                                    localStorage.setItem("selectedPair", fallbackPair);
+                                    setError(
+                                        "Loading took too long, reverted to a cached FX pair. Contact PortfolioPro support for more information, and if this issue persists, please erase your browser cache and history."
+                                    );
+                                    break;
+                                }
                             }
                         }
                     }
+                    setLoading(false);
                 }
-                setLoading(false);
-            }
-        }, 5000);
+            }, 5000);
 
-        const promises = [];
-        const today = dayjs();
-        for (let i = 0; i < 7; i++) {
-            const date = today.subtract(i, "day").format("YYYY-MM-DD");
-            const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=mrpZH84LrQCSbAjcCGqG&currency=${selectedPair}&date=${date}`;
-            promises.push(axios.get(url));
-        }
-
-        try {
-            const responses = await Promise.all(promises);
-            const quotes = responses.map((response, index) => ({
-                date: today.subtract(index, "day").format("YYYY-MM-DD"),
-                close: response.data.quotes[0].close,
-            }));
-            setData(quotes.reverse());
-            localStorage.setItem(
-                cacheKey,
-                JSON.stringify({ timestamp: now, data: quotes })
-            );
-            setLoading(false); // Set loading to false when data is received
-            clearTimeout(loadingTimeout); // Clear the timeout if data is received in time
-        } catch (err: any) {
-            if (
-                err.response &&
-                err.response.status === 503 &&
-                retryCount < MAX_RETRIES
-            ) {
-                // Retry the API call if status code is 503 and retry limit is not reached
-                setTimeout(() => fetchData(bypassCache, retryCount + 1), 1000); // Retry after 1 second
-            } else {
-                setError(err.message);
-                setLoading(false); // Set loading to false on error
-                clearTimeout(loadingTimeout); // Clear the timeout on error
+            const promises = [];
+            const today = dayjs();
+            for (let i = 0; i < 7; i++) {
+                const date = today.subtract(i, "day").format("YYYY-MM-DD");
+                const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=mrpZH84LrQCSbAjcCGqG&currency=${pair}&date=${date}`;
+                promises.push(axios.get(url));
             }
-        }
-    };
+
+            try {
+                const responses = await Promise.all(promises);
+                const quotes = responses.map((response, index) => ({
+                    date: today.subtract(index, "day").format("YYYY-MM-DD"),
+                    close: response.data.quotes[0].close,
+                }));
+                setData(quotes.reverse());
+                localStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({ timestamp: now, data: quotes })
+                );
+                setLoading(false); // Set loading to false when data is received
+                clearTimeout(loadingTimeout); // Clear the timeout if data is received in time
+            } catch (err: any) {
+                if (
+                    err.response &&
+                    err.response.status === 503 &&
+                    retryCount < MAX_RETRIES
+                ) {
+                    // Retry the API call if status code is 503 and retry limit is not reached
+                    setTimeout(() => fetchData(pair, bypassCache, retryCount + 1), 1000); // Retry after 1 second
+                } else {
+                    setError(err.message);
+                    setLoading(false); // Set loading to false on error
+                    clearTimeout(loadingTimeout); // Clear the timeout on error
+                }
+            }
+        },
+        []
+    );
 
     useEffect(() => {
-        fetchData();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedPair]);
+        fetchData(selectedPair);
+    }, [selectedPair, fetchData]);
 
     const handlePairChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newPair = event.target.value;
         setSelectedPair(newPair);
         localStorage.setItem("selectedPair", newPair);
-        fetchData(true); // Bypass cache when pair changes
+        fetchData(newPair, true); // Bypass cache when pair changes
     };
 
     return (
