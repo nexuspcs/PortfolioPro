@@ -200,7 +200,7 @@ const Allocation = () => {
                         >
                             <input
                                 type="text"
-                                placeholder="Ticker"
+                                placeholder="US Stock Ticker"
                                 value={ticker}
                                 onChange={handleTickerChange}
                                 style={styles.input}

@@ -294,7 +294,7 @@ const PortfolioValue = () => {
                         <h3>Add Stock</h3>
                         <input
                             type="text"
-                            placeholder="Ticker"
+                            placeholder="US Stock Ticker"
                             value={ticker}
                             onChange={(e) =>
                                 setTicker(e.target.value.toUpperCase())
