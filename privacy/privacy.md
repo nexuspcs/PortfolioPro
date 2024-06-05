@@ -1,6 +1,6 @@
 <h1>Privacy Policy for PortfolioPro Australia</h1>
 
-<p>At PortfolioPro, accessible from **, one of our main priorities is the privacy of our visitors. This
+<p>At PortfolioPro, accessible from portfoliopro.au, one of our main priorities is the privacy of our visitors. This
     Privacy Policy document contains types of information that is collected and recorded by PortfolioPro and how we use
     it.</p>
 
