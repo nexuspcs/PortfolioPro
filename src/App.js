@@ -26,7 +26,7 @@ const App = () => {
 
         <div className="box"><Allocation /></div>
 
-        <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="vR7WI_KTDqvA7ZkxGXGk" /></div>
+        <div className="box"><ForexData fromCurrency="USD" toCurrency="AUD" apiKey="q55Jq5LjiJhHWrNssksX" /></div>
 
         <div className="box" id='row2'><TimeInCities /></div>
 
