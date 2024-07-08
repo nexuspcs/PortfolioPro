@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@mui/material": "^5.15.18",
+    "@mui/material": "^5.16.0",
     "axios": "^0.28.0",
     "dayjs": "^1.11.11",
     "moment-timezone": "^0.5.45",
