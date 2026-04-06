@@ -33,6 +33,7 @@ const exchangeRatePairs = [
 
 const CACHE_DURATION = 12 * 60 * 60 * 1000; // 12 hours in milliseconds
 const MAX_RETRIES = 3; // Maximum number of retries for API calls
+const FOREX_API_KEY = process.env.REACT_APP_TRADERMADE_API_KEY;
 
 const ForexDataChart: React.FC = () => {
     const [data, setData] = useState<ForexQuote[]>([]);
@@ -45,6 +46,14 @@ const ForexDataChart: React.FC = () => {
 
     const fetchData = useCallback(
         async (pair: string, bypassCache = false, retryCount = 0) => {
+            if (!FOREX_API_KEY) {
+                setError(
+                    "Forex data is unavailable: REACT_APP_TRADERMADE_API_KEY is not configured."
+                );
+                setLoading(false);
+                return;
+            }
+
             const cacheKey = `forexData_${pair}`;
             const cachedData = localStorage.getItem(cacheKey);
             const now = dayjs();
@@ -93,7 +102,7 @@ const ForexDataChart: React.FC = () => {
             const today = dayjs();
             for (let i = 0; i < 7; i++) {
                 const date = today.subtract(i, "day").format("YYYY-MM-DD");
-                const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=q55Jq5LjiJhHWrNssksX&currency=${pair}&date=${date}`;
+                const url = `https://marketdata.tradermade.com/api/v1/historical?api_key=${FOREX_API_KEY}&currency=${pair}&date=${date}`;
                 promises.push(axios.get(url));
             }
 

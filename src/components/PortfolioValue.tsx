@@ -20,6 +20,7 @@ type Stock = {
 };
 
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hr in milliseconds
+const FMP_API_KEY = process.env.REACT_APP_FMP_API_KEY;
 
 const PortfolioValue = () => {
     const [stocks, setStocks] = useState<Stock[]>(() => {
@@ -37,14 +38,27 @@ const PortfolioValue = () => {
     const [loading, setLoading] = useState(true);
 
     const fetchHistoricalPrices = async (ticker: string) => {
-        const apiKey = "Uo1Xt5BOn42seKkIQnkbm9vq8a7ifwGp";
+        if (!FMP_API_KEY) {
+            throw new Error(
+                "Portfolio data is unavailable: REACT_APP_FMP_API_KEY is not configured."
+            );
+        }
+
         const response = await axios.get(
-            `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&timeseries=7&apikey=${apiKey}`
+            `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&timeseries=7&apikey=${FMP_API_KEY}`
         );
         return response.data.historical;
     };
 
     const fetchStockPrices = async (bypassCache = false) => {
+        if (!FMP_API_KEY) {
+            setErrorMessage(
+                "Portfolio data is unavailable: REACT_APP_FMP_API_KEY is not configured."
+            );
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         if (stocks.length === 0) {
             setPortfolioData([]);
@@ -72,65 +86,80 @@ const PortfolioValue = () => {
             }
         }
 
-        const apiKey = "Uo1Xt5BOn42seKkIQnkbm9vq8a7ifwGp";
         let portfolioValue = 0;
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let portfolioPrevValue = 0;
-        const historicalDataPromises = stocks.map(async (stock) => {
-            const historicalPrices = await fetchHistoricalPrices(stock.ticker);
-            return historicalPrices.map((data: any) => ({
-                date: data.date,
-                ticker: stock.ticker,
-                close: data.close,
-                quantity: stock.quantity,
-            }));
-        });
+        try {
+            const historicalDataPromises = stocks.map(async (stock) => {
+                const historicalPrices = await fetchHistoricalPrices(stock.ticker);
+                return historicalPrices.map((data: any) => ({
+                    date: data.date,
+                    ticker: stock.ticker,
+                    close: data.close,
+                    quantity: stock.quantity,
+                }));
+            });
 
-        const historicalData = await Promise.all(historicalDataPromises);
-        const flattenedData = historicalData.flat();
+            const historicalData = await Promise.all(historicalDataPromises);
+            const flattenedData = historicalData.flat();
 
-        const portfolioValueByDate = flattenedData.reduce((acc, cur) => {
-            const existingEntry = acc.find(
-                (entry: any) => entry.date === cur.date
+            const portfolioValueByDate = flattenedData.reduce((acc, cur) => {
+                const existingEntry = acc.find(
+                    (entry: any) => entry.date === cur.date
+                );
+                const stockValue = cur.quantity * cur.close;
+
+                if (existingEntry) {
+                    existingEntry.value += stockValue;
+                } else {
+                    acc.push({ date: cur.date, value: stockValue });
+                }
+                return acc;
+            }, []);
+
+            portfolioValueByDate.sort(
+                (a: any, b: any) =>
+                    new Date(a.date).getTime() - new Date(b.date).getTime()
             );
-            const stockValue = cur.quantity * cur.close;
 
-            if (existingEntry) {
-                existingEntry.value += stockValue;
-            } else {
-                acc.push({ date: cur.date, value: stockValue });
+            const tickerList = stocks.map((stock) => stock.ticker).join(",");
+            const currentPriceResponse = await axios.get(
+                `https://financialmodelingprep.com/api/v3/quote/${tickerList}?apikey=${FMP_API_KEY}`
+            );
+            const currentPriceByTicker: Record<string, number> = {};
+            if (Array.isArray(currentPriceResponse.data)) {
+                currentPriceResponse.data.forEach((quote: any) => {
+                    if (quote?.symbol && typeof quote?.price === "number") {
+                        currentPriceByTicker[quote.symbol] = quote.price;
+                    }
+                });
             }
-            return acc;
-        }, []);
+            portfolioValue = stocks.reduce((sum, stock) => {
+                const price = currentPriceByTicker[stock.ticker] || 0;
+                return sum + stock.quantity * price;
+            }, 0);
 
-        portfolioValueByDate.sort(
-            (a: any, b: any) =>
-                new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
+            setPortfolioData(portfolioValueByDate);
+            setCurrentValue(portfolioValue);
+            setPreviousValue(portfolioValueByDate[0]?.value || 0);
+            setLoading(false);
 
-        const currentPriceResponse = await axios.get(
-            `https://financialmodelingprep.com/api/v3/quote/${stocks[0].ticker}?apikey=${apiKey}`
-        );
-        const currentPrice = currentPriceResponse.data[0].price;
-        portfolioValue = stocks.reduce(
-            (sum, stock) => sum + stock.quantity * currentPrice,
-            0
-        );
-
-        setPortfolioData(portfolioValueByDate);
-        setCurrentValue(portfolioValue);
-        setPreviousValue(portfolioValueByDate[0]?.value || 0);
-        setLoading(false);
-
-        localStorage.setItem(
-            cacheKey,
-            JSON.stringify({
-                timestamp: now,
-                data: portfolioValueByDate,
-                currentValue: portfolioValue,
-                previousValue: portfolioValueByDate[0]?.value || 0,
-            })
-        );
+            localStorage.setItem(
+                cacheKey,
+                JSON.stringify({
+                    timestamp: now,
+                    data: portfolioValueByDate,
+                    currentValue: portfolioValue,
+                    previousValue: portfolioValueByDate[0]?.value || 0,
+                })
+            );
+            setErrorMessage("");
+        } catch (error: any) {
+            setErrorMessage(
+                error?.message || "Unable to load portfolio data at this time."
+            );
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
