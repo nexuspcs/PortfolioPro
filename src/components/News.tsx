@@ -10,15 +10,20 @@ import axios from "axios";
 import "./News.css";
 
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour in milliseconds
+const MARKETAUX_API_KEY = process.env.REACT_APP_MARKETAUX_API_KEY;
 
 const News: React.FC = () => {
     const [articles, setArticles] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [storedStocks, setStoredStocks] = useState(false);
-    const apiKey = "83C3FiMlE5VMtxGNAZCewQrtkTI0W5JCo5v3GFgj";
-
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchLatestNews = async (bypassCache = false) => {
+        if (!MARKETAUX_API_KEY) {
+            setArticles([]);
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         const cacheKey = "latestNews";
         const cachedData = localStorage.getItem(cacheKey);
@@ -38,7 +43,7 @@ const News: React.FC = () => {
                 "https://api.marketaux.com/v1/news/all",
                 {
                     params: {
-                        api_token: apiKey,
+                        api_token: MARKETAUX_API_KEY,
                         limit: 5,
                         sort: "published_at",
                         sort_order: "desc",
@@ -60,6 +65,12 @@ const News: React.FC = () => {
     };
 
     const fetchStockNews = async (symbols: string, bypassCache = false) => {
+        if (!MARKETAUX_API_KEY) {
+            setArticles([]);
+            setLoading(false);
+            return;
+        }
+
         setLoading(true);
         const cacheKey = `stockNews_${symbols}`;
         const cachedData = localStorage.getItem(cacheKey);
@@ -79,7 +90,7 @@ const News: React.FC = () => {
                 "https://api.marketaux.com/v1/news/all",
                 {
                     params: {
-                        api_token: apiKey,
+                        api_token: MARKETAUX_API_KEY,
                         symbols: symbols,
                         limit: 3,
                         sort: "published_at",

@@ -29,6 +29,7 @@ const timeScales = [
 
 // Cache duration for stock data in milliseconds
 const CACHE_DURATION = 1 * 60 * 60 * 1000; // 1 hour
+const POLYGON_API_KEY = process.env.REACT_APP_POLYGON_API_KEY;
 
 /**
  * Retrieves the stored stocks from local storage.
@@ -83,6 +84,18 @@ const StockChart: React.FC = () => {
         retries = 3,
         delayTime = 1000
     ) => {
+        if (!timeScale) {
+            setLoading(null);
+            return;
+        }
+
+        if (!POLYGON_API_KEY) {
+            setLoading(
+                "Stock chart is unavailable: REACT_APP_POLYGON_API_KEY is not configured."
+            );
+            return;
+        }
+
         const cacheKey = `stockData_${symbol}_${timeScale.value}`;
         const cachedData = localStorage.getItem(cacheKey);
         const now = dayjs();
@@ -117,7 +130,7 @@ const StockChart: React.FC = () => {
                     throw new Error("Invalid timespan");
             }
 
-            let url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timeScale.multiplier}/${timeScale.timespan}/${from}/${to}?apiKey=AFv47nwMc9Mtc6PuU05nTvcg16Fajj0e`;
+            let url = `https://api.polygon.io/v2/aggs/ticker/${symbol}/range/${timeScale.multiplier}/${timeScale.timespan}/${from}/${to}?apiKey=${POLYGON_API_KEY}`;
 
             const result = await axios.get(url);
             const timeSeries = result.data.results;
