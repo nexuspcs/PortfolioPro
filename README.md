@@ -1,5 +1,4 @@
 # PortfolioPro
-*Currently, a work in progress, hence projects privacy*
 <br>
 
 At PortfolioPro, we allow you to empower your finances, through a centralised financial management platform. Track your stocks, and inform your trades through our tailored news aggregator. Track performance, while simultaneously viewing your portfolio's balance and change over time.
