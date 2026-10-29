@@ -6,7 +6,7 @@
     "@mui/material": "^5.15.18",
     "axios": "^0.28.0",
     "dayjs": "^1.11.11",
-    "moment-timezone": "^0.5.45",
+    "moment-timezone": "^0.6.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.1",
